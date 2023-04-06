@@ -1,19 +1,20 @@
 import styled from 'styled-components';
-import { Link, Route, Routes } from 'react-router-dom';
-import { LoginForm } from '../atoms/LoginForm';
+import React from 'react';
+import { Link } from 'react-router-dom';
 import { useRef, useState } from 'react';
-
-import { Hr } from '../atoms/Hr';
-import { ErrorMessage } from '../atoms/ErrorMessage';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
-import { login } from '../../features/userSlice';
 
+import { LoginForm } from '../atoms/LoginForm';
+import { Hr } from '../atoms/Hr';
+import { ErrorMessage } from '../atoms/ErrorMessage';
+import { login } from '../../features/userSlice';
 import { Spinner } from '../atoms/Spinner';
+
 export const Login = () => {
   const dispatch = useDispatch();
-  const email = useRef();
-  const password = useRef();
+  const email = useRef<HTMLInputElement>();
+  const password = useRef<HTMLInputElement>(null);
   const [isError, setIsError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const handleSubmit = async (e) => {
@@ -21,8 +22,8 @@ export const Login = () => {
       e.preventDefault();
       setIsLoading(true);
       const response = await axios.post('auth/login', {
-        email: email.current.value,
-        password: password.current.value,
+        email: email.current?.value,
+        password: password.current?.value,
       });
       dispatch(login(response.data));
       setIsLoading(false);
@@ -40,8 +41,7 @@ export const Login = () => {
         <SLoginBack>
           <SLoginBorder>
             <SForm onSubmit={(e) => handleSubmit(e)}>
-              <SFormHead>クソアプリ</SFormHead>
-              <p>https://afim.onrender.com/</p>
+              <SFormHead>SNS</SFormHead>
 
               <SEmail
                 ref={email}

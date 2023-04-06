@@ -9,7 +9,6 @@ import { logout } from '../../features/userSlice';
 
 export const Post = () => {
   const dispatch = useDispatch();
-
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
