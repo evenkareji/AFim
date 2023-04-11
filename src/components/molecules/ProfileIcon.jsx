@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
+import styled from 'styled-components';
 
 import { Icon } from '../atoms/Icon';
-import styled from 'styled-components';
 import { UserIconImg } from '../atoms/UserIconImg';
 import { useSelector } from 'react-redux';
+
 export const ProfileIcon = ({ isIcon, changeIsIcon }) => {
   const PUBLIC_FOLDER = process.env.REACT_APP_PUBLIC_FOLDER;
   const user = useSelector((state) => state.user.user);

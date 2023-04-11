@@ -2,10 +2,7 @@ import { Route, Routes, Navigate } from 'react-router-dom';
 import './App.css';
 import { Login } from './components/pages/Login';
 import { Register } from './components/pages/Register';
-import { Post } from './components/pages/Post';
-import { Profile } from './components/pages/Profile';
 
-import { AddPost } from './components/templates/AddPost/AddPost';
 import { useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { AddPostInfo } from './components/pages/AddPostLayout';

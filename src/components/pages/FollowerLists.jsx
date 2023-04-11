@@ -1,4 +1,5 @@
 import React from 'react';
+
 import { SearchUsers } from '../molecules/SearchUsers';
 import { FollowersInfo } from '../organisms/FollowersInfo';
 

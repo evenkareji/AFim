@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { FollowerInfo } from '../molecules/FollowerInfo';
 import axios from 'axios';
+
+import { FollowerInfo } from '../molecules/FollowerInfo';
 import { useSelector } from 'react-redux';
+
 export const FollowersInfo = () => {
   const [followers, setFollowers] = useState([]);
   const user = useSelector((state) => state.user.user);

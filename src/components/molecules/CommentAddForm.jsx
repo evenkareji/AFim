@@ -1,6 +1,7 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
 import styled from 'styled-components';
+
+import { useSelector } from 'react-redux';
 import { TextArea } from '../atoms/TextArea';
 import { UserBorder } from '../atoms/UserBorder';
 import { UserIconImg } from '../atoms/UserIconImg';

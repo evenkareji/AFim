@@ -1,4 +1,4 @@
-import { IconButton } from '@mui/material';
+import IconButton from '@mui/material/IconButton';
 import React from 'react';
 import styled from 'styled-components';
 import { BaseBtn } from './BaseBtn';

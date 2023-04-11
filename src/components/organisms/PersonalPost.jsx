@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { Card } from './Card';
 import axios from 'axios';
+
+import { Card } from './Card';
 
 export const PersonalPost = ({ username }) => {
   const [posts, setPosts] = useState([]);

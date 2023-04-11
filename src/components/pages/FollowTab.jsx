@@ -1,6 +1,9 @@
-import { Box, Tab, Tabs, Typography } from '@mui/material';
 import { useState } from 'react';
 import styled from 'styled-components';
+
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
+
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import { FollowerLists } from './FollowerLists';
 import { FollowLists } from './FollowLists';

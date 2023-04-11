@@ -2,7 +2,6 @@ import React from 'react';
 import styled from 'styled-components';
 
 import { Footer } from '../templates/Footer';
-
 import { AddPost } from '../templates/AddPost/AddPost';
 
 export const AddPostInfo = () => {

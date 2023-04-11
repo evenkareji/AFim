@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import axios from 'axios';
+import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+
 import { OnFollowBtn } from '../atoms/OnFollowBtn';
 import { UnFollowBtn } from '../atoms/UnFollowBtn';
 import ChatIcon from '@mui/icons-material/Chat';
 import { HeartIcon } from '../atoms/HeartIcon/HeartIcon';
-import axios from 'axios';
-import { Link } from 'react-router-dom';
 import { Comment } from '../pages/Comment';
 import { followEvent } from '../../features/userSlice';
-import { useDispatch, useSelector } from 'react-redux';
-import { IconButton } from '@mui/material';
 
 export const Text = ({ post }) => {
   const [user, setUser] = useState({});

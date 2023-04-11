@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { IconButton } from '@mui/material';
+import IconButton from '@mui/material/IconButton';
 import { Link } from 'react-router-dom';
 export const Icon = ({ children, link }) => {
   return (

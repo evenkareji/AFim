@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 
-import DeleteIcon from '@mui/icons-material/Delete';
-
 import { useParams } from 'react-router-dom';
+import DeleteIcon from '@mui/icons-material/Delete';
 import { useSelector } from 'react-redux';
+
 export const Card = ({ post }) => {
   const [user, setUser] = useState({});
   const username = useParams().username;

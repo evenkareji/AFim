@@ -1,6 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
+
 import { SearchForm } from '../atoms/SerachForm';
+
 export const SearchUsers = () => {
   return (
     <SearchContainer>

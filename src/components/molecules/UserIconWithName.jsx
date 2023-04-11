@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import axios from 'axios';
+
 import { UserIconImg } from '../atoms/UserIconImg';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
-import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
-
 import { followEvent } from '../../features/userSlice';
 
 export const UserIconWithName = ({ profileUser }) => {

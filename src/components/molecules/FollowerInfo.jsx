@@ -1,9 +1,10 @@
 import React from 'react';
-
-import { Link, useParams } from 'react-router-dom';
 import styled from 'styled-components';
+
+import { Link } from 'react-router-dom';
 import { OnFollowBtn } from '../atoms/OnFollowBtn';
 import { UserIconImg } from '../atoms/UserIconImg';
+
 export const FollowerInfo = ({ follower }) => {
   const PUBLIC_FOLDER = process.env.REACT_APP_PUBLIC_FOLDER;
 

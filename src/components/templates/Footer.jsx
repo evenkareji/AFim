@@ -1,8 +1,9 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
+import styled from 'styled-components';
+
 import { Home } from '../molecules/Home';
 import { ProfileIcon } from '../molecules/ProfileIcon';
 import { AddPostIcon } from '../molecules/AddPostIcon';
-import styled from 'styled-components';
 
 export const Footer = () => {
   const [isHomeIcon, setIsHomeIcon] = useState(true);

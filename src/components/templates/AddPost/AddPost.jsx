@@ -1,10 +1,9 @@
 import React, { useRef, useState } from 'react';
 import styled from 'styled-components';
-import { TextArea } from '../../atoms/TextArea';
-import { UserIconImg } from '../../atoms/UserIconImg';
-
 import axios from 'axios';
 
+import { TextArea } from '../../atoms/TextArea';
+import { UserIconImg } from '../../atoms/UserIconImg';
 import { useSelector } from 'react-redux';
 import { Spinner } from '../../atoms/Spinner';
 

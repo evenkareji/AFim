@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
-import { Icon } from '../atoms/Icon';
+import React from 'react';
+import styled from 'styled-components';
 import AddBoxIcon from '@mui/icons-material/AddBox';
 import AddBoxOutlinedIcon from '@mui/icons-material/AddBoxOutlined';
-import styled from 'styled-components';
-export const AddPostIcon = ({ isIcon, link }) => {
+
+import { Icon } from '../atoms/Icon';
+export const AddPostIcon = ({ isIcon }) => {
   return (
     <div>
       <Icon link={'/addpost'}>
