@@ -118,10 +118,10 @@ export const Text = ({ post }) => {
           <HeartIcon isGood={isGood} />
         </SHeartBox>
         <HeartCount>{post.likes.length}</HeartCount>
-        <IconButton onClick={modalComment}>
+        {/* <IconButton onClick={modalComment}>
           <Chat sx={{ fontSize: 30 }} />
         </IconButton>
-        <ChatCount>{post.comment}</ChatCount>
+        <ChatCount>{post.comment}</ChatCount> */}
       </SAside>
       <Comment
         isCommentModal={isCommentModal}
