@@ -2,10 +2,12 @@ import IconButton from '@mui/material/IconButton';
 import React from 'react';
 import styled from 'styled-components';
 import { BaseBtn } from './BaseBtn';
+import { useFollow } from '../../hooks/useFollow';
 export const UnFollowBtn = (props) => {
-  const { children, handleFollow } = props;
+  const { children, onClickFollow } = props;
+
   return (
-    <IconButton style={{ padding: '0px' }} onClick={handleFollow}>
+    <IconButton style={{ padding: '0px' }} onClick={onClickFollow}>
       <SUnFollowBtn className="unfollow-bg-color">{children}</SUnFollowBtn>
     </IconButton>
   );

@@ -10,10 +10,11 @@ import ChatIcon from '@mui/icons-material/Chat';
 import { HeartIcon } from '../atoms/HeartIcon/HeartIcon';
 import { Comment } from '../pages/Comment';
 import { followEvent } from '../../features/userSlice';
+import { useFollow } from '../../hooks/useFollow';
 
 export const Text = ({ post }) => {
   const [user, setUser] = useState({});
-
+  const { followUser } = useFollow();
   const loginUser = useSelector((state) => state.user.user);
 
   const dispatch = useDispatch();
@@ -25,7 +26,8 @@ export const Text = ({ post }) => {
     getUsers();
   }, [post.userId]);
   const [isGood, setIsGood] = useState(post.likes.includes(loginUser._id));
-  const handleLike = async () => {
+  // isGood;post;loginUser;引数
+  const toggleLike = async () => {
     try {
       !isGood ? ++post.likes.length : --post.likes.length;
       const response = await axios.put(`/posts/${post._id}/like`, {
@@ -47,17 +49,7 @@ export const Text = ({ post }) => {
       console.log(err);
     }
   };
-  const handleFollow = async () => {
-    try {
-      const response = await axios.put(`/users/${post.userId}/follow`, {
-        userId: loginUser._id,
-      });
-
-      dispatch(followEvent(response.data));
-    } catch (err) {
-      console.log(err);
-    }
-  };
+  const onClickFollow = () => followUser(post, loginUser);
 
   const PUBLIC_FOLDER = process.env.REACT_APP_PUBLIC_FOLDER;
   const modalComment = () => {
@@ -97,7 +89,7 @@ export const Text = ({ post }) => {
                     フォロー中
                   </OnFollowBtn>
                 ) : (
-                  <UnFollowBtn handleFollow={handleFollow}>
+                  <UnFollowBtn onClickFollow={onClickFollow}>
                     フォロー
                   </UnFollowBtn>
                 )}
@@ -112,7 +104,7 @@ export const Text = ({ post }) => {
       <SAside>
         <SHeartBox
           onClick={() => {
-            handleLike();
+            toggleLike();
           }}
         >
           <HeartIcon isGood={isGood} />
