@@ -7,7 +7,7 @@ import { User, UserComment } from '../types/api/user';
 
 export const useFollow = () => {
   const dispatch = useDispatch();
-  console.log('child');
+  // console.log('child');
 
   const followUser = async (
     post: UserComment,

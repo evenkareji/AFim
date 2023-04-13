@@ -1,9 +1,10 @@
 import IconButton from '@mui/material/IconButton';
-import React from 'react';
+import React, { memo } from 'react';
 import styled from 'styled-components';
 import { BaseBtn } from './BaseBtn';
 
-export const UnFollowBtn = (props) => {
+export const FollowButton = memo((props) => {
+  console.log('%cUnFollowChild render', 'color:blue');
   const { children, onClickFollow } = props;
 
   return (
@@ -11,7 +12,8 @@ export const UnFollowBtn = (props) => {
       <SUnFollowBtn className="unfollow-bg-color">{children}</SUnFollowBtn>
     </IconButton>
   );
-};
+});
+
 const SUnFollowBtn = styled(BaseBtn)`
   width: 100%;
   font-size: 12px;

@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 import { Link } from 'react-router-dom';
-import { OnFollowBtn } from '../atoms/OnFollowBtn';
+
 import { UserIconImg } from '../atoms/UserIconImg';
 
 export const FollowingInfo = ({ following }) => {
@@ -37,7 +37,6 @@ const UserBorder = styled.div`
   align-items: center;
 `;
 
-const SOnFollowButton = styled(OnFollowBtn)``;
 const SFollowImg = styled(UserIconImg)`
   margin-right: 13px;
   width: 61;

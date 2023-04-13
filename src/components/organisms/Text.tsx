@@ -10,11 +10,12 @@ import { useSelector } from 'react-redux';
 import { useFollow } from '../../hooks/useFollow';
 import { useUnFollow } from '../../hooks/useUnFollow';
 
-import { OnFollowBtn } from '../atoms/OnFollowBtn';
-import { UnFollowBtn } from '../atoms/UnFollowBtn';
+import { FollowingButton } from '../atoms/FollowingButton';
+import { FollowButton } from '../atoms/FollowButton';
 import { HeartIcon } from '../atoms/HeartIcon/HeartIcon';
 
 export const Text = ({ post }) => {
+  console.log('Parent render');
   const [user, setUser] = useState<User>();
 
   const { followUser } = useFollow();
@@ -30,7 +31,7 @@ export const Text = ({ post }) => {
     getUsers();
   }, [post.userId]);
   const [isGood, setIsGood] = useState(post.likes.includes(loginUser._id));
-  // isGood;post;loginUser;引数
+
   const toggleLike = async () => {
     try {
       !isGood ? ++post.likes.length : --post.likes.length;
@@ -73,13 +74,13 @@ export const Text = ({ post }) => {
             {loginUser._id !== post.userId && (
               <>
                 {loginUser.followings?.includes(post.userId) ? (
-                  <OnFollowBtn onClickUnFollow={onClickUnFollow}>
+                  <FollowingButton onClickUnFollow={onClickUnFollow}>
                     フォロー中
-                  </OnFollowBtn>
+                  </FollowingButton>
                 ) : (
-                  <UnFollowBtn onClickFollow={onClickFollow}>
+                  <FollowButton onClickFollow={onClickFollow}>
                     フォロー
-                  </UnFollowBtn>
+                  </FollowButton>
                 )}
               </>
             )}
@@ -90,22 +91,15 @@ export const Text = ({ post }) => {
         </SDescContainer>
       </SPostContent>
       <SAside>
-        <SHeartBox
-          onClick={() => {
-            toggleLike();
-          }}
-        >
+        <SHeartBox onClick={toggleLike}>
           <HeartIcon isGood={isGood} />
         </SHeartBox>
         <HeartCount>{post.likes.length}</HeartCount>
-        {/* <IconButton onClick={modalComment}>
-          <Chat sx={{ fontSize: 30 }} />
-        </IconButton>
-        <ChatCount>{post.comment}</ChatCount> */}
       </SAside>
     </PostBorder>
   );
 };
+
 const SHeartBox = styled.div`
   cursor: pointer;
 `;

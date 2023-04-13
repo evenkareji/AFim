@@ -1,15 +1,16 @@
 import IconButton from '@mui/material/IconButton';
-import React from 'react';
+import React, { memo } from 'react';
 import styled from 'styled-components';
 import { BaseBtn } from './BaseBtn';
-export const OnFollowBtn = (props) => {
+export const FollowingButton = memo((props) => {
+  console.log('%cChild render　OnFollowBtn', 'color:blue');
   const { children, onClickUnFollow } = props;
   return (
     <IconButton style={{ padding: '0px' }} onClick={onClickUnFollow}>
       <SOnFollowBtn>{children}</SOnFollowBtn>
     </IconButton>
   );
-};
+});
 const SOnFollowBtn = styled(BaseBtn)`
   width: 100%;
   font-size: 12px;
