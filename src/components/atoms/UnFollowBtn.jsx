@@ -2,7 +2,7 @@ import IconButton from '@mui/material/IconButton';
 import React from 'react';
 import styled from 'styled-components';
 import { BaseBtn } from './BaseBtn';
-import { useFollow } from '../../hooks/useFollow';
+
 export const UnFollowBtn = (props) => {
   const { children, onClickFollow } = props;
 

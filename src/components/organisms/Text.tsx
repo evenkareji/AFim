@@ -2,22 +2,26 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+
+import { User } from '../../types/api/user';
+
+import { useSelector } from 'react-redux';
+
+import { useFollow } from '../../hooks/useFollow';
+import { useUnFollow } from '../../hooks/useUnFollow';
 
 import { OnFollowBtn } from '../atoms/OnFollowBtn';
 import { UnFollowBtn } from '../atoms/UnFollowBtn';
-import ChatIcon from '@mui/icons-material/Chat';
 import { HeartIcon } from '../atoms/HeartIcon/HeartIcon';
-import { Comment } from '../pages/Comment';
-import { followEvent } from '../../features/userSlice';
-import { useFollow } from '../../hooks/useFollow';
 
 export const Text = ({ post }) => {
-  const [user, setUser] = useState({});
-  const { followUser } = useFollow();
-  const loginUser = useSelector((state) => state.user.user);
+  const [user, setUser] = useState<User>();
 
-  const dispatch = useDispatch();
+  const { followUser } = useFollow();
+  const { unFollowUser } = useUnFollow();
+
+  const loginUser = useSelector((state: any) => state.user.user);
+
   useEffect(() => {
     const getUsers = async () => {
       const response = await axios.get(`/users/${post.userId}`);
@@ -39,27 +43,11 @@ export const Text = ({ post }) => {
       console.log(err);
     }
   };
-  const handleUnFollow = async () => {
-    try {
-      const response = await axios.put(`/users/${post.userId}/unfollow`, {
-        userId: loginUser._id,
-      });
-      dispatch(followEvent(response.data));
-    } catch (err) {
-      console.log(err);
-    }
-  };
+
   const onClickFollow = () => followUser(post, loginUser);
+  const onClickUnFollow = () => unFollowUser(post, loginUser);
 
   const PUBLIC_FOLDER = process.env.REACT_APP_PUBLIC_FOLDER;
-  const modalComment = () => {
-    setIsCommentModal((prev) => !prev);
-  };
-  const profileSrc = user.profileImg
-    ? PUBLIC_FOLDER + loginUser.profileImg
-    : PUBLIC_FOLDER + '/person/noAvatar.png';
-
-  const [isCommentModal, setIsCommentModal] = useState(false);
 
   return (
     <PostBorder>
@@ -70,22 +58,22 @@ export const Text = ({ post }) => {
       <SBg />
       <SPostContent>
         <SPostHeader>
-          <Link to={`profile/${user.username}`}>
+          <Link to={`profile/${user?.username}`}>
             <SUserIconImg
               src={
-                user.profileImg
+                user?.profileImg
                   ? PUBLIC_FOLDER + 'person/' + user.profileImg
                   : PUBLIC_FOLDER + '/person/noAvatar.png'
               }
             />
           </Link>
           <Box>
-            <SUserName>{user.username}</SUserName>
+            <SUserName>{user?.username}</SUserName>
 
             {loginUser._id !== post.userId && (
               <>
                 {loginUser.followings?.includes(post.userId) ? (
-                  <OnFollowBtn handleUnFollow={handleUnFollow}>
+                  <OnFollowBtn onClickUnFollow={onClickUnFollow}>
                     フォロー中
                   </OnFollowBtn>
                 ) : (
@@ -115,11 +103,6 @@ export const Text = ({ post }) => {
         </IconButton>
         <ChatCount>{post.comment}</ChatCount> */}
       </SAside>
-      <Comment
-        isCommentModal={isCommentModal}
-        modalComment={modalComment}
-        src={profileSrc}
-      />
     </PostBorder>
   );
 };
@@ -182,15 +165,8 @@ const SAside = styled.div`
   text-align: center;
 `;
 
-const Chat = styled(ChatIcon)`
-  color: #000;
-  font-size: 100px;
-`;
 const HeartCount = styled.span`
   margin-bottom: 18px;
-  color: #000;
-`;
-const ChatCount = styled.span`
   color: #000;
 `;
 

@@ -5,7 +5,7 @@ import axios from 'axios';
 import { UserIconImg } from '../atoms/UserIconImg';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { useDispatch, useSelector } from 'react-redux';
-import { followEvent } from '../../features/userSlice';
+import { toggleFollow } from '../../features/userSlice';
 
 export const UserIconWithName = ({ profileUser }) => {
   const PUBLIC_FOLDER = process.env.REACT_APP_PUBLIC_FOLDER;
@@ -37,7 +37,7 @@ export const UserIconWithName = ({ profileUser }) => {
 
       try {
         const response = await axios.put(`/users/${user._id}`, newProfile);
-        dispatch(followEvent(response.data));
+        dispatch(toggleFollow(response.data));
         window.location.reload();
       } catch (err) {
         console.log(err);

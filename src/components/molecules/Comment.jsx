@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import CloseIcon from '@mui/icons-material/Close';
 
-import { CommentAddForm } from '../molecules/CommentAddForm';
+import { CommentAddForm } from './CommentAddForm';
 
 export const Comment = ({ isCommentModal, modalComment }) => {
   return (

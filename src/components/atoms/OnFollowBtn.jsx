@@ -3,9 +3,9 @@ import React from 'react';
 import styled from 'styled-components';
 import { BaseBtn } from './BaseBtn';
 export const OnFollowBtn = (props) => {
-  const { children, handleUnFollow } = props;
+  const { children, onClickUnFollow } = props;
   return (
-    <IconButton style={{ padding: '0px' }} onClick={handleUnFollow}>
+    <IconButton style={{ padding: '0px' }} onClick={onClickUnFollow}>
       <SOnFollowBtn>{children}</SOnFollowBtn>
     </IconButton>
   );

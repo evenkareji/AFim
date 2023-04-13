@@ -12,10 +12,10 @@ export const userSlice = createSlice({
     logout: (state) => {
       state.user = null;
     },
-    followEvent: (state, action) => {
+    toggleFollow: (state, action) => {
       state.user = action.payload;
     },
   },
 });
-export const { login, logout, followEvent } = userSlice.actions;
+export const { login, logout, toggleFollow } = userSlice.actions;
 export default userSlice.reducer;
