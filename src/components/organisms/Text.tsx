@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
@@ -45,8 +45,8 @@ export const Text = ({ post }) => {
     }
   };
 
-  const onClickFollow = () => followUser(post, loginUser);
-  const onClickUnFollow = () => unFollowUser(post, loginUser);
+  const onClickFollow = useCallback(() => followUser(post, loginUser), []);
+  const onClickUnFollow = useCallback(() => unFollowUser(post, loginUser), []);
 
   const PUBLIC_FOLDER = process.env.REACT_APP_PUBLIC_FOLDER;
 
