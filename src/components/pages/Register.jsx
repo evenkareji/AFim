@@ -1,45 +1,26 @@
 import styled from 'styled-components';
-import { useNavigate } from 'react-router-dom';
-import { LoginForm } from '../atoms/LoginForm';
-import { useRef } from 'react';
-import axios from 'axios';
-import { useState } from 'react';
 import { Link } from 'react-router-dom';
+
+import { LoginForm } from '../atoms/LoginForm';
 import { ErrorMessage } from '../atoms/ErrorMessage';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
-export const Register = () => {
-  const username = useRef();
-  const email = useRef();
-  const password = useRef();
-  const passwordConfirmation = useRef();
-  const [isError, setIsError] = useState(false);
-  const [emailExist, setEmailExist] = useState(false);
-  const navigate = useNavigate();
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const user = {
-      username: username.current.value,
-      email: email.current.value,
-      password: password.current.value,
-    };
+import { useRegister } from '../../hooks/useRegister';
 
-    if (password.current.value !== passwordConfirmation.current.value) {
-      setIsError(true);
-    } else {
-      try {
-        await axios.post('/auth/register', user);
-        navigate('/login');
-      } catch (err) {
-        console.log(err);
-        setEmailExist(true);
-      }
-    }
-  };
+export const Register = () => {
+  const {
+    registerSubmit,
+    emailExist,
+    isError,
+    username,
+    email,
+    password,
+    passwordConfirmation,
+  } = useRegister();
 
   return (
     <SLoginBack>
       <SLoginBorder>
-        <SForm onSubmit={(e) => handleSubmit(e)}>
+        <SForm onSubmit={(e) => registerSubmit(e)}>
           <SArrowBackIosNewIconBox to={'/login'}>
             <SArrowBackIosNewIcon />
           </SArrowBackIosNewIconBox>

@@ -1,7 +1,10 @@
 import axios from 'axios';
 import { useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
+
 import { login } from '../features/userSlice';
+import { User } from '../types/api/user';
+
 export const useLogin = () => {
   const dispatch = useDispatch();
 
@@ -14,7 +17,7 @@ export const useLogin = () => {
     try {
       e.preventDefault();
       setIsLoading(true);
-      const response = await axios.post('auth/login', {
+      const response = await axios.post<User>('auth/login', {
         email: email.current?.value,
         password: password.current?.value,
       });
