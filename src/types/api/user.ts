@@ -5,19 +5,20 @@ export type User = {
   password: string;
   profileImg: string;
 
-  followers: [];
-  followings: [];
+  followers: string[];
+  followings: string[];
   isAdmin: boolean;
 
   updatedAt: number;
 };
 
 export type UserPost = {
-  _id: number;
+  _id: string;
   userId: string;
   desc: string;
-  comments: [];
-  likes: [];
+  comments: string[];
+  likes: string[];
+  __v: number;
   createdAt: string;
   updatedAt: number;
 };

@@ -1,14 +1,14 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import styled from 'styled-components';
-import axios from 'axios';
-import { Link } from 'react-router-dom';
 
-import { User } from '../../types/api/user';
+import { Link } from 'react-router-dom';
 
 import { useSelector } from 'react-redux';
 
 import { useFollow } from '../../hooks/useFollow';
 import { useUnFollow } from '../../hooks/useUnFollow';
+import { useGetAuthor } from '../../hooks/useGetAuthor';
+import { useLike } from '../../hooks/useLike';
 
 import { FollowingButton } from '../atoms/FollowingButton';
 import { FollowButton } from '../atoms/FollowButton';
@@ -16,39 +16,21 @@ import { HeartIcon } from '../atoms/HeartIcon/HeartIcon';
 
 export const Text = ({ post }) => {
   console.log('Parent render');
-  const [user, setUser] = useState<User>();
 
+  const PUBLIC_FOLDER = process.env.REACT_APP_PUBLIC_FOLDER;
   const { followUser } = useFollow();
   const { unFollowUser } = useUnFollow();
+  const { getAuthorByPostId, user } = useGetAuthor();
 
   const loginUser = useSelector((state: any) => state.user.user);
+  const { toggleLike, isGood } = useLike(post, loginUser);
 
   useEffect(() => {
-    const getUsers = async () => {
-      const response = await axios.get(`/users/${post.userId}`);
-      setUser(response.data);
-    };
-    getUsers();
+    getAuthorByPostId(post);
   }, [post.userId]);
-  const [isGood, setIsGood] = useState(post.likes.includes(loginUser._id));
-
-  const toggleLike = async () => {
-    try {
-      !isGood ? ++post.likes.length : --post.likes.length;
-      const response = await axios.put(`/posts/${post._id}/like`, {
-        userId: loginUser._id,
-      });
-
-      setIsGood(response.data);
-    } catch (err) {
-      console.log(err);
-    }
-  };
 
   const onClickFollow = useCallback(() => followUser(post, loginUser), []);
   const onClickUnFollow = useCallback(() => unFollowUser(post, loginUser), []);
-
-  const PUBLIC_FOLDER = process.env.REACT_APP_PUBLIC_FOLDER;
 
   return (
     <PostBorder>
