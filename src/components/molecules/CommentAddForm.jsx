@@ -10,12 +10,12 @@ export const CommentAddForm = () => {
   const PUBLIC_FOLDER = process.env.REACT_APP_PUBLIC_FOLDER;
   const user = useSelector((state) => state.user.user);
   return (
-    <SUserCommentBorder>
+    <SUserPostBorder>
       <SUserImg src={PUBLIC_FOLDER + user.profileImg} />
       <SCommentContainer>
         <STextArea placeholder="コメント追加できません..."></STextArea>
       </SCommentContainer>
-    </SUserCommentBorder>
+    </SUserPostBorder>
   );
 };
 
@@ -27,7 +27,7 @@ const STextArea = styled(TextArea)`
   border-bottom: 1px solid #d9d9d9;
   width: 100%;
 `;
-const SUserCommentBorder = styled(UserBorder)`
+const SUserPostBorder = styled(UserBorder)`
   align-items: center;
   width: 82%;
   margin: 0 auto;

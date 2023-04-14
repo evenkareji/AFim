@@ -3,12 +3,12 @@ import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { toggleFollow } from '../features/userSlice';
 
-import { User, UserComment } from '../types/api/user';
+import { User, UserPost } from '../types/api/user';
 // useUnFollow関数に引数入れたら親コンポーネントのstate入れれるんじゃないか
 export const useUnFollow = () => {
   const dispatch = useDispatch();
   const unFollowUser = async (
-    post: UserComment,
+    post: UserPost,
     loginUser: User,
   ): Promise<void> => {
     try {

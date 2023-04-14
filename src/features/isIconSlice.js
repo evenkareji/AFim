@@ -11,3 +11,6 @@
 // });
 // export const { changeIsIcon } = isIconSlice.actions;
 // export default isIconSlice.reducer;
+
+// TODO layoutにFooterボタンを組み込む
+// propsが渡しやすくなる

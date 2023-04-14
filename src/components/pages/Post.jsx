@@ -1,27 +1,18 @@
 import styled from 'styled-components';
 import { Text } from '../organisms/Text';
 import { useEffect, useState } from 'react';
-import axios from 'axios';
 
+import { usePosts } from '../../hooks/usePosts';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { useDispatch } from 'react-redux';
 import { logout } from '../../features/userSlice';
 
 export const Post = () => {
   const dispatch = useDispatch();
-  const [posts, setPosts] = useState([]);
+  const { getPosts, posts } = usePosts();
 
   useEffect(() => {
-    const fetchPost = async () => {
-      const response = await axios.get('/posts');
-
-      setPosts(
-        response.data.sort((post1, post2) => {
-          return new Date(post2.createdAt) - new Date(post1.createdAt);
-        }),
-      );
-    };
-    fetchPost();
+    getPosts();
   }, []);
 
   const logoutEvent = async () => {

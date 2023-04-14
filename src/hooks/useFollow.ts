@@ -3,16 +3,13 @@ import { useDispatch } from 'react-redux';
 
 import { toggleFollow } from '../features/userSlice';
 
-import { User, UserComment } from '../types/api/user';
+import { User, UserPost } from '../types/api/user';
 
 export const useFollow = () => {
   const dispatch = useDispatch();
   // console.log('child');
 
-  const followUser = async (
-    post: UserComment,
-    loginUser: User,
-  ): Promise<void> => {
+  const followUser = async (post: UserPost, loginUser: User): Promise<void> => {
     console.log('child2');
 
     try {

@@ -1,38 +1,15 @@
 import styled from 'styled-components';
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { useRef, useState } from 'react';
-import axios from 'axios';
-import { useDispatch } from 'react-redux';
 
 import { LoginForm } from '../atoms/LoginForm';
 import { Hr } from '../atoms/Hr';
 import { ErrorMessage } from '../atoms/ErrorMessage';
-import { login } from '../../features/userSlice';
 import { Spinner } from '../atoms/Spinner';
+import { useLogin } from '../../hooks/useLogin';
 
 export const Login = () => {
-  const dispatch = useDispatch();
-  const email = useRef<HTMLInputElement>();
-  const password = useRef<HTMLInputElement>(null);
-  const [isError, setIsError] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const handleSubmit = async (e) => {
-    try {
-      e.preventDefault();
-      setIsLoading(true);
-      const response = await axios.post('auth/login', {
-        email: email.current?.value,
-        password: password.current?.value,
-      });
-      dispatch(login(response.data));
-      setIsLoading(false);
-    } catch {
-      setIsError(true);
-      setIsLoading(false);
-    }
-  };
-
+  const { loginSubmit, isError, isLoading, email, password } = useLogin();
   return (
     <>
       {isLoading ? (
@@ -40,7 +17,7 @@ export const Login = () => {
       ) : (
         <SLoginBack>
           <SLoginBorder>
-            <SForm onSubmit={(e) => handleSubmit(e)}>
+            <SForm onSubmit={(e) => loginSubmit(e)}>
               <SFormHead>SNS</SFormHead>
               <p>メールアドレス :test@gmail.com</p>
               <p>パスワード　　 :test</p>
@@ -104,6 +81,7 @@ const SLoginBack = styled.div`
 const SLoginBorder = styled.div`
   width: 100%;
   height: 100vh;
+
   height: -webkit-fill-available;
   @supports (-webkit-touch-callout: none) {
     & {

@@ -12,7 +12,7 @@ export type User = {
   updatedAt: number;
 };
 
-export type UserComment = {
+export type UserPost = {
   _id: number;
   userId: string;
   desc: string;
