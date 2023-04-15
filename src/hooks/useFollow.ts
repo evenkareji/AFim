@@ -7,11 +7,8 @@ import { User, UserPost } from '../types/api/user';
 
 export const useFollow = () => {
   const dispatch = useDispatch();
-  // console.log('child');
 
   const followUser = async (post: UserPost, loginUser: User): Promise<void> => {
-    console.log('child2');
-
     try {
       const response = await axios.put(`/users/${post.userId}/follow`, {
         userId: loginUser._id,

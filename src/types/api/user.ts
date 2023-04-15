@@ -18,7 +18,7 @@ export type UserPost = {
   desc: string;
   comments: string[];
   likes: string[];
-  __v: number;
   createdAt: string;
   updatedAt: number;
+  img: string;
 };

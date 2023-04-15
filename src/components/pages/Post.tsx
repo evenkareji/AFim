@@ -1,10 +1,12 @@
+import React from 'react';
 import styled from 'styled-components';
 import { Text } from '../organisms/Text';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo } from 'react';
+import LogoutIcon from '@mui/icons-material/Logout';
 
 import { usePosts } from '../../hooks/usePosts';
-import LogoutIcon from '@mui/icons-material/Logout';
 import { useDispatch } from 'react-redux';
+
 import { logout } from '../../features/userSlice';
 
 export const Post = () => {
@@ -22,22 +24,23 @@ export const Post = () => {
       console.log(err);
     }
   };
+  return useMemo(() => {
+    return (
+      <SPostMain>
+        <SLogoutButton onClick={logoutEvent}>
+          <LogoutIcon style={{ fontSize: '14px' }} />
+        </SLogoutButton>
 
-  return (
-    <SPostMain>
-      <SLogoutButton onClick={logoutEvent}>
-        <LogoutIcon style={{ fontSize: '14px' }} />
-      </SLogoutButton>
-
-      <PostBg>
-        <PostSlide>
-          {posts.map((post) => (
-            <Text post={post} key={post._id} />
-          ))}
-        </PostSlide>
-      </PostBg>
-    </SPostMain>
-  );
+        <PostBg>
+          <PostSlide>
+            {posts.map((post) => (
+              <Text post={post} key={post['_id']} />
+            ))}
+          </PostSlide>
+        </PostBg>
+      </SPostMain>
+    );
+  }, [logoutEvent]);
 };
 const SLogoutButton = styled.div`
   padding: 10px;

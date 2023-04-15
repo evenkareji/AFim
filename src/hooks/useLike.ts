@@ -1,10 +1,11 @@
 import axios from 'axios';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { User, UserPost } from '../types/api/user';
 
 export const useLike = (post: UserPost, loginUser: User) => {
   const [isGood, setIsGood] = useState(post.likes.includes(loginUser._id));
-  const toggleLike = async () => {
+
+  const toggleLike = useCallback(async () => {
     try {
       !isGood ? ++post.likes.length : --post.likes.length;
       const response = await axios.put(`/posts/${post._id}/like`, {
@@ -15,7 +16,7 @@ export const useLike = (post: UserPost, loginUser: User) => {
     } catch (err) {
       console.log(err);
     }
-  };
+  }, []);
 
   return { toggleLike, isGood };
 };

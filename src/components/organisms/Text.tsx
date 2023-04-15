@@ -1,6 +1,5 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { FC, useCallback, useEffect } from 'react';
 import styled from 'styled-components';
-
 import { Link } from 'react-router-dom';
 
 import { useSelector } from 'react-redux';
@@ -13,8 +12,11 @@ import { useLike } from '../../hooks/useLike';
 import { FollowingButton } from '../atoms/FollowingButton';
 import { FollowButton } from '../atoms/FollowButton';
 import { HeartIcon } from '../atoms/HeartIcon/HeartIcon';
+import { UserPost } from '../../types/api/user';
 
-export const Text = ({ post }) => {
+export const Text: FC<{ post: UserPost }> = (props) => {
+  const { post } = props;
+  console.log(post);
   console.log('Parent render');
 
   const PUBLIC_FOLDER = process.env.REACT_APP_PUBLIC_FOLDER;
