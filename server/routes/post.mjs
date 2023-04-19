@@ -2,6 +2,7 @@ import express from 'express';
 const router = express.Router();
 import Post from '../models/Post.mjs';
 import User from '../models/User.mjs';
+
 // 投稿
 router.post('/', async (req, res) => {
   try {

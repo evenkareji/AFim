@@ -13,6 +13,8 @@ import { ProfileLayout } from './components/pages/PrfileLayout';
 function App() {
   const user = useSelector((state) => state.user.user);
   useEffect(() => {
+    // getでinit　apiを叩いて取得するそしてセッションへ保存する
+
     localStorage.setItem('user', JSON.stringify(user));
   }, [user]);
   return (

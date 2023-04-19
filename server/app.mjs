@@ -7,6 +7,8 @@ import postRouter from './routes/post.mjs';
 import uploadRouter from './routes/upload.js';
 import commentRouter from './routes/comments.mjs';
 import path from 'path';
+// サーバー側でクライアントの情報を保存
+import session from 'express-session';
 
 import { fileURLToPath } from 'url';
 
@@ -37,6 +39,18 @@ app.use('/auth', authRouter);
 app.use('/posts', postRouter);
 app.use('/upload', uploadRouter);
 app.use('/comments', commentRouter);
+app.use(
+  session({
+    secret: 'secret',
+    cookie: {},
+  }),
+);
+
+// reload用
+app.get('/init-user-data', () => {
+  if (req.session['user']) {
+  }
+});
 
 app.get('*', function (req, res) {
   const indexHtml = path.resolve('build', 'index.html');
