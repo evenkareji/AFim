@@ -9,12 +9,13 @@ export const useFollow = () => {
   const dispatch = useDispatch();
 
   const followUser = async (post: UserPost, loginUser: User): Promise<void> => {
+    const { userId } = post;
     try {
-      const response = await axios.put(`/users/${post.userId}/follow`, {
+      const { data } = await axios.put(`/users/${userId}/follow`, {
         userId: loginUser._id,
       });
 
-      dispatch(toggleFollow(response.data));
+      dispatch(toggleFollow(data));
     } catch (err) {
       console.log(err);
     }
