@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const multer = require('multer');
 const path = require('path');
-// 画像の保存先のpathがうまく定められていないからデプロイ後に画像が使えない
+
 const profileStorage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, path.resolve(__dirname, '../public/assets/person'));

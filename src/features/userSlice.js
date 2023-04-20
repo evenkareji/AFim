@@ -3,6 +3,8 @@ import { createSlice } from '@reduxjs/toolkit';
 export const userSlice = createSlice({
   name: 'user',
   initialState: {
+    // sessionに変える
+    // reload時にcookieから値を取得
     user: JSON.parse(localStorage.getItem('user')) || null,
   },
   reducers: {

@@ -9,14 +9,24 @@ import { useEffect } from 'react';
 import { AddPostInfo } from './components/pages/AddPostLayout';
 import { PostInfo } from './components/pages/PostInfo';
 import { ProfileLayout } from './components/pages/PrfileLayout';
+import axios from 'axios';
 
 function App() {
   const user = useSelector((state) => state.user.user);
   useEffect(() => {
     // getでinit　apiを叩いて取得するそしてセッションへ保存する
-
-    localStorage.setItem('user', JSON.stringify(user));
+    // localStorage.setItem('user', JSON.stringify(user));
+    const init = async () => {
+      try {
+        const response = await axios.post('/init-user-data', user);
+        console.log(response.data, 'jjjewjkhekhhkkhgfjggf');
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    init();
   }, [user]);
+
   return (
     <Routes>
       <Route path="/" element={user ? <PostInfo /> : <Login />} />

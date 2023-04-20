@@ -41,15 +41,28 @@ app.use('/upload', uploadRouter);
 app.use('/comments', commentRouter);
 app.use(
   session({
-    secret: 'secret',
-    cookie: {},
+    secret: 'secret_key',
+    resave: false,
+    saveUninitialized: false,
   }),
 );
 
 // reload用
-app.get('/init-user-data', () => {
-  if (req.session['user']) {
-  }
+// app.get('/init-user-data', () => {
+//   if (req.session['user-info']) {
+//     return res.send({ user: req.session['user-info'] });
+//   }
+//   // 宣言
+//   return res.send({ user: [] });
+// });
+
+app.post('/init-user-data', async (req, res) => {
+  // if (!req.session['user']) {
+  //   req.session['user'] = [];
+  // }
+  // req.session.push(req.user);
+  const result = await req;
+  return res.status(200).json(result);
 });
 
 app.get('*', function (req, res) {
