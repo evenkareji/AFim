@@ -1,14 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 
-import { User } from '../../types/api/user';
+import { User, UserPost } from '../../types/api/user';
 
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useSelector } from 'react-redux';
 
-export const Card = ({ post }) => {
+// 分割代入の中でtypescriptの型宣言をしている
+export const Card: FC<{ post: UserPost }> = (props) => {
+  const { post } = props;
+
   const [user, setUser] = useState<User>({
     _id: '',
     username: '',
