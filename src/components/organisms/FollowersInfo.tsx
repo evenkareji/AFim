@@ -4,10 +4,11 @@ import axios from 'axios';
 
 import { FollowerInfo } from '../molecules/FollowerInfo';
 import { useSelector } from 'react-redux';
+import { User } from '../../types/api/user';
 
 export const FollowersInfo = () => {
-  const [followers, setFollowers] = useState([]);
-  const user = useSelector((state) => state.user.user);
+  const [followers, setFollowers] = useState<Array<User>>([]);
+  const user = useSelector((state: any) => state.user.user);
   useEffect(() => {
     const getFollowers = async () => {
       const response = await axios.get(`/users/followers/${user._id}`);

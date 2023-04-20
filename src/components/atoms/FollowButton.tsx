@@ -1,10 +1,13 @@
 import IconButton from '@mui/material/IconButton';
-import React, { memo } from 'react';
+import React, { FC, ReactNode, memo } from 'react';
 import styled from 'styled-components';
 import { BaseBtn } from './BaseBtn';
 
-export const FollowButton = memo((props) => {
-  console.log('%cUnFollowChild render', 'color:blue');
+type Props = {
+  children: ReactNode;
+  onClickFollow: () => void;
+};
+export const FollowButton: FC<Props> = memo((props) => {
   const { children, onClickFollow } = props;
 
   return (

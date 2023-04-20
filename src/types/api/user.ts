@@ -19,7 +19,7 @@ export type UserPost = {
   comments: string[];
   likes: string[];
   createdAt: string;
-  updatedAt: number;
+  updatedAt: number | null;
   img: string;
 };
 export type UserProfile = {

@@ -16,7 +16,7 @@ export const useLike = (post: UserPost, loginUser: User) => {
     } catch (err) {
       console.log(err);
     }
-  }, []);
+  }, [isGood, post, loginUser]);
 
   return { toggleLike, isGood };
 };

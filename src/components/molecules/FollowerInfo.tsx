@@ -2,7 +2,6 @@ import React from 'react';
 import styled from 'styled-components';
 
 import { Link } from 'react-router-dom';
-import { OnFollowBtn } from '../atoms/FollowingButton';
 import { UserIconImg } from '../atoms/UserIconImg';
 
 export const FollowerInfo = ({ follower }) => {
@@ -10,7 +9,7 @@ export const FollowerInfo = ({ follower }) => {
 
   return (
     <UserBorder key={follower[0]._id}>
-      <Link to={{ pathname: `/profile/${follower[0].username}`, state: false }}>
+      <Link to={{ pathname: `/profile/${follower[0].username}` }}>
         <SFollowImg
           src={
             follower[0].profileImg

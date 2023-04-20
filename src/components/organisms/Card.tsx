@@ -1,15 +1,18 @@
-import React, { useEffect, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
-
 import { useParams } from 'react-router-dom';
+
+import { User, UserPost } from '../../types/api/user';
+
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useSelector } from 'react-redux';
 
-import { User } from '../../types/api/user';
+// 分割代入の中でtypescriptの型宣言をしている
+export const Card: FC<{ post: UserPost }> = (props) => {
+  const { post } = props;
 
-export const Card = ({ post }) => {
-  const [, setUser] = useState<User>({
+  const [user, setUser] = useState<User>({
     _id: '',
     username: '',
     email: '',
@@ -26,6 +29,7 @@ export const Card = ({ post }) => {
   const loginUser = useSelector((state: any) => state.user.user);
 
   useEffect(() => {
+    console.log(user);
     const fetchUser = async () => {
       const response = await axios.get(`/users?userId=${post.userId}`);
 
