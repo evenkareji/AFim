@@ -8,6 +8,7 @@ import { useLocation, useParams } from 'react-router-dom';
 import { UserIconWithName } from '../molecules/UserIconWithName';
 import { FollowTab } from './FollowTab';
 import { useSelector } from 'react-redux';
+import { UserProfile } from '../../types/api/user';
 
 export const Profile = () => {
   const [isToPage, setIsToPage] = useState(false);
@@ -15,11 +16,16 @@ export const Profile = () => {
     if (user.username !== username) return;
     setIsToPage((prev) => !prev);
   };
-  const [profileUser, setProfileUser] = useState([]);
+  const [profileUser, setProfileUser] = useState<UserProfile>({
+    username: '',
+    desc: '',
+    followings: [],
+    followers: [],
+  });
   const username = useParams().username;
   const location = useLocation();
 
-  const user = useSelector((state) => state.user.user);
+  const user = useSelector((state: any) => state.user.user);
   useEffect(() => {
     const getMyPost = async () => {
       const response = await axios.get(`/users?username=${username}`);
@@ -39,19 +45,17 @@ export const Profile = () => {
         style={{ position: 'absolute' }}
       />
       <SProfileInfo>
-        {/* icon */}
         <UserIconWithName profileUser={profileUser} />
         <SProfileFlex isPointer={isPointer}>
-          {/* <ProfileCount name="投稿" count="999" /> */}
           <ProfileCount
             toFollowsPage={toFollowsPage}
             name="フォロー"
-            count={profileUser.followings?.length}
+            count={profileUser.followings.length}
           />
           <ProfileCount
             toFollowsPage={toFollowsPage}
             name="フォロワー"
-            count={profileUser.followers?.length}
+            count={profileUser.followers.length}
           />
         </SProfileFlex>
         <SIntroduction>{profileUser.desc}</SIntroduction>
