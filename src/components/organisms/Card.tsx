@@ -6,10 +6,24 @@ import { useParams } from 'react-router-dom';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useSelector } from 'react-redux';
 
+import { User } from '../../types/api/user';
+
 export const Card = ({ post }) => {
-  const [user, setUser] = useState({});
+  const [, setUser] = useState<User>({
+    _id: '',
+    username: '',
+    email: '',
+    password: '',
+    profileImg: '',
+
+    followers: [],
+    followings: [],
+    isAdmin: false,
+
+    updatedAt: null,
+  });
   const username = useParams().username;
-  const loginUser = useSelector((state) => state.user.user);
+  const loginUser = useSelector((state: any) => state.user.user);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -19,13 +33,14 @@ export const Card = ({ post }) => {
     };
     fetchUser();
   }, [post.userId]);
+
   const postDelete = async () => {
     try {
-      if (window.confirm('本当に削除しますか')) {
+      if (window.confirm('本当に削除しますかー？いいの？ほんき？ええ！？')) {
         await axios.delete(`/posts/${post._id}`, {
           data: { userId: loginUser._id },
         });
-        // こいつで変更エラーが起きる
+        // 変更エラーが起きる
         // window.location.reload();
       }
     } catch (err) {

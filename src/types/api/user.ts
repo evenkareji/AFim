@@ -9,7 +9,7 @@ export type User = {
   followings: string[];
   isAdmin: boolean;
 
-  updatedAt: number;
+  updatedAt: number | null;
 };
 
 export type UserPost = {
@@ -21,4 +21,10 @@ export type UserPost = {
   createdAt: string;
   updatedAt: number;
   img: string;
+};
+export type UserProfile = {
+  username: string;
+  desc: string;
+  followings: string[];
+  followers: string[];
 };
