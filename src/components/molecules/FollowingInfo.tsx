@@ -10,9 +10,7 @@ export const FollowingInfo = ({ following }) => {
 
   return (
     <UserBorder key={following[0]._id}>
-      <Link
-        to={{ pathname: `/profile/${following[0].username}`, state: false }}
-      >
+      <Link to={{ pathname: `/profile/${following[0].username}` }}>
         <SFollowImg
           src={
             following[0].profileImg
