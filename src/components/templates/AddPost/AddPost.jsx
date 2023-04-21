@@ -1,51 +1,24 @@
 import React, { useRef, useState } from 'react';
 import styled from 'styled-components';
-import axios from 'axios';
 
 import { TextArea } from '../../atoms/TextArea';
 import { UserIconImg } from '../../atoms/UserIconImg';
 import { useSelector } from 'react-redux';
 import { Spinner } from '../../atoms/Spinner';
+import { useAddPost } from '../../../hooks/useAddPost';
 
 export const AddPost = () => {
-  const user = useSelector((state) => state.user.user);
   const desc = useRef();
   const PUBLIC_FOLDER = process.env.REACT_APP_PUBLIC_FOLDER;
   const [isText, setIsText] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading] = useState(false);
   const [file, setFile] = useState(null);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    const newPost = {
-      userId: user._id,
-      desc: desc.current.value,
-    };
-
-    if (file) {
-      const data = new FormData();
-      const fileName = file.name;
-      // 画像apiを叩く
-
-      data.append('name', fileName);
-      data.append('file', file);
-      newPost.img = fileName;
-      try {
-        await axios.post('/upload/post-image', data);
-      } catch (err) {
-        console.log(err);
-      }
-    }
-
-    try {
-      await axios.post('/posts', newPost);
-      window.location.reload();
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
+  const { AddPost, user } = useAddPost();
+  const handleSubmit = (e) => AddPost(e, desc, file);
+  // descをapiの関数内に入れてゴニョゴニョして
+  // chatgptのプロンプトを仕込んだ別の値を返す
+  // それを引数に代入
   const textLimit = (e) => {
     const minText = 0;
     const maxText = 50;
