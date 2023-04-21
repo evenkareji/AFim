@@ -4,14 +4,14 @@ import { Text } from '../organisms/Text';
 import { useEffect, useMemo } from 'react';
 import LogoutIcon from '@mui/icons-material/Logout';
 
-import { usePosts } from '../../hooks/usePosts';
+import { useGetPosts } from '../../hooks/useGetPosts';
 import { useDispatch } from 'react-redux';
 
 import { logout } from '../../features/userSlice';
 
 export const Post = () => {
   const dispatch = useDispatch();
-  const { getPosts, posts } = usePosts();
+  const { getPosts, posts } = useGetPosts();
   useEffect(() => {
     getPosts();
   }, []);

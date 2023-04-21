@@ -46,24 +46,6 @@ export const AddPost = () => {
     }
   };
 
-  const textUpload = async (e) => {
-    e.preventDefault();
-    setIsLoading(true);
-    const newPost = {
-      userId: user._id,
-      desc: desc.current.value,
-    };
-
-    try {
-      await axios.post('/posts', newPost);
-      window.location.reload();
-      desc.current.value = '';
-    } catch (err) {
-      console.log(err);
-      setIsLoading(false);
-    }
-  };
-
   const textLimit = (e) => {
     const minText = 0;
     const maxText = 50;

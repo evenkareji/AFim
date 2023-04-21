@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { useState } from 'react';
 
-export const usePosts = () => {
+export const useGetPosts = () => {
   const [posts, setPosts] = useState([]);
   const getPosts = async () => {
     const response = await axios.get('/posts');
