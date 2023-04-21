@@ -28,3 +28,8 @@ export type UserProfile = {
   followings: string[];
   followers: string[];
 };
+export type AddPost = {
+  userId: string;
+  desc: string | undefined;
+  img?: string;
+};
