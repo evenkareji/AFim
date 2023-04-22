@@ -3,7 +3,6 @@ import styled from 'styled-components';
 
 import { TextArea } from '../../atoms/TextArea';
 import { UserIconImg } from '../../atoms/UserIconImg';
-import { useSelector } from 'react-redux';
 import { Spinner } from '../../atoms/Spinner';
 import { useAddPost } from '../../../hooks/useAddPost';
 
@@ -19,6 +18,8 @@ export const AddPost = () => {
   // descをapiの関数内に入れてゴニョゴニョして
   // chatgptのプロンプトを仕込んだ別の値を返す
   // それを引数に代入
+  // promptは誹謗中傷じゃなければ文字をいじらないでにして
+  // そのままデータを引数に送ればいい
   const textLimit = (e) => {
     const minText = 0;
     const maxText = 50;

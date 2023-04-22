@@ -17,8 +17,8 @@ export const useAddPost = () => {
     if (file) {
       const data = new FormData();
       const fileName = file.name;
-      // 画像apiを叩く
 
+      // 画像apiを叩く
       data.append('name', fileName);
       data.append('file', file);
       newPost.img = fileName;
