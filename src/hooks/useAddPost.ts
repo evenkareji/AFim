@@ -10,6 +10,7 @@ export const useAddPost = () => {
   const AddPost = async (e, desc, file) => {
     e.preventDefault();
 
+    debugger;
     const newPost: AddPost = {
       userId: user._id,
       desc: await chat(desc),
