@@ -3,19 +3,16 @@ import axios from 'axios';
 import { useSelector } from 'react-redux';
 import { AddPost } from '../types/api/user';
 import { chat } from '../components/templates/AddPost/chat';
+
 export const useAddPost = () => {
   const user = useSelector((state: any) => state.user.user);
 
   const AddPost = async (e, desc, file) => {
     e.preventDefault();
 
-    desc = await chat(desc);
-
-    console.log(desc, 'desc');
-
     const newPost: AddPost = {
       userId: user._id,
-      desc: desc.current.value,
+      desc: await chat(desc),
     };
 
     if (file) {

@@ -7,9 +7,9 @@ import { Spinner } from '../../atoms/Spinner';
 import { useAddPost } from '../../../hooks/useAddPost';
 
 export const AddPost = () => {
-  const desc = useRef();
   const PUBLIC_FOLDER = process.env.REACT_APP_PUBLIC_FOLDER;
   const [isText, setIsText] = useState(false);
+  const [desc, setDesc] = useState();
   const [isLoading] = useState(false);
   const [file, setFile] = useState(null);
 
@@ -51,8 +51,11 @@ export const AddPost = () => {
 
               <TextArea
                 placeholder="50文字以内で入力してください"
-                ref={desc}
-                onChange={(e) => textLimit(e)}
+                value={desc}
+                onChange={(e) => {
+                  setDesc(e.target.value);
+                  textLimit(e);
+                }}
                 id="textForm"
               ></TextArea>
               <input
