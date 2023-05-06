@@ -39,14 +39,12 @@ export const chat = async (message) => {
     );
     // 回答の取得
     if (response.data.choices[0].message.content === 'false') {
-      console.log(response.data.choices[0].message.content, 'false');
       debugger;
       return message; //引数desc;
     } else {
       console.log(response.data.choices[0].message.content);
       debugger;
-
-      return '誹謗中傷はやめようねっ';
+      return '誹謗中傷です';
     }
   } catch (error) {
     console.error(error);

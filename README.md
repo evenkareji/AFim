@@ -1,70 +1,22 @@
-# Getting Started with Create React App
+使用技術
+HTML, CSS, JavaScript, React,TypeScript,Node.js, Redux Toolkit, express, mongodb, mongoose, styled-components,ChatGPT api
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+デザインパターン
+atomic design
 
-## Available Scripts
+TikTok は情報量が少ないことで疲れず夢中になって見れます。
+その現象が動画で起こるなら、テキストでも起こせるのではないかと思い投稿文字数を 50 文字以内にしました。
+フォロー、アンフォロー、いいね、ユーザー専用プロフィール、自分の投稿ー覧、フォロー、フォロワーの一覧など動作します。
+ChatGPT api を用いて誹謗中傷を事前に感知するプログラムを組み、誹謗中傷が投稿されたら、「誹謗中傷です」と置き換えるようにもなりました。
 
-In the project directory, you can run:
+今回は SNS を本格的に作る際の基盤作りを名目にやったため、見やすく変更を容易にするデザインパターンを活用しました。
+この先改良できるように機能をまんべんなく搭載することはせず、必要最低限を実現させ、
+未来の自分ひいては、未来の協力者が書きやすく変更可能となるようにできる限り努めました。
 
-### `npm start`
+動作
+SNS のようにログイン登録し、ログインできます
+投稿を見る欄が TikTok のようにスライド形式となっており、スライドで投稿が見られます。
+あくまでも文字が主体となっているので画像投稿した場合、背景に画像がくるようになっております。 \*重すぎる画像は表示されません。また、時間が経つと画像が消えます。
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
-
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+この先の展望
+Node.js で書いたところを python で書き直そうと思います
