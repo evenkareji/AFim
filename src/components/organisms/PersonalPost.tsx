@@ -3,10 +3,10 @@ import styled from 'styled-components';
 import axios from 'axios';
 
 import { Card } from './Card';
-import { UserPost } from '../../types/api/user';
+import { Post } from '../../types/api';
 
 export const PersonalPost = ({ username }) => {
-  const [posts, setPosts] = useState<Array<UserPost>>([]);
+  const [posts, setPosts] = useState<Array<Post>>([]);
   console.log(posts, 'uuuuuuuu');
   useEffect(() => {
     const fetchPosts = async () => {

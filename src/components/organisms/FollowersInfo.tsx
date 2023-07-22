@@ -4,7 +4,7 @@ import axios from 'axios';
 
 import { FollowerInfo } from '../molecules/FollowerInfo';
 import { useSelector } from 'react-redux';
-import { User } from '../../types/api/user';
+import { User } from '../../types/api';
 
 export const FollowersInfo = () => {
   const [followers, setFollowers] = useState<Array<User>>([]);

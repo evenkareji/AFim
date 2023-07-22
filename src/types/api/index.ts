@@ -12,7 +12,7 @@ export type User = {
   updatedAt: number | null;
 };
 
-export type UserPost = {
+export type Post = {
   _id: string;
   userId: string;
   desc: string;
@@ -22,7 +22,7 @@ export type UserPost = {
   updatedAt: number | null;
   img: string;
 };
-export type UserProfile = {
+export type Profile = {
   username: string;
   desc: string;
   followings: string[];

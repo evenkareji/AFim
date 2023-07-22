@@ -1,10 +1,10 @@
 import axios from 'axios';
 import { useState } from 'react';
-import { User, UserPost } from '../types/api/user';
+import { User, Post } from '../types/api';
 
 export const useGetAuthor = () => {
   const [user, setUser] = useState<User>();
-  const getAuthorByPostId = async (post: UserPost) => {
+  const getAuthorByPostId = async (post: Post) => {
     const response = await axios.get(`/users/${post.userId}`);
     setUser(response.data);
   };

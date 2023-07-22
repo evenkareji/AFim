@@ -12,9 +12,9 @@ import { useLike } from '../../hooks/useLike';
 import { FollowingButton } from '../atoms/FollowingButton';
 import { FollowButton } from '../atoms/FollowButton';
 import { HeartIcon } from '../atoms/HeartIcon/HeartIcon';
-import { UserPost } from '../../types/api/user';
+import { Post } from '../../types/api';
 
-export const Text: FC<{ post: UserPost }> = (props) => {
+export const Text: FC<{ post: Post }> = (props) => {
   const { post } = props;
   console.log(post);
   console.log('Parent render');

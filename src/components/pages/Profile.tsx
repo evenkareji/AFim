@@ -8,15 +8,15 @@ import { useLocation, useParams } from 'react-router-dom';
 import { UserIconWithName } from '../molecules/UserIconWithName';
 import { FollowTab } from './FollowTab';
 import { useSelector } from 'react-redux';
-import { UserProfile } from '../../types/api/user';
+import { Profile } from '../../types/api';
 
-export const Profile = () => {
+export const ProfilePage = () => {
   const [isToPage, setIsToPage] = useState(false);
   const toFollowsPage = () => {
     if (user.username !== username) return;
     setIsToPage((prev) => !prev);
   };
-  const [profileUser, setProfileUser] = useState<UserProfile>({
+  const [profileUser, setProfileUser] = useState<Profile>({
     username: '',
     desc: '',
     followings: [],

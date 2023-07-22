@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 import { useSelector } from 'react-redux';
-import { AddPost } from '../types/api/user';
+import { AddPost } from '../types/api';
 
 export const useAddPost = () => {
   const user = useSelector((state: any) => state.user.user);

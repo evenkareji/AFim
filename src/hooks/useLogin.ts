@@ -3,7 +3,7 @@ import { useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 
 import { login } from '../features/userSlice';
-import { User } from '../types/api/user';
+import { User } from '../types/api';
 
 export const useLogin = () => {
   const dispatch = useDispatch();

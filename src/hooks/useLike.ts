@@ -1,8 +1,8 @@
 import axios from 'axios';
 import { useCallback, useState } from 'react';
-import { User, UserPost } from '../types/api/user';
+import { User, Post } from '../types/api';
 
-export const useLike = (post: UserPost, loginUser: User) => {
+export const useLike = (post: Post, loginUser: User) => {
   const [isGood, setIsGood] = useState(post.likes.includes(loginUser._id));
 
   const toggleLike = useCallback(async () => {

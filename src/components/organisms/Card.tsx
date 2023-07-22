@@ -3,13 +3,13 @@ import styled from 'styled-components';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 
-import { User, UserPost } from '../../types/api/user';
+import { User, Post } from '../../types/api';
 
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useSelector } from 'react-redux';
 
 // 分割代入の中でtypescriptの型宣言をしている
-export const Card: FC<{ post: UserPost }> = (props) => {
+export const Card: FC<{ post: Post }> = (props) => {
   const { post } = props;
 
   const [user, setUser] = useState<User>({

@@ -2,13 +2,13 @@ import React from 'react';
 import styled from 'styled-components';
 
 import { Footer } from '../templates/Footer';
-import { Profile } from './Profile';
+import { ProfilePage } from './Profile';
 
 export const ProfileLayout = () => {
   return (
     <SFlex>
       <Footer />
-      <Profile />
+      <ProfilePage />
     </SFlex>
   );
 };
