@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 
 import { toggleFollow } from '../features/userSlice';
 
-import { User, Post } from '../types/api';
+import { User, Post } from '../types';
 
 export const useFollow = () => {
   const dispatch = useDispatch();

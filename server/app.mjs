@@ -7,6 +7,7 @@ import postRouter from './routes/post.mjs';
 import uploadRouter from './routes/upload.js';
 import commentRouter from './routes/comments.mjs';
 import path from 'path';
+import cors from 'cors';
 
 import { fileURLToPath } from 'url';
 
@@ -14,6 +15,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 env.config();
 const app = express();
+app.use(cors());
 const post = process.env.PORT || 8000;
 
 // データベース接続

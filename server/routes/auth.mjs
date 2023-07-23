@@ -41,6 +41,7 @@ router.put('/register', async (req, res) => {
 // ログイン
 router.post('/login', async (req, res) => {
   try {
+    console.log(req.body, 'Received a POST request to /auth/login');
     const user = await User.findOne({ email: req.body.email });
     if (!user) return res.status(404).send('ユーザーが見つかりません');
 

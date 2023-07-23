@@ -3,14 +3,16 @@ import styled from 'styled-components';
 import axios from 'axios';
 
 import { Card } from './Card';
-import { Post } from '../../types/api';
+import { Post } from '../../types';
 
 export const PersonalPost = ({ username }) => {
   const [posts, setPosts] = useState<Array<Post>>([]);
-  console.log(posts, 'uuuuuuuu');
+  console.log(posts, 'posts');
   useEffect(() => {
     const fetchPosts = async () => {
-      const response = await axios.get(`/posts/profile/${username}`);
+      const response = await axios.get(
+        `http://locahost:8000/posts/profile/${username}`,
+      );
       setPosts(
         response.data.sort((post1, post2) => {
           return (

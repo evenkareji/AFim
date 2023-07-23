@@ -1,6 +1,6 @@
 import React, { FC, useCallback, useEffect } from 'react';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import Link from 'next/Link';
 
 import { useSelector } from 'react-redux';
 
@@ -12,7 +12,7 @@ import { useLike } from '../../hooks/useLike';
 import { FollowingButton } from '../atoms/FollowingButton';
 import { FollowButton } from '../atoms/FollowButton';
 import { HeartIcon } from '../atoms/HeartIcon/HeartIcon';
-import { Post } from '../../types/api';
+import { Post } from '../../types';
 
 export const Text: FC<{ post: Post }> = (props) => {
   const { post } = props;
@@ -43,7 +43,7 @@ export const Text: FC<{ post: Post }> = (props) => {
       <SBg />
       <SPostContent>
         <SPostHeader>
-          <Link to={`profile/${user?.username}`}>
+          <Link href={`profile/${user?.username}`}>
             <SUserIconImg
               src={
                 user?.profileImg

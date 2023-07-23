@@ -3,7 +3,7 @@ import { useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 
 import { login } from '../features/userSlice';
-import { User } from '../types/api';
+import { User } from '../types';
 
 export const useLogin = () => {
   const dispatch = useDispatch();
@@ -17,13 +17,18 @@ export const useLogin = () => {
     try {
       e.preventDefault();
       setIsLoading(true);
-      const response = await axios.post<User>('auth/login', {
-        email: email.current?.value,
-        password: password.current?.value,
-      });
+      const response = await axios.post<User>(
+        'http://localhost:8000/auth/login',
+        {
+          email: email.current?.value,
+          password: password.current?.value,
+        },
+      );
+      alert(JSON.stringify(response));
       dispatch(login(response.data));
       setIsLoading(false);
-    } catch {
+    } catch (e) {
+      alert(e);
       setIsError(true);
       setIsLoading(false);
     }

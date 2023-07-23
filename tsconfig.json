@@ -2,7 +2,7 @@
   "compilerOptions": {
     "sourceMap": true,
     "target": "es5",
-    "module": "es2015",
+    "module": "esnext",
     "strict": false,
     "strictNullChecks": true,
     "noUnusedLocals": true,
@@ -11,7 +11,25 @@
     "moduleResolution": "node",
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
-    "jsx": "react",
-    "lib": ["es2020", "dom"]
-  }
+    "jsx": "preserve",
+    "lib": [
+      "es2020",
+      "dom"
+    ],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "noEmit": true,
+    "incremental": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true
+  },
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
 }
