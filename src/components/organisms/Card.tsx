@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 
-import { User, Post } from '../../types/api';
+import { User, Post } from '../../types';
 
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useSelector } from 'react-redux';

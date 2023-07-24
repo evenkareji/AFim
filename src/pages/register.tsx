@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import Link from 'next/Link';
+import Link from 'next/link';
 
 import { LoginForm } from '../components/atoms/LoginForm';
 import { ErrorMessage } from '../components/atoms/ErrorMessage';

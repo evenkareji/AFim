@@ -1,6 +1,6 @@
 import React, { FC, useCallback, useEffect } from 'react';
 import styled from 'styled-components';
-import Link from 'next/Link';
+import Link from 'next/link';
 
 import { useSelector } from 'react-redux';
 
