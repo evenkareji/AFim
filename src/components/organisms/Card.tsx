@@ -1,47 +1,49 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
-import { useParams } from 'react-router-dom';
 
-import { User, Post } from '../../types';
+import { Post } from '../../types';
 
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useSelector } from 'react-redux';
+import { useRouter } from 'next/router';
 
 // 分割代入の中でtypescriptの型宣言をしている
 export const Card: FC<{ post: Post }> = (props) => {
   const { post } = props;
+  const router = useRouter();
+  // const [user, setUser] = useState<User>({
+  //   _id: '',
+  //   username: '',
+  //   email: '',
+  //   password: '',
+  //   profileImg: '',
 
-  const [user, setUser] = useState<User>({
-    _id: '',
-    username: '',
-    email: '',
-    password: '',
-    profileImg: '',
+  //   followers: [],
+  //   followings: [],
+  //   isAdmin: false,
 
-    followers: [],
-    followings: [],
-    isAdmin: false,
+  //   updatedAt: null,
+  // });
 
-    updatedAt: null,
-  });
-  const username = useParams().username;
+  const { username } = router.query;
   const loginUser = useSelector((state: any) => state.user.user);
 
-  useEffect(() => {
-    console.log(user);
-    const fetchUser = async () => {
-      const response = await axios.get(`/users?userId=${post.userId}`);
+  // useEffect(() => {
+  //   const fetchUser = async () => {
+  //     const response = await axios.get(
+  //       `http://localhost:8000/users?userId=${post.userId}`,
+  //     );
 
-      setUser(response.data);
-    };
-    fetchUser();
-  }, [post.userId]);
+  //     setUser(response.data);
+  //   };
+  //   fetchUser();
+  // }, [post.userId]);
 
   const postDelete = async () => {
     try {
       if (window.confirm('本当に削除しますかー？いいの？ほんき？ええ！？')) {
-        await axios.delete(`/posts/${post._id}`, {
+        await axios.delete(`http://localhost:8000/posts/${post._id}`, {
           data: { userId: loginUser._id },
         });
         // 変更エラーが起きる

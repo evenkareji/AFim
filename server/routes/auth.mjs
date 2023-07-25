@@ -24,15 +24,13 @@ router.post('/register', async (req, res) => {
 // ユーザー更新
 router.put('/register', async (req, res) => {
   try {
-    console.log('一致しました');
-
     const user = await User.findOneAndUpdate(
       { email: req.body.email },
       {
         $set: req.body,
       },
     );
-    console.log('kousinnsaremasita');
+
     return res.status(200).json(user);
   } catch (err) {
     return res.status(500).json(err);
@@ -41,7 +39,6 @@ router.put('/register', async (req, res) => {
 // ログイン
 router.post('/login', async (req, res) => {
   try {
-    console.log(req.body, 'Received a POST request to /auth/login');
     const user = await User.findOne({ email: req.body.email });
     if (!user) return res.status(404).send('ユーザーが見つかりません');
 

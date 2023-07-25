@@ -8,9 +8,12 @@ export const useLike = (post: Post, loginUser: User) => {
   const toggleLike = useCallback(async () => {
     try {
       !isGood ? ++post.likes.length : --post.likes.length;
-      const response = await axios.put(`/posts/${post._id}/like`, {
-        userId: loginUser._id,
-      });
+      const response = await axios.put(
+        `http://localhost:8000/posts/${post._id}/like`,
+        {
+          userId: loginUser._id,
+        },
+      );
 
       setIsGood(response.data);
     } catch (err) {

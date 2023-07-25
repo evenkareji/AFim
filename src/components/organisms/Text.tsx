@@ -16,7 +16,7 @@ import { Post } from '../../types';
 
 export const Text: FC<{ post: Post }> = (props) => {
   const { post } = props;
-  console.log(post);
+
   console.log('Parent render');
 
   const PUBLIC_FOLDER = process.env.REACT_APP_PUBLIC_FOLDER;
@@ -25,6 +25,7 @@ export const Text: FC<{ post: Post }> = (props) => {
   const { getAuthorByPostId, user } = useGetAuthor();
 
   const loginUser = useSelector((state: any) => state.user.user);
+
   const { toggleLike, isGood } = useLike(post, loginUser);
 
   useEffect(() => {
@@ -33,12 +34,13 @@ export const Text: FC<{ post: Post }> = (props) => {
 
   const onClickFollow = useCallback(() => followUser(post, loginUser), []);
   const onClickUnFollow = useCallback(() => unFollowUser(post, loginUser), []);
+  // if (!user) {
+  //   return <>userがいません</>;
+  // }
 
   return (
     <PostBorder>
-      {post.img && (
-        <SImg src={`${PUBLIC_FOLDER}images/${post.img}`} alt="投稿した画像" />
-      )}
+      {post.img && <SImg src={`${PUBLIC_FOLDER}images/${post.img}`} alt="" />}
 
       <SBg />
       <SPostContent>
@@ -47,7 +49,7 @@ export const Text: FC<{ post: Post }> = (props) => {
             <SUserIconImg
               src={
                 user?.profileImg
-                  ? PUBLIC_FOLDER + 'person/' + user.profileImg
+                  ? PUBLIC_FOLDER + '/person/' + user.profileImg
                   : PUBLIC_FOLDER + '/person/noAvatar.png'
               }
             />

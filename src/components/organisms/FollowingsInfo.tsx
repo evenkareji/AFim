@@ -11,7 +11,9 @@ export const FollowingsInfo = () => {
   const user = useSelector((state: any) => state.user.user);
   useEffect(() => {
     const getFollowers = async () => {
-      const response = await axios.get(`/users/followings/${user._id}`);
+      const response = await axios.get(
+        `http://localhost:8000/users/followings/${user._id}`,
+      );
 
       setFollowings(response.data);
     };

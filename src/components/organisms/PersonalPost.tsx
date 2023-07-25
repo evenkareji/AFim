@@ -7,11 +7,13 @@ import { Post } from '../../types';
 
 export const PersonalPost = ({ username }) => {
   const [posts, setPosts] = useState<Array<Post>>([]);
-  console.log(posts, 'posts');
+
   useEffect(() => {
     const fetchPosts = async () => {
+      console.log(username, 'personalPost');
+
       const response = await axios.get(
-        `http://locahost:8000/posts/profile/${username}`,
+        `http://localhost:8000/posts/profile/${username}`,
       );
       setPosts(
         response.data.sort((post1, post2) => {

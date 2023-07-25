@@ -14,7 +14,6 @@ const ProfilePage = () => {
   const router = useRouter();
   const [isToPage, setIsToPage] = useState(false);
   const { username }: any = router.query;
-  console.log(username, 'kkkk');
 
   const toFollowsPage = () => {
     if (user.username !== username) return;
@@ -27,10 +26,9 @@ const ProfilePage = () => {
     followers: [],
   });
 
-  // const location = useLocation();
-
   const user = useSelector((state: any) => state.user.user);
   useEffect(() => {
+    if (!username) return;
     const getMyPost = async () => {
       const response = await axios.get(
         `http://localhost:8000/users?username=${username}`,
@@ -40,14 +38,9 @@ const ProfilePage = () => {
     getMyPost();
   }, [username]);
 
-  useEffect(
-    () => {
-      setIsToPage(false);
-    },
-    [
-      /*location*/
-    ],
-  );
+  useEffect(() => {
+    setIsToPage(false);
+  }, []);
   let isPointer = user?.username === username;
   if (!profileUser.followings) {
     return;

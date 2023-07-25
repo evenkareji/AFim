@@ -8,6 +8,7 @@ export const useGetAuthor = () => {
     const response = await axios.get(
       `http://localhost:8000/users/${post.userId}`,
     );
+
     setUser(response.data);
   };
   return { getAuthorByPostId, user };
