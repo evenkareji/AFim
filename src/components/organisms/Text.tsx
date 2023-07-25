@@ -34,9 +34,6 @@ export const Text: FC<{ post: Post }> = (props) => {
 
   const onClickFollow = useCallback(() => followUser(post, loginUser), []);
   const onClickUnFollow = useCallback(() => unFollowUser(post, loginUser), []);
-  // if (!user) {
-  //   return <>userがいません</>;
-  // }
 
   return (
     <PostBorder>

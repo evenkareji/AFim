@@ -15,14 +15,19 @@ export const PersonalPost = ({ username }) => {
       const response = await axios.get(
         `http://localhost:8000/posts/profile/${username}`,
       );
-      setPosts(
-        response.data.sort((post1, post2) => {
-          return (
-            new Date(post2.createdAt).valueOf() -
-            new Date(post1.createdAt).valueOf()
-          );
-        }),
-      );
+
+      if (response.data) {
+        console.log(response.data);
+
+        setPosts(
+          response.data.sort((post1, post2) => {
+            return (
+              new Date(post2.createdAt).valueOf() -
+              new Date(post1.createdAt).valueOf()
+            );
+          }),
+        );
+      }
     };
     fetchPosts();
   }, [username]);
