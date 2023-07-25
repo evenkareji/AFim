@@ -28,23 +28,29 @@ const ProfilePage = () => {
 
   const user = useSelector((state: any) => state.user.user);
   useEffect(() => {
-    if (!username) return;
     const getMyPost = async () => {
+      if (!username) {
+        return;
+      }
       const response = await axios.get(
         `http://localhost:8000/users?username=${username}`,
       );
       setProfileUser(response.data);
     };
+
     getMyPost();
   }, [username]);
 
   useEffect(() => {
     setIsToPage(false);
+    console.log(profileUser, 'profileUser');
   }, []);
   let isPointer = user?.username === username;
   if (!profileUser.followings) {
     return;
   }
+  console.log(profileUser, 'profileUser');
+
   return (
     <SProfileBox>
       <SFollowTab

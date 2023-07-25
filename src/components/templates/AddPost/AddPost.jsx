@@ -10,7 +10,6 @@ export const AddPost = () => {
   const desc = useRef();
   const PUBLIC_FOLDER = process.env.REACT_APP_PUBLIC_FOLDER;
   const [isText, setIsText] = useState(false);
-  const [isLoading] = useState(false);
   const [file, setFile] = useState(null);
 
   const { AddPost, user } = useAddPost();
@@ -32,49 +31,48 @@ export const AddPost = () => {
       setIsText(true);
     }
   };
+  if (!user) {
+    return <>loading</>;
+  }
 
   return (
     <SPostBox>
-      {isLoading ? (
-        <Spinner />
-      ) : (
-        <Scenter>
-          <SLabel htmlFor="textForm">
-            <SForm method="post">
-              <SUserIconImg
-                src={
-                  user.profileImg
-                    ? PUBLIC_FOLDER + '/person/' + user.profileImg
-                    : PUBLIC_FOLDER + '/person/noAvatar.png'
-                }
-              />
+      <Scenter>
+        <SLabel htmlFor="textForm">
+          <SForm method="post">
+            <SUserIconImg
+              src={
+                user.profileImg
+                  ? PUBLIC_FOLDER + '/person/' + user.profileImg
+                  : PUBLIC_FOLDER + '/person/noAvatar.png'
+              }
+            />
 
-              <TextArea
-                placeholder="50文字以内で入力してください"
-                ref={desc}
-                onChange={(e) => textLimit(e)}
-                id="textForm"
-              ></TextArea>
-              <input
-                type="file"
-                id="file"
-                name="file"
-                // style={{ display: 'none' }}
-                onChange={(e) => setFile(e.target.files[0])}
-              />
-              <SHr />
-              <SSubmit
-                isText={isText}
-                type="submit"
-                onClick={(e) => handleSubmit(e)}
-              >
-                送信
-              </SSubmit>
-            </SForm>
-          </SLabel>
-          {/* <FooterAddPost /> */}
-        </Scenter>
-      )}
+            <TextArea
+              placeholder="50文字以内で入力してください"
+              ref={desc}
+              onChange={(e) => textLimit(e)}
+              id="textForm"
+            ></TextArea>
+            <input
+              type="file"
+              id="file"
+              name="file"
+              // style={{ display: 'none' }}
+              onChange={(e) => setFile(e.target.files[0])}
+            />
+            <SHr />
+            <SSubmit
+              isText={isText}
+              type="submit"
+              onClick={(e) => handleSubmit(e)}
+            >
+              送信
+            </SSubmit>
+          </SForm>
+        </SLabel>
+        {/* <FooterAddPost /> */}
+      </Scenter>
     </SPostBox>
   );
 };

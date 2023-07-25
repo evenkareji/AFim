@@ -10,27 +10,25 @@ export const PersonalPost = ({ username }) => {
 
   useEffect(() => {
     const fetchPosts = async () => {
-      console.log(username, 'personalPost');
-
-      const response = await axios.get(
+      if (!username) {
+        return;
+      }
+      const response: any = await axios.get(
         `http://localhost:8000/posts/profile/${username}`,
       );
 
-      if (response.data) {
-        console.log(response.data);
-
-        setPosts(
-          response.data.sort((post1, post2) => {
-            return (
-              new Date(post2.createdAt).valueOf() -
-              new Date(post1.createdAt).valueOf()
-            );
-          }),
-        );
-      }
+      setPosts(
+        response.data.sort((post1, post2) => {
+          return (
+            new Date(post2.createdAt).valueOf() -
+            new Date(post1.createdAt).valueOf()
+          );
+        }),
+      );
     };
     fetchPosts();
   }, [username]);
+
   return (
     <SPersonalPost>
       <SUserArea>
