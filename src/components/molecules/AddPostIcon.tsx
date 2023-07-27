@@ -7,7 +7,7 @@ import { Icon } from '../atoms/Icon';
 export const AddPostIcon = ({ isIcon }) => {
   return (
     <div>
-      <Icon link={'/addpost'}>
+      <Icon link={'/add-post'}>
         {isIcon ? (
           <AddBoxIcon style={{ width: '32', height: '32' }} />
         ) : (

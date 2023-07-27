@@ -25,13 +25,13 @@ export const useAddPost = () => {
       try {
         await axios.post('http://localhost:8000/upload/post-image', data);
       } catch (err) {
-        console.log(err);
+        alert(err);
       }
     }
 
     try {
       await axios.post('http://localhost:8000/posts', newPost);
-      window.location.reload();
+      // window.location.reload();
     } catch (err) {
       console.log(err);
     }

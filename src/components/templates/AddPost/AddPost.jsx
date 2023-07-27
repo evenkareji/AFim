@@ -3,7 +3,6 @@ import styled from 'styled-components';
 
 import { TextArea } from '../../atoms/TextArea';
 import { UserIconImg } from '../../atoms/UserIconImg';
-import { Spinner } from '../../atoms/Spinner';
 import { useAddPost } from '../../../hooks/useAddPost';
 
 export const AddPost = () => {

@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import Link from 'next/Link';
+import Link from 'next/link';
 import { UserIconImg } from '../atoms/UserIconImg';
 
 export const FollowerInfo = ({ follower }) => {
@@ -9,7 +9,7 @@ export const FollowerInfo = ({ follower }) => {
 
   return (
     <UserBorder key={follower[0]._id}>
-      <Link href={{ pathname: `/profile/${follower[0].username}` }}>
+      <Link href={`/profile/${follower[0].username}`}>
         <SFollowImg
           src={
             follower[0].profileImg

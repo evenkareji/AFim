@@ -13,7 +13,8 @@ import { useRouter } from 'next/router';
 const ProfilePage = () => {
   const router = useRouter();
   const [isToPage, setIsToPage] = useState(false);
-  const { username }: any = router.query;
+
+  const { username } = router.query;
 
   const toFollowsPage = () => {
     if (user.username !== username) return;

@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import IconButton from '@mui/material/IconButton';
-import Link from 'next/Link';
+import Link from 'next/link';
 export const Icon = ({ children, link }) => {
   return (
     <SLink href={link}>

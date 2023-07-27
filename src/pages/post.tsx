@@ -1,45 +1,52 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import styled from 'styled-components';
 import { Text } from '../components/organisms/Text';
-import { useEffect, useMemo } from 'react';
+import { useEffect } from 'react';
 import LogoutIcon from '@mui/icons-material/Logout';
 
 import { useGetPosts } from '../hooks/useGetPosts';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { logout } from '../features/userSlice';
+import { useRouter } from 'next/router';
 
 export const Post = () => {
+  const router = useRouter();
   const dispatch = useDispatch();
   const { getPosts, posts } = useGetPosts();
+  const user = useSelector((state: any) => state.user.user);
   useEffect(() => {
     getPosts();
   }, []);
 
-  const logoutEvent = async () => {
+  const logoutEvent = useCallback(async () => {
     try {
       dispatch(logout());
+      router.push('/login');
     } catch (err) {
       console.log(err);
     }
-  };
-  return useMemo(() => {
-    return (
-      <SPostMain>
-        <SLogoutButton onClick={logoutEvent}>
-          <LogoutIcon style={{ fontSize: '14px' }} />
-        </SLogoutButton>
+  }, [dispatch, router]);
 
-        <PostBg>
-          <PostSlide>
-            {posts.map((post) => (
-              <Text post={post} key={post['_id']} />
-            ))}
-          </PostSlide>
-        </PostBg>
-      </SPostMain>
-    );
-  }, [logoutEvent]);
+  if (!user) {
+    return <p>loading</p>;
+  }
+
+  return (
+    <SPostMain>
+      <SLogoutButton onClick={logoutEvent}>
+        <LogoutIcon style={{ fontSize: '14px' }} />
+      </SLogoutButton>
+
+      <PostBg>
+        <PostSlide>
+          {posts.map((post) => (
+            <Text post={post} key={post['_id']} />
+          ))}
+        </PostSlide>
+      </PostBg>
+    </SPostMain>
+  );
 };
 const SLogoutButton = styled.div`
   padding: 10px;
