@@ -22,7 +22,6 @@ export const Post = () => {
   const logoutEvent = useCallback(async () => {
     try {
       dispatch(logout());
-      router.push('/login');
     } catch (err) {
       console.log(err);
     }
