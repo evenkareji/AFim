@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { Footer } from '../components/templates/Footer';
-import { AddPost } from '../components/templates/AddPost/AddPost';
+import { Footer } from '../components/templates/Layout';
+import { AddPost } from './AddPost';
 
 const AddPostInfo = () => {
   return (

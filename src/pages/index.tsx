@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { ReactElement, useCallback } from 'react';
 import styled from 'styled-components';
 import { Text } from '../components/organisms/Text';
 import { useEffect } from 'react';
@@ -8,7 +8,8 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { logout } from '../features/userSlice';
 import { useRouter } from 'next/router';
-import { getPosts } from '../api/getPosts';
+import { getPosts } from '../hooks/getPosts';
+import Layout from '../components/templates/Layout';
 
 export const getServerSideProps = async () => {
   const posts = await getPosts();
@@ -109,4 +110,8 @@ const PostSlide = styled.div`
   overflow-y: auto;
   scroll-snap-type: y mandatory;
 `;
+
+Post.getLayout = function getLayout(page: ReactElement) {
+  return <Layout>{page}</Layout>;
+};
 export default Post;

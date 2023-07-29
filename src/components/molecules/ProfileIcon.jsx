@@ -5,7 +5,7 @@ import { Icon } from '../atoms/Icon';
 import { UserIconImg } from '../atoms/UserIconImg';
 import { useSelector } from 'react-redux';
 
-export const ProfileIcon = ({ isIcon, changeIsIcon }) => {
+export const ProfileIcon = ({ isIcon /*changeIsIcon*/ }) => {
   const user = useSelector((state) => state.user.user);
   const PUBLIC_FOLDER = process.env.REACT_APP_PUBLIC_FOLDER;
   // console.log(user, ' profileIcon username');
