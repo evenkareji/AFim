@@ -9,7 +9,7 @@ interface LayoutProps {
 const Layout = ({ children }: LayoutProps) => {
   return (
     <SFlex>
-      <main>{children}</main>
+      {children}
       <Footer />
     </SFlex>
   );
@@ -17,6 +17,7 @@ const Layout = ({ children }: LayoutProps) => {
 const SFlex = styled.div`
   position: relative;
   display: flex;
+  flex-direction: row-reverse;
   width: 100%;
 `;
 export default Layout;

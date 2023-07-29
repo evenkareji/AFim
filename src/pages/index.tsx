@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { logout } from '../features/userSlice';
 import { useRouter } from 'next/router';
-import { getPosts } from '../hooks/getPosts';
+import { getPosts } from '../api/getPosts';
 import Layout from '../components/templates/Layout';
 
 export const getServerSideProps = async () => {
@@ -17,7 +17,9 @@ export const getServerSideProps = async () => {
   return { props: { posts } };
 };
 
-const Post = ({ posts }) => {
+const Post = ({ posts }: any) => {
+  console.log(posts, 'srever');
+
   const router = useRouter();
   const dispatch = useDispatch();
   const user = useSelector((state: any) => state.user.user);
