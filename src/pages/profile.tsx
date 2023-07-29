@@ -10,7 +10,21 @@ import { FollowTab } from './FollowTab';
 import { useSelector } from 'react-redux';
 import { Profile } from '../types';
 import { useRouter } from 'next/router';
-const ProfilePage = () => {
+
+// ProfilePage
+export async function getServerSideProps(context) {
+  const { username } = context.query;
+
+  const response = await axios.get(
+    `http://localhost:8000/users?username=${username}`,
+  );
+
+  return {
+    props: { profileUser: response.data },
+  };
+}
+
+const ProfilePage = ({ profileUser }) => {
   const router = useRouter();
   const [isToPage, setIsToPage] = useState(false);
 
@@ -20,37 +34,16 @@ const ProfilePage = () => {
     if (user.username !== username) return;
     setIsToPage((prev) => !prev);
   };
-  const [profileUser, setProfileUser] = useState<Profile>({
-    username: '',
-    desc: '',
-    followings: [],
-    followers: [],
-  });
 
   const user = useSelector((state: any) => state.user.user);
-  useEffect(() => {
-    const getMyPost = async () => {
-      if (!username) {
-        return;
-      }
-      const response = await axios.get(
-        `http://localhost:8000/users?username=${username}`,
-      );
-      setProfileUser(response.data);
-    };
-
-    getMyPost();
-  }, [username]);
 
   useEffect(() => {
     setIsToPage(false);
-    console.log(profileUser, 'profileUser');
   }, []);
   let isPointer = user?.username === username;
   if (!profileUser.followings) {
     return;
   }
-  console.log(profileUser, 'profileUser');
 
   return (
     <SProfileBox>
