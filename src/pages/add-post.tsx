@@ -8,7 +8,7 @@ import Layout from '../components/templates/Layout';
 
 const AddPost = () => {
   const desc = useRef<HTMLTextAreaElement>();
-  const PUBLIC_FOLDER = process.env.REACT_APP_PUBLIC_FOLDER;
+  const PUBLIC_FOLDER = process.env.NEXT_PUBLIC_PUBLIC_FOLDER;
   const [isText, setIsText] = useState(false);
   const [file, setFile] = useState<File | null>(null);
 

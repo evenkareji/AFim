@@ -8,11 +8,9 @@ import axios from 'axios';
 import { UserIconWithName } from '../../components/molecules/UserIconWithName';
 import { FollowTab } from '../FollowTab';
 import { useSelector } from 'react-redux';
-import { User } from '../../types';
 import { useRouter } from 'next/router';
 import Layout from '../../components/templates/Layout';
 
-// ProfilePage
 export async function getServerSideProps(context) {
   const { username } = context.query;
 

@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { toggleFollow } from '../../features/userSlice';
 
 export const UserIconWithName = ({ profileUser }) => {
-  const PUBLIC_FOLDER = process.env.REACT_APP_PUBLIC_FOLDER;
+  const PUBLIC_FOLDER = process.env.NEXT_PUBLIC_PUBLIC_FOLDER;
   const [file, setFile] = useState(null);
   const dispatch = useDispatch();
 

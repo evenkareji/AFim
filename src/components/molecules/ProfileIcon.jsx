@@ -7,7 +7,7 @@ import { useSelector } from 'react-redux';
 
 export const ProfileIcon = ({ isIcon /*changeIsIcon*/ }) => {
   const user = useSelector((state) => state.user.user);
-  const PUBLIC_FOLDER = process.env.REACT_APP_PUBLIC_FOLDER;
+  const PUBLIC_FOLDER = process.env.NEXT_PUBLIC_PUBLIC_FOLDER;
   // console.log(user, ' profileIcon username');
 
   return (

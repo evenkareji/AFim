@@ -19,7 +19,7 @@ export const Text: FC<{ post: Post }> = (props) => {
 
   console.log('Parent render');
 
-  const PUBLIC_FOLDER = process.env.REACT_APP_PUBLIC_FOLDER;
+  const PUBLIC_FOLDER = process.env.NEXT_PUBLIC_PUBLIC_FOLDER;
   const { followUser } = useFollow();
   const { unFollowUser } = useUnFollow();
   const { getAuthorByPostId, user } = useGetAuthor();

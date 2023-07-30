@@ -5,8 +5,7 @@ import Link from 'next/link';
 import { UserIconImg } from '../atoms/UserIconImg';
 
 export const FollowingInfo = ({ following }) => {
-  const PUBLIC_FOLDER = process.env.REACT_APP_PUBLIC_FOLDER;
-
+  const PUBLIC_FOLDER = process.env.NEXT_PUBLIC_PUBLIC_FOLDER;
   return (
     <UserBorder key={following[0]._id}>
       <Link href={`/profile/${following[0].username}`}>

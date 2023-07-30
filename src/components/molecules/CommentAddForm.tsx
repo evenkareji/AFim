@@ -7,7 +7,7 @@ import { UserBorder } from '../atoms/UserBorder';
 import { UserIconImg } from '../atoms/UserIconImg';
 
 export const CommentAddForm = () => {
-  const PUBLIC_FOLDER = process.env.REACT_APP_PUBLIC_FOLDER;
+  const PUBLIC_FOLDER = process.env.NEXT_PUBLIC_PUBLIC_FOLDER;
   const user = useSelector((state: any) => state.user.user);
   return (
     <SPostBorder>
