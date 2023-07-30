@@ -1,4 +1,4 @@
-import React, { ReactElement, useCallback } from 'react';
+import React, { ReactElement, useCallback, useState } from 'react';
 import styled from 'styled-components';
 import { Text } from '../components/organisms/Text';
 import { useEffect } from 'react';
@@ -18,14 +18,15 @@ export const getServerSideProps = async () => {
 };
 
 const Post = ({ posts }: any) => {
-  console.log(posts, 'srever');
-
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const router = useRouter();
   const dispatch = useDispatch();
   const user = useSelector((state: any) => state.user.user);
   useEffect(() => {
     if (!user) {
       router.push('/login');
+    } else {
+      setIsLoading(false);
     }
   }, [user]);
 
@@ -37,7 +38,7 @@ const Post = ({ posts }: any) => {
     }
   }, [dispatch, router]);
 
-  if (!user) {
+  if (isLoading) {
     return <p>loading</p>;
   }
 
