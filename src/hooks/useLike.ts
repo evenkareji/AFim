@@ -3,9 +3,14 @@ import { useCallback, useState } from 'react';
 import { User, Post } from '../types';
 
 export const useLike = (post: Post, loginUser: User) => {
-  const [isGood, setIsGood] = useState(post.likes.includes(loginUser._id));
+  const [isGood, setIsGood] = useState<boolean>(
+    loginUser ? post.likes.includes(loginUser._id) : false,
+  );
 
   const toggleLike = useCallback(async () => {
+    if (!loginUser) {
+      return;
+    }
     try {
       !isGood ? ++post.likes.length : --post.likes.length;
       const response = await axios.put(

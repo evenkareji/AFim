@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 
 import { Home } from '../molecules/Home';
-import { ProfileIcon } from '../molecules/ProfileIcon';
+import { UserProfileIcon } from '../molecules/UserProfileIcon';
 import { AddPostIcon } from '../molecules/AddPostIcon';
 
 export const Footer = () => {
@@ -17,7 +17,7 @@ export const Footer = () => {
       {/* addpost */}
       <AddPostIcon isIcon={isAddIcon} />
       {/* プロフィール */}
-      <ProfileIcon isIcon={isProfileIcon} />
+      <UserProfileIcon isIcon={isProfileIcon} />
     </SFooter>
   );
 };

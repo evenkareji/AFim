@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useEffect } from 'react';
+import React, { FC, useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Link from 'next/link';
 
@@ -13,6 +13,7 @@ import { FollowingButton } from '../atoms/FollowingButton';
 import { FollowButton } from '../atoms/FollowButton';
 import { HeartIcon } from '../atoms/HeartIcon/HeartIcon';
 import { Post } from '../../types';
+import { useRouter } from 'next/router';
 
 export const Text: FC<{ post: Post }> = (props) => {
   const { post } = props;
@@ -23,18 +24,26 @@ export const Text: FC<{ post: Post }> = (props) => {
   const { followUser } = useFollow();
   const { unFollowUser } = useUnFollow();
   const { getAuthorByPostId, user } = useGetAuthor();
-
+  const [isLoading, setIsLoading] = useState(true);
+  const router = useRouter();
   const loginUser = useSelector((state: any) => state.user.user);
 
   const { toggleLike, isGood } = useLike(post, loginUser);
-
   useEffect(() => {
     getAuthorByPostId(post);
-  }, [post.userId]);
+    if (!loginUser) {
+      router.push('/login');
+    } else {
+      setIsLoading(false);
+    }
+  }, [post.userId, loginUser]);
 
   const onClickFollow = useCallback(() => followUser(post, loginUser), []);
   const onClickUnFollow = useCallback(() => unFollowUser(post, loginUser), []);
 
+  if (isLoading) {
+    return <>loading</>;
+  }
   return (
     <PostBorder>
       {post.img && <SImg src={`${PUBLIC_FOLDER}images/${post.img}`} alt="" />}
@@ -54,7 +63,7 @@ export const Text: FC<{ post: Post }> = (props) => {
           <Box>
             <SUserName>{user?.username}</SUserName>
 
-            {loginUser._id !== post.userId && (
+            {loginUser && loginUser._id !== post.userId && (
               <>
                 {loginUser.followings?.includes(post.userId) ? (
                   <FollowingButton onClickUnFollow={onClickUnFollow}>

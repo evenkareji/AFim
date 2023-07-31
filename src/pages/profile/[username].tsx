@@ -1,7 +1,7 @@
 import React, { ReactElement, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { ProfileCount } from '../../components/molecules/ProfileCount';
-import { PersonalPost } from '../../components/organisms/PersonalPost';
+import { UserPostList } from '../../components/organisms/UserPostList';
 import { IconButton } from '@mui/material';
 import axios from 'axios';
 
@@ -25,7 +25,7 @@ export async function getServerSideProps(context) {
 
 const ProfilePage = ({ profileUser }) => {
   const router = useRouter();
-  const [isToPage, setIsToPage] = useState(false);
+  const [isToPage, setIsToPage] = useState<boolean>(false);
 
   const { username } = router.query;
 
@@ -39,6 +39,7 @@ const ProfilePage = ({ profileUser }) => {
   useEffect(() => {
     setIsToPage(false);
   }, []);
+
   let isPointer = user?.username === username;
   if (!profileUser.followings) {
     return;
@@ -73,7 +74,7 @@ const ProfilePage = ({ profileUser }) => {
         </SIconButton>
       </SIconButtons>
       <SPadding>
-        <PersonalPost username={username} />
+        <UserPostList username={username} />
       </SPadding>
     </SProfileBox>
   );
