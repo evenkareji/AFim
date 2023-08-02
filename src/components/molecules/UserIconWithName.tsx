@@ -40,17 +40,20 @@ export const UserIconWithName = ({ profileUser, profileImage }) => {
         newProfile.profileImg = fileName;
         console.log('実行');
 
-        await axios.post('/upload/profile-image', data);
+        // 画像が日本語であったり、spaceがあると表示されない。だからサーバーで名前を変えてあげるといい
+        await axios.post('http://localhost:8000/upload/profile-image', data);
         console.log('実行完了');
 
-        // Add this line to update the frprofileImage state.
         setProfileImage(`${PUBLIC_FOLDER}person/${fileName}`);
       } catch (err) {
         console.log(err);
       }
 
       try {
-        const response = await axios.put(`/users/${user._id}`, newProfile);
+        const response = await axios.put(
+          `http://localhost:8000/users/${user._id}`,
+          newProfile,
+        );
         dispatch(toggleFollow(response.data));
         window.location.reload();
       } catch (err) {
