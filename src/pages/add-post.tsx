@@ -1,6 +1,5 @@
 import React, { ReactElement, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
-
 import { TextArea } from '../components/atoms/TextArea';
 import { UserIconImg } from '../components/atoms/UserIconImg';
 import { useAddPost } from '../hooks/useAddPost';
@@ -8,7 +7,7 @@ import Layout from '../components/templates/Layout';
 import { useRouter } from 'next/router';
 
 const AddPost = () => {
-  const desc = useRef<HTMLTextAreaElement>();
+  const desc = useRef<HTMLTextAreaElement>(null);
   const router = useRouter();
   const PUBLIC_FOLDER = process.env.NEXT_PUBLIC_PUBLIC_FOLDER;
   const [isText, setIsText] = useState(false);

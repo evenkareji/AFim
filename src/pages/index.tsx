@@ -1,6 +1,6 @@
 import React, { ReactElement, useCallback, useState } from 'react';
 import styled from 'styled-components';
-import { Text } from '../components/organisms/Text';
+import { PostView } from '../components/organisms/PostView';
 import { useEffect } from 'react';
 import LogoutIcon from '@mui/icons-material/Logout';
 
@@ -51,7 +51,7 @@ const Post = ({ posts }: any) => {
       <PostBg>
         <PostSlide>
           {posts.map((post) => (
-            <Text post={post} key={post['_id']} />
+            <PostView post={post} key={post['_id']} />
           ))}
         </PostSlide>
       </PostBg>

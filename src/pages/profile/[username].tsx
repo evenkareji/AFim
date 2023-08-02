@@ -26,8 +26,13 @@ export async function getServerSideProps(context) {
 const ProfilePage = ({ profileUser }) => {
   const router = useRouter();
   const [isToPage, setIsToPage] = useState<boolean>(false);
+  const [isPointer, setIsPointer] = useState<boolean>(false);
 
   const { username } = router.query;
+  useEffect(() => {
+    setIsToPage(false);
+    setIsPointer(user?.username === username);
+  }, [isPointer]);
 
   const toFollowsPage = () => {
     if (user.username !== username) return;
@@ -36,11 +41,6 @@ const ProfilePage = ({ profileUser }) => {
 
   const user = useSelector((state: any) => state.user.user);
 
-  useEffect(() => {
-    setIsToPage(false);
-  }, []);
-
-  let isPointer = user?.username === username;
   if (!profileUser.followings) {
     return;
   }
