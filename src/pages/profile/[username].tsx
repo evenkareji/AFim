@@ -13,17 +13,20 @@ import Layout from '../../components/templates/Layout';
 
 export async function getServerSideProps(context) {
   const { username } = context.query;
-
   const response = await axios.get(
     `http://localhost:8000/users?username=${username}`,
   );
 
+  const profileImage = response.data.profileImg
+    ? `${process.env.NEXT_PUBLIC_PUBLIC_FOLDER}person/${response.data.profileImg}`
+    : `${process.env.NEXT_PUBLIC_PUBLIC_FOLDER}person/noAvatar.png`;
+
   return {
-    props: { profileUser: response.data },
+    props: { profileUser: response.data, profileImage },
   };
 }
 
-const ProfilePage = ({ profileUser }) => {
+const ProfilePage = ({ profileUser, profileImage }) => {
   const router = useRouter();
   const [isToPage, setIsToPage] = useState<boolean>(false);
   const [isPointer, setIsPointer] = useState<boolean>(false);
@@ -53,7 +56,10 @@ const ProfilePage = ({ profileUser }) => {
         style={{ position: 'absolute' }}
       />
       <SProfileInfo>
-        <UserIconWithName profileUser={profileUser} />
+        <UserIconWithName
+          profileUser={profileUser}
+          profileImage={profileImage}
+        />
         <SProfileFlex isPointer={isPointer}>
           <ProfileCount
             toFollowsPage={toFollowsPage}

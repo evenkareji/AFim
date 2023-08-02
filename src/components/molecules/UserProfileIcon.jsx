@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import { Icon } from '../atoms/Icon';
@@ -8,17 +8,17 @@ import { useSelector } from 'react-redux';
 export const UserProfileIcon = ({ isIcon /*changeIsIcon*/ }) => {
   const user = useSelector((state) => state.user.user);
   const PUBLIC_FOLDER = process.env.NEXT_PUBLIC_PUBLIC_FOLDER;
-
+  const [userProfileImg, setUserProfileImg] = useState('');
+  useEffect(() => {
+    setUserProfileImg(
+      user?.profileImg
+        ? PUBLIC_FOLDER + 'person/' + user.profileImg
+        : PUBLIC_FOLDER + 'person/noAvatar.png',
+    );
+  }, [user]);
   return (
     <Icon link={`/profile/${user?.username}`}>
-      <SProfileIcon
-        src={
-          user?.profileImg
-            ? PUBLIC_FOLDER + 'person/' + user.profileImg
-            : PUBLIC_FOLDER + 'person/noAvatar.png'
-        }
-        isIcon={isIcon}
-      />
+      <SProfileIcon src={userProfileImg} isIcon={isIcon} />
       <SIconText isIcon={isIcon}>プロフィール</SIconText>
     </Icon>
   );

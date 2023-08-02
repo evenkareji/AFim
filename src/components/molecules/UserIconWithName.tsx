@@ -7,12 +7,10 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { useDispatch, useSelector } from 'react-redux';
 import { toggleFollow } from '../../features/userSlice';
 
-export const UserIconWithName = ({ profileUser }) => {
+export const UserIconWithName = ({ profileUser, profileImage }) => {
   const PUBLIC_FOLDER = process.env.NEXT_PUBLIC_PUBLIC_FOLDER;
   const [file, setFile] = useState<File | null>(null);
-  const [profileImage, setProfileImage] = useState<string>(
-    `${PUBLIC_FOLDER}person/noAvatar.png`,
-  );
+  const [frprofileImage, setProfileImage] = useState<string>(profileImage);
   const dispatch = useDispatch();
 
   const user = useSelector((state: any) => state.user.user);
@@ -44,6 +42,9 @@ export const UserIconWithName = ({ profileUser }) => {
 
         await axios.post('/upload/profile-image', data);
         console.log('実行完了');
+
+        // Add this line to update the frprofileImage state.
+        setProfileImage(`${PUBLIC_FOLDER}person/${fileName}`);
       } catch (err) {
         console.log(err);
       }
@@ -61,7 +62,7 @@ export const UserIconWithName = ({ profileUser }) => {
   return (
     <>
       <SLabel htmlFor="profile_image">
-        <SProfileImg src={profileImage} />
+        <SProfileImg src={frprofileImage} />
         <SAddCircleIcon />
         <input
           type="file"
