@@ -7,8 +7,6 @@ import { ReactElement, ReactNode } from 'react';
 import { Provider } from 'react-redux';
 import { store } from '../redux/store';
 
-// import { useSelector } from 'react-redux';
-// import { useEffect } from 'react';
 export type NextPageWithLayout<P = {}> = NextPage<P> & {
   getLayout?: (page: ReactElement) => ReactNode;
 };
@@ -22,7 +20,7 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   return (
     <Provider store={store}>
       <Head>
-        <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+        {/* <link rel="icon" href="%PUBLIC_URL%/favicon.ico" /> */}
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="theme-color" content="#000000" />
 

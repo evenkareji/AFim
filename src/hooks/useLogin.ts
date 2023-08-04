@@ -1,10 +1,8 @@
-import axios from 'axios';
 import { useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 
-import { login } from '../features/userSlice';
-import { User } from '../types';
 import { useRouter } from 'next/router';
+import { login } from '../features/userSlice';
 
 export const useLogin = () => {
   const dispatch = useDispatch();
@@ -19,15 +17,11 @@ export const useLogin = () => {
     try {
       e.preventDefault();
       setIsLoading(true);
-      const response = await axios.post<User>(
-        'http://localhost:8000/auth/login',
-        {
-          email: email.current?.value,
-          password: password.current?.value,
-        },
-      );
 
-      dispatch(login(response.data));
+      const emailValue = email.current?.value;
+      const passwordValue = password.current?.value;
+
+      dispatch(login({ email: emailValue, password: passwordValue }));
       setIsLoading(false);
       router.push('/');
     } catch (e) {
