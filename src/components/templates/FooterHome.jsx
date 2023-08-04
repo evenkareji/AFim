@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 
 import { Home } from '../molecules/Home';
-import { ProfileIcon } from '../molecules/ProfileIcon';
+import { ProfileIcon } from '../molecules/UserProfileIcon';
 import { AddPostIcon } from '../molecules/AddPostIcon';
 
 export const FooterHome = () => {

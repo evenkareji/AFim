@@ -1,10 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
 import IconButton from '@mui/material/IconButton';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 export const Icon = ({ children, link }) => {
   return (
-    <SLink to={{ pathname: link }}>
+    <SLink href={link}>
       <SIconButton>{children}</SIconButton>
     </SLink>
   );

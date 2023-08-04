@@ -1,6 +1,6 @@
 import axios from 'axios';
+import { useRouter } from 'next/router';
 import { useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 
 export const useRegister = () => {
   const username = useRef<HTMLInputElement>();
@@ -9,7 +9,7 @@ export const useRegister = () => {
   const passwordConfirmation = useRef<HTMLInputElement>();
   const [isError, setIsError] = useState(false);
   const [emailExist, setEmailExist] = useState(false);
-  const navigate = useNavigate();
+  const router = useRouter();
 
   const registerSubmit = async (e) => {
     e.preventDefault();
@@ -27,8 +27,8 @@ export const useRegister = () => {
       setIsError(true);
     } else {
       try {
-        await axios.post('/auth/register', user);
-        navigate('/login');
+        await axios.post('/api/auth/register', user);
+        router.push('/login');
       } catch (err) {
         console.log(err);
         setEmailExist(true);

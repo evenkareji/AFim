@@ -4,14 +4,16 @@ import axios from 'axios';
 
 import { useSelector } from 'react-redux';
 import { FollowingInfo } from '../molecules/FollowingInfo';
-import { User } from '../../types/api';
+import { User } from '../../types';
 
 export const FollowingsInfo = () => {
   const [followings, setFollowings] = useState<Array<User>>([]);
   const user = useSelector((state: any) => state.user.user);
   useEffect(() => {
     const getFollowers = async () => {
-      const response = await axios.get(`/users/followings/${user._id}`);
+      const response = await axios.get(
+        `http://localhost:8000/users/followings/${user._id}`,
+      );
 
       setFollowings(response.data);
     };

@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 
 import { toggleFollow } from '../features/userSlice';
 
-import { User, Post } from '../types/api';
+import { User, Post } from '../types';
 
 export const useFollow = () => {
   const dispatch = useDispatch();
@@ -11,7 +11,7 @@ export const useFollow = () => {
   const followUser = async (post: Post, loginUser: User): Promise<void> => {
     const { userId } = post;
     try {
-      const { data } = await axios.put(`/users/${userId}/follow`, {
+      const { data } = await axios.put(`/api/users/${userId}/follow`, {
         userId: loginUser._id,
       });
 

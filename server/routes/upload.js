@@ -26,7 +26,7 @@ router.post(
   profileUpload.single('profile_image'),
   (req, res) => {
     try {
-      console.log('成功');
+      console.log('profle画像成功');
       return res.status(200).json('アップロード成功しました');
     } catch (err) {
       console.log(err);
@@ -37,7 +37,7 @@ router.post(
 const imageUpload = multer({ storage: imageStorage });
 router.post('/post-image', imageUpload.single('file'), (req, res) => {
   try {
-    console.log('成功');
+    console.log('画像投稿成功');
     return res.status(200).json('アップロード成功しました');
   } catch (err) {
     console.log(err);

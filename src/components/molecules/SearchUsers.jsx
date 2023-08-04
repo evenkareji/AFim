@@ -6,7 +6,6 @@ import { SearchForm } from '../atoms/SerachForm';
 export const SearchUsers = () => {
   return (
     <SearchContainer>
-      {/* <Search style={{ position: 'absolute', top: '5px', left: '5px' }} /> */}
       <SearchForm placeholder="検索" />
     </SearchContainer>
   );
