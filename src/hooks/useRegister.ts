@@ -27,7 +27,7 @@ export const useRegister = () => {
       setIsError(true);
     } else {
       try {
-        await axios.post('http://localhost:8000/auth/register', user);
+        await axios.post('/api/auth/register', user);
         router.push('/login');
       } catch (err) {
         console.log(err);

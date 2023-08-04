@@ -28,14 +28,14 @@ export const useAddPost = () => {
       data.append('file', file);
       newPost.img = fileName;
       try {
-        await axios.post('http://localhost:8000/upload/post-image', data);
+        await axios.post('/api/upload/post-image', data);
       } catch (err) {
         alert(err);
       }
     }
 
     try {
-      await axios.post('http://localhost:8000/posts', newPost);
+      await axios.post('/api/posts', newPost);
       window.location.reload();
     } catch (err) {
       console.log(err);

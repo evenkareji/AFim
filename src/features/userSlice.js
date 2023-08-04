@@ -10,7 +10,7 @@ export const login = createAsyncThunk(
   'user/login' /**userSliceのlogin reducer */,
   async ({ email, password }, { dispatch, getState }) => {
     try {
-      const response = await axios.post('http://localhost:8000/auth/login', {
+      const response = await axios.post('/api/auth/login', {
         email,
         password,
       });

@@ -9,12 +9,9 @@ export const useUnFollow = () => {
   const dispatch = useDispatch();
   const unFollowUser = async (post: Post, loginUser: User): Promise<void> => {
     try {
-      const response = await axios.put(
-        `http://localhost:8000/users/${post.userId}/unfollow`,
-        {
-          userId: loginUser._id,
-        },
-      );
+      const response = await axios.put(`/api/users/${post.userId}/unfollow`, {
+        userId: loginUser._id,
+      });
       dispatch(toggleFollow(response.data));
     } catch (err) {
       console.log(err);
