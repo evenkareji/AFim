@@ -41,7 +41,7 @@ export const UserIconWithName = ({ profileUser, profileImage }) => {
         console.log('実行');
 
         // 画像が日本語であったり、spaceがあると表示されない。だからサーバーで名前を変えてあげるといい
-        await axios.post('http://localhost:8000/upload/profile-image', data);
+        await axios.post('/api/upload/profile-image', data);
         console.log('実行完了');
 
         setProfileImage(`${PUBLIC_FOLDER}person/${fileName}`);
@@ -50,10 +50,7 @@ export const UserIconWithName = ({ profileUser, profileImage }) => {
       }
 
       try {
-        const response = await axios.put(
-          `http://localhost:8000/users/${user._id}`,
-          newProfile,
-        );
+        const response = await axios.put(`/api/users/${user._id}`, newProfile);
         dispatch(toggleFollow(response.data));
         window.location.reload();
       } catch (err) {
