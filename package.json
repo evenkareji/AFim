@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "homepage": "https://afim.onrender.com/",
+  "type": "module",
   "dependencies": {
     "@babel/core": "^7.16.0",
     "@emotion/react": "^11.10.5",
@@ -20,7 +21,6 @@
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "@types/jest": "^29.4.2",
-    "@types/node": "^18.15.3",
     "axios": "^1.2.2",
     "babel-jest": "^27.4.2",
     "babel-loader": "^8.2.3",
@@ -86,7 +86,7 @@
   "scripts": {
     "start": "next start",
     "dev": "run-p dev:api dev:client",
-    "dev:api": "nodemon server/app.mjs",
+    "dev:api": "nodemon --loader ts-node/esm server/app.ts",
     "dev:client": "next dev",
     "build": "next build",
     "test": "node scripts/test.js"
@@ -109,7 +109,6 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://localhost:8000",
   "jest": {
     "roots": [
       "<rootDir>/src"
@@ -165,10 +164,14 @@
     ]
   },
   "devDependencies": {
+    "@types/express": "^4.17.17",
+    "@types/node": "^20.5.3",
     "@types/react": "^18.0.28",
     "@types/react-dom": "^18.0.11",
     "http-proxy-middleware": "^2.0.6",
     "npm-run-all": "^4.1.5",
+    "ts-loader": "^9.4.4",
+    "ts-node": "^10.9.1",
     "typescript": "^4.9.5"
   }
 }
