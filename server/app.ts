@@ -6,6 +6,10 @@ import userRouter from './routes/users';
 import postRouter from './routes/post';
 // import uploadRouter from './routes/upload';
 // import commentRouter from './routes/comments.mjs';
+import passport from 'passport';
+import passportConfig from './passportConfig';
+import cookieParser from 'cookie-parser';
+import session from 'express-session';
 import path from 'path';
 import cors from 'cors';
 
@@ -33,6 +37,25 @@ app.use('/', express.static('build'));
 // 逆にした
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(
+  session({
+    secret: 'secretcode',
+    resave: true,
+    saveUninitialized: true,
+    cookie: {
+      path: '/', // default
+      // jsでcookieをいじれなくなる
+      httpOnly: true, // default
+      // maxAge: 10 * 1000, // 10sec
+    },
+  }),
+);
+
+app.use(cookieParser('secretcode'));
+app.use(passport.initialize());
+app.use(passport.session());
+passportConfig(passport);
 
 app.use('/users', userRouter);
 app.use('/auth', authRouter);

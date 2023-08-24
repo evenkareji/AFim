@@ -1,6 +1,6 @@
 import express from 'express';
 const router = express.Router();
-import User from '../models/User.mjs';
+import User from '../models/User';
 
 // ユーザー情報の取得
 router.get('/:id', async (req, res) => {

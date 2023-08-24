@@ -18,8 +18,8 @@ export const useLogin = () => {
       e.preventDefault();
       setIsLoading(true);
 
-      const emailValue = email.current?.value;
-      const passwordValue = password.current?.value;
+      const emailValue: any = email.current?.value;
+      const passwordValue: any = password.current?.value;
 
       dispatch(login({ email: emailValue, password: passwordValue }));
       setIsLoading(false);

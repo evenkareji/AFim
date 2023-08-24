@@ -1,7 +1,8 @@
 import express from 'express';
 const router = express.Router();
-import User from '../models/User.mjs';
+import User from '../models/User';
 import bcrypt from 'bcryptjs';
+import passport from 'passport';
 import { Document } from 'mongoose';
 router.get('/', (req, res) => {
   res.json('router auth');
@@ -49,19 +50,18 @@ router.post('/register', async (req, res) => {
 //   }
 // });
 // ログイン
-router.post('/login', async (req, res) => {
-  try {
-    const user = await User.findOne({ email: req.body.email });
-    if (!user) return res.status(404).send('ユーザーが見つかりません');
-
-    const vailedPassword = req.body.password === user.password;
-
-    if (!vailedPassword) return res.status(400).json(true);
-
-    return res.status(200).json(user);
-  } catch (err) {
-    return res.status(500).json(err);
-  }
+router.post('/login', (req: any, res, next) => {
+  passport.authenticate('local', (err, user, info) => {
+    if (err) throw err;
+    if (!user) res.send('No User Exist');
+    else {
+      req.logIn(user, (err) => {
+        if (err) throw err;
+        res.send('認証成功');
+        console.log(req.user);
+      });
+    }
+  })(req, res, next);
 });
 
 export default router;
