@@ -43,9 +43,10 @@ export const userSlice = createSlice({
   },
   reducers: {
     logout: (state) => {
+      console.log('logout action triggered'); // 追加
       state.user = null;
       if (typeof window !== 'undefined') {
-        localStorage.setItem('user', null);
+        localStorage.removeItem('user');
       }
     },
     toggleFollow: (state, action) => {

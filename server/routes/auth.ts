@@ -2,7 +2,7 @@ import express from 'express';
 const router = express.Router();
 import User from '../models/User';
 import bcrypt from 'bcryptjs';
-import passport from 'passport';
+// import passport from 'passport';
 import { Document } from 'mongoose';
 router.get('/', (req, res) => {
   res.json('router auth');
@@ -50,18 +50,23 @@ router.post('/register', async (req, res) => {
 //   }
 // });
 // ログイン
-router.post('/login', (req: any, res, next) => {
-  passport.authenticate('local', (err, user, info) => {
-    if (err) throw err;
-    if (!user) res.send('No User Exist');
-    else {
-      req.logIn(user, (err) => {
-        if (err) throw err;
-        res.send('認証成功');
-        console.log(req.user);
-      });
-    }
-  })(req, res, next);
-});
+// router.post('/login', (req: any, res, next) => {
+//   passport.authenticate('local', (err, user) => {
+//     console.log(req.body);
+
+//     if (err) throw err;
+//     console.log('認証前');
+//     if (!user) {
+//       res.send('No User Exist');
+//     } else {
+//       req.logIn(user, (err) => {
+//         if (err) throw err;
+//         console.log('認証成功');
+
+//         return res.send('認証成功');
+//       });
+//     }
+//   })(req, res, next);
+// });
 
 export default router;

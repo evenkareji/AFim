@@ -11,7 +11,7 @@ import { useRouter } from 'next/router';
 import { getPosts } from '../api/getPosts';
 import Layout from '../components/templates/Layout';
 
-export const getServerSideProps = async () => {
+export const getServerSideProps = async (context) => {
   const posts = await getPosts();
 
   return { props: { posts } };
@@ -24,7 +24,12 @@ const Post = ({ posts }: any) => {
   const user = useSelector((state: any) => state.user.user);
   useEffect(() => {
     if (!user) {
-      router.push('/login');
+      console.log('to login');
+      (async function () {
+        await router.push('/login');
+      })();
+
+      console.log('after');
     } else {
       setIsLoading(false);
     }
@@ -38,7 +43,7 @@ const Post = ({ posts }: any) => {
     }
   }, [dispatch, router]);
 
-  if (isLoading) {
+  if (isLoading || !user) {
     return <p>loading</p>;
   }
 

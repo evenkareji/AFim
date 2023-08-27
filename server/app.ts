@@ -19,7 +19,12 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 env.config();
 const app: express.Express = express();
-app.use(cors());
+app.use(
+  cors({
+    origin: 'http://localhost:3000',
+    credentials: true,
+  }),
+);
 const post = process.env.PORT || 8000;
 
 // データベース接続
@@ -60,6 +65,21 @@ passportConfig(passport);
 app.use('/users', userRouter);
 app.use('/auth', authRouter);
 app.use('/posts', postRouter);
+app.post('/auth/login', (req: any, res, next) => {
+  passport.authenticate('local', (err, user) => {
+    console.log(req.body, 'auth/login');
+
+    if (err) throw err;
+    console.log(next, 'in authenticate');
+    if (!user) res.send('No User Exist');
+    else {
+      req.logIn(user, (err) => {
+        if (err) throw err;
+        return res.send(user);
+      });
+    }
+  })(req, res, next);
+});
 // app.use('/upload', uploadRouter);
 // app.use('/comments', commentRouter);
 

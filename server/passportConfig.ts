@@ -4,22 +4,31 @@ import { Strategy as LocalStrategy } from 'passport-local';
 
 async function passportConfig(passport) {
   passport.use(
-    new LocalStrategy(async (username, password, done) => {
-      try {
-        const user = await User.findOne({ username: username });
-        if (!user) return done(null, false);
-        bcrypt.compared(password, user.password, (err, result) => {
-          if (err) throw err;
-          if (result === true) {
-            return done(null, user);
-          } else {
-            return done(null, false);
-          }
-        });
-      } catch (err) {
-        console.log(err);
-      }
-    }),
+    new LocalStrategy(
+      /**以下がないと動かない */
+      {
+        usernameField: 'email',
+        passwordField: 'password',
+      },
+      async (email, password, done) => {
+        console.log('passport.use inside');
+
+        try {
+          const user = await User.findOne({ email: email });
+          if (!user) return done(null, false);
+          bcrypt.compare(password, user.password, (err, result) => {
+            if (err) throw err;
+            if (result === true) {
+              return done(null, user);
+            } else {
+              return done(null, false);
+            }
+          });
+        } catch (err) {
+          console.log(err);
+        }
+      },
+    ),
   );
 
   passport.serializeUser((user, cb) => {
@@ -29,8 +38,7 @@ async function passportConfig(passport) {
   passport.deserializeUser(async (id, cb) => {
     try {
       const user: any = await User.findOne({ _id: id });
-      const userInfomation = { username: user.username };
-      cb(null, userInfomation);
+      cb(null, user);
     } catch (err) {
       console.log(err);
       cb(err);
