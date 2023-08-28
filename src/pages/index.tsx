@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { PostView } from '../components/organisms/PostView';
 import { useEffect } from 'react';
 import LogoutIcon from '@mui/icons-material/Logout';
-
+import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { logout } from '../features/userSlice';
@@ -11,7 +11,7 @@ import { useRouter } from 'next/router';
 import { getPosts } from '../api/getPosts';
 import Layout from '../components/templates/Layout';
 
-export const getServerSideProps = async (context) => {
+export const getServerSideProps = async () => {
   const posts = await getPosts();
 
   return { props: { posts } };
@@ -22,14 +22,23 @@ const Post = ({ posts }: any) => {
   const router = useRouter();
   const dispatch = useDispatch();
   const user = useSelector((state: any) => state.user.user);
+  const [data, setData] = useState<any>(null);
   useEffect(() => {
+    (async function () {
+      try {
+        const response = await axios.get('/api/getUser');
+        console.log(response.data);
+
+        setData(response.data);
+      } catch (err) {
+        alert(err);
+      }
+    });
+
     if (!user) {
-      console.log('to login');
       (async function () {
         await router.push('/login');
       })();
-
-      console.log('after');
     } else {
       setIsLoading(false);
     }
@@ -52,7 +61,11 @@ const Post = ({ posts }: any) => {
       <SLogoutButton onClick={logoutEvent}>
         <LogoutIcon style={{ fontSize: '14px' }} />
       </SLogoutButton>
+      <div>
+        <h1>Get User</h1>
 
+        {data ? <p>Welcome Back {data.password}</p> : null}
+      </div>
       <PostBg>
         <PostSlide>
           {posts.map((post) => (

@@ -11,8 +11,6 @@ async function passportConfig(passport) {
         passwordField: 'password',
       },
       async (email, password, done) => {
-        console.log('passport.use inside');
-
         try {
           const user = await User.findOne({ email: email });
           if (!user) return done(null, false);

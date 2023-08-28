@@ -80,6 +80,12 @@ app.post('/auth/login', (req: any, res, next) => {
     }
   })(req, res, next);
 });
+
+app.get('/getUser', (req: any, res) => {
+  console.log(req.user);
+
+  res.send(req.user); // The req.user stores the entire user that has been authenticated inside of it.
+});
 // app.use('/upload', uploadRouter);
 // app.use('/comments', commentRouter);
 
