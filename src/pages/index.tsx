@@ -22,6 +22,8 @@ const Post = ({ posts }: any) => {
   const router = useRouter();
   const dispatch = useDispatch();
   const user = useSelector((state: any) => state.user.user);
+  console.log(user, 'c index');
+
   const [data, setData] = useState<any>(null);
   useEffect(() => {
     if (!user) {
@@ -51,7 +53,7 @@ const Post = ({ posts }: any) => {
     async function user() {
       try {
         const response = await axios.get('/api/getUser');
-        console.log(response.data);
+        console.log(response.data, 'req.user');
 
         setData(response.data);
       } catch (err) {
@@ -70,7 +72,7 @@ const Post = ({ posts }: any) => {
         <h1>Get User</h1>
         <button onClick={getUser}>Submit</button>
 
-        {data ? <p>Welcome Back {data.email}</p> : null}
+        {data ? <p>Welcome Back {data._id}</p> : null}
       </div>
       <PostBg>
         <PostSlide>

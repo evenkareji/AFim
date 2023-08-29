@@ -1,10 +1,23 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-const initialStateUser =
-  typeof window !== 'undefined'
-    ? JSON.parse(localStorage.getItem('user'))
-    : null;
+function getUser() {
+  async function user() {
+    try {
+      const response = await axios.get('/api/getUser');
+
+      return response.data;
+    } catch (err) {
+      alert(err);
+    }
+  }
+  return user();
+}
+// console.log(async function () {
+//   await getUser();
+// });
+console.log(getUser(), 'getUser');
+const initialStateUser = getUser();
 
 export const login = createAsyncThunk(
   'user/login' /**userSliceのlogin reducer */,
@@ -15,9 +28,7 @@ export const login = createAsyncThunk(
         password,
       });
 
-      localStorage.setItem('user', JSON.stringify(response.data));
-
-      return response.data;
+      return getUser();
     } catch (err) {
       return alert(err);
     }

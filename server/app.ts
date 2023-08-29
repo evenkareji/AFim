@@ -52,7 +52,7 @@ app.use(
       path: '/', // default
       // jsでcookieをいじれなくなる
       httpOnly: true, // default
-      maxAge: 10 * 1000, // 10sec
+      // maxAge: 10 * 1000, // 10sec
     },
   }),
 );
@@ -83,9 +83,11 @@ app.post('/auth/login', (req: any, res, next) => {
 
 app.get('/getUser', (req: any, res) => {
   console.log(req.user);
-  const { password, updatedAt, ...other } = req.user._doc;
+  const { password, updatedAt, ...other } = req.user!._doc;
 
-  res.send(other); // The req.user stores the entire user that has been authenticated inside of it.
+  console.log(other);
+
+  return res.send(other); // The req.user stores the entire user that has been authenticated inside of it.
 });
 // app.use('/upload', uploadRouter);
 // app.use('/comments', commentRouter);
