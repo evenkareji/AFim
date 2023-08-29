@@ -24,21 +24,13 @@ const Post = ({ posts }: any) => {
   const user = useSelector((state: any) => state.user.user);
   const [data, setData] = useState<any>(null);
   useEffect(() => {
-    (async function () {
-      try {
-        const response = await axios.get('/api/getUser');
-        console.log(response.data);
-
-        setData(response.data);
-      } catch (err) {
-        alert(err);
-      }
-    });
-
     if (!user) {
+      console.log('to login');
       (async function () {
         await router.push('/login');
       })();
+
+      console.log('after');
     } else {
       setIsLoading(false);
     }
@@ -55,6 +47,19 @@ const Post = ({ posts }: any) => {
   if (isLoading || !user) {
     return <p>loading</p>;
   }
+  const getUser = () => {
+    async function user() {
+      try {
+        const response = await axios.get('/api/getUser');
+        console.log(response.data);
+
+        setData(response.data);
+      } catch (err) {
+        alert(err);
+      }
+    }
+    user();
+  };
 
   return (
     <SPostMain>
@@ -63,8 +68,9 @@ const Post = ({ posts }: any) => {
       </SLogoutButton>
       <div>
         <h1>Get User</h1>
+        <button onClick={getUser}>Submit</button>
 
-        {data ? <p>Welcome Back {data.password}</p> : null}
+        {data ? <p>Welcome Back {data.email}</p> : null}
       </div>
       <PostBg>
         <PostSlide>

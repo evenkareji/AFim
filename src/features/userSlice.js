@@ -16,6 +16,7 @@ export const login = createAsyncThunk(
       });
 
       localStorage.setItem('user', JSON.stringify(response.data));
+
       return response.data;
     } catch (err) {
       return alert(err);
