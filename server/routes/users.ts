@@ -132,10 +132,10 @@ router.put('/:id/unfollow', async (req, res) => {
       });
       const newInfo = await User.findById(req.body.userId);
 
-      res.status(200).json(newInfo);
+      return res.status(200).json(newInfo);
     }
   } catch (err) {
-    res.status(500).json(err);
+    return res.status(500).json(err);
   }
 });
 

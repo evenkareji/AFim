@@ -11,31 +11,27 @@ export const useLogin = () => {
   const email = useRef<HTMLInputElement>();
   const password = useRef<HTMLInputElement>(null);
   const [isError, setIsError] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
 
   const loginSubmit = async (e) => {
     try {
       e.preventDefault();
-      setIsLoading(true);
 
       const emailValue: any = email.current?.value;
       const passwordValue: any = password.current?.value;
 
       dispatch(login({ email: emailValue, password: passwordValue }));
-      setIsLoading(false);
+
       router.push('/');
-    } catch (e) {
-      alert(e);
+    } catch (err) {
+      console.log(err);
+
       setIsError(true);
-      setIsLoading(false);
     }
   };
   return {
     loginSubmit,
     setIsError,
     isError,
-    setIsLoading,
-    isLoading,
     email,
     password,
   };

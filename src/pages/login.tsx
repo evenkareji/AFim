@@ -10,7 +10,7 @@ import { ErrorMessage } from '../components/atoms/ErrorMessage';
 import { useRouter } from 'next/router';
 
 const Login = () => {
-  const { loginSubmit, isError, isLoading, email, password } = useLogin();
+  const { loginSubmit, isError, email, password } = useLogin();
 
   // const router = useRouter();
   // const isReady = router.isReady;
