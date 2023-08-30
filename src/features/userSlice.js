@@ -1,24 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-function getUser() {
-  async function user() {
-    try {
-      const response = await axios.get('/api/getUser');
-
-      return response.data;
-    } catch (err) {
-      alert(err);
-    }
-  }
-  return user();
-}
-// console.log(async function () {
-//   await getUser();
-// });
-console.log(getUser(), 'getUser');
-const initialStateUser = getUser();
-
 export const login = createAsyncThunk(
   'user/login' /**userSliceのlogin reducer */,
   async ({ email, password }, { dispatch, getState }) => {
@@ -27,8 +9,17 @@ export const login = createAsyncThunk(
         email,
         password,
       });
+      async function user() {
+        try {
+          const response = await axios.get('/api/getUser');
 
-      return getUser();
+          return response.data;
+        } catch (err) {
+          return alert(err);
+        }
+      }
+      console.log(user(), 'user');
+      return user();
     } catch (err) {
       return alert(err);
     }
@@ -41,7 +32,6 @@ export const toggleFollow = createAsyncThunk(
     dispatch(userSlice.actions.toggleFollow(userInfo));
 
     const state = getState();
-    localStorage.setItem('user', JSON.stringify(state.user.user));
   },
 );
 
@@ -50,16 +40,12 @@ export const userSlice = createSlice({
   // stateのこと
   initialState: {
     loading: true,
-    user: initialStateUser,
+    user: null,
     error: false,
   },
   reducers: {
     logout: (state) => {
-      console.log('logout action triggered'); // 追加
       state.user = null;
-      if (typeof window !== 'undefined') {
-        localStorage.removeItem('user');
-      }
     },
     toggleFollow: (state, action) => {
       state.user = action.payload;

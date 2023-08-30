@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { PostView } from '../components/organisms/PostView';
 import { useEffect } from 'react';
 import LogoutIcon from '@mui/icons-material/Logout';
-import axios from 'axios';
+// import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { logout } from '../features/userSlice';
@@ -18,23 +18,17 @@ export const getServerSideProps = async () => {
 };
 
 const Post = ({ posts }: any) => {
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  // const [isLoading, setIsLoading] = useState<boolean>(true);
   const router = useRouter();
   const dispatch = useDispatch();
-  const user = useSelector((state: any) => state.user.user);
-  console.log(user, 'c index');
+  const user = useSelector((state: any) => state.user);
 
-  const [data, setData] = useState<any>(null);
+  console.log(user, 'client index');
+  // データを取ってくる途中でnullになるからpushされてしまうloadingで待ってあげないといけない
+
   useEffect(() => {
-    if (!user) {
-      console.log('to login');
-      (async function () {
-        await router.push('/login');
-      })();
-
-      console.log('after');
-    } else {
-      setIsLoading(false);
+    if (!user.user && !user.loading) {
+      router.push('/login');
     }
   }, [user]);
 
@@ -46,34 +40,16 @@ const Post = ({ posts }: any) => {
     }
   }, [dispatch, router]);
 
-  if (isLoading || !user) {
+  if (user.loading) {
     return <p>loading</p>;
   }
-  const getUser = () => {
-    async function user() {
-      try {
-        const response = await axios.get('/api/getUser');
-        console.log(response.data, 'req.user');
-
-        setData(response.data);
-      } catch (err) {
-        alert(err);
-      }
-    }
-    user();
-  };
 
   return (
     <SPostMain>
       <SLogoutButton onClick={logoutEvent}>
         <LogoutIcon style={{ fontSize: '14px' }} />
       </SLogoutButton>
-      <div>
-        <h1>Get User</h1>
-        <button onClick={getUser}>Submit</button>
 
-        {data ? <p>Welcome Back {data._id}</p> : null}
-      </div>
       <PostBg>
         <PostSlide>
           {posts.map((post) => (

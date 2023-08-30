@@ -83,9 +83,10 @@ app.post('/auth/login', (req: any, res, next) => {
 
 app.get('/getUser', (req: any, res) => {
   console.log(req.user);
-  const { password, updatedAt, ...other } = req.user!._doc;
+  if (!req.user) return;
+  console.log(!req.user, '!req.user');
 
-  console.log(other);
+  const { password, updatedAt, ...other } = req.user._doc;
 
   return res.send(other); // The req.user stores the entire user that has been authenticated inside of it.
 });
