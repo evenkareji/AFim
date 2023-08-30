@@ -1,6 +1,24 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
+async function getUser() {
+  async function user() {
+    try {
+      const response = await axios.get('/api/getUser');
+
+      return response.data;
+    } catch (err) {
+      return alert(err);
+    }
+  }
+  return user();
+}
+
+const initialStateUser = (async function () {
+  return await getUser();
+})();
+console.log(initialStateUser, 'initialStateUser');
+
 export const login = createAsyncThunk(
   'user/login' /**userSliceのlogin reducer */,
   async ({ email, password }, { dispatch, getState }) => {
@@ -9,17 +27,8 @@ export const login = createAsyncThunk(
         email,
         password,
       });
-      async function user() {
-        try {
-          const response = await axios.get('/api/getUser');
 
-          return response.data;
-        } catch (err) {
-          return alert(err);
-        }
-      }
-      console.log(user(), 'user');
-      return user();
+      return await getUser();
     } catch (err) {
       return alert(err);
     }
@@ -39,8 +48,8 @@ export const userSlice = createSlice({
   name: 'user',
   // stateのこと
   initialState: {
-    loading: true,
-    user: null,
+    loading: initialStateUser ? false : true,
+    user: initialStateUser,
     error: false,
   },
   reducers: {
