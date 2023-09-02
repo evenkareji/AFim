@@ -1,4 +1,4 @@
-import React, { ReactElement, useCallback, useState } from 'react';
+import React, { ReactElement, useCallback } from 'react';
 import styled from 'styled-components';
 import { PostView } from '../components/organisms/PostView';
 import { useEffect } from 'react';
@@ -18,7 +18,6 @@ export const getServerSideProps = async () => {
 };
 
 const Post = ({ posts }: any) => {
-  // const [isLoading, setIsLoading] = useState<boolean>(true);
   const router = useRouter();
   const dispatch = useDispatch();
   const user = useSelector((state: any) => state.user);

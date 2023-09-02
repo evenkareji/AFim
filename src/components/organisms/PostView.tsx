@@ -28,6 +28,8 @@ export const PostView: FC<{ post: Post }> = (props) => {
   const router = useRouter();
   const loginUser = useSelector((state: any) => state.user.user);
 
+  console.log(loginUser, 'loginUser');
+
   const { toggleLike, isGood } = useLike(post, loginUser);
   useEffect(() => {
     getAuthorByPostId(post);

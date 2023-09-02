@@ -3,25 +3,14 @@ import styled from 'styled-components';
 import Link from 'next/link';
 
 import { useLogin } from '../hooks/useLogin';
-import { useSelector } from 'react-redux';
+
 import { LoginForm } from '../components/atoms/LoginForm';
 import { Hr } from '../components/atoms/Hr';
 import { ErrorMessage } from '../components/atoms/ErrorMessage';
-import { useRouter } from 'next/router';
 
 const Login = () => {
   const { loginSubmit, isError, email, password } = useLogin();
 
-  // const router = useRouter();
-  // const isReady = router.isReady;
-  // const user = useSelector((state: any) => state.user);
-  // if (!isReady) {
-  //   return <>isloading</>;
-  // }
-
-  // if (!isLoading && user) {
-  //   return router.push('/');
-  // }
   return (
     <>
       <SLoginBack>

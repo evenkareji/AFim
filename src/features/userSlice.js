@@ -10,7 +10,7 @@ async function user() {
     console.log(err);
   }
 }
-
+console.log(user(), 'user()');
 const initialStateUser = user();
 
 console.log(user(), 'initialStateUser');
@@ -24,6 +24,8 @@ export const login = createAsyncThunk(
         email,
         password,
       });
+
+      console.log(user(), 'response login');
 
       return user();
     } catch (err) {

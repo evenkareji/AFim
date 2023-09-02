@@ -75,6 +75,7 @@ app.post('/auth/login', (req: any, res, next) => {
     else {
       req.logIn(user, (err) => {
         if (err) throw err;
+
         return res.send(user);
       });
     }

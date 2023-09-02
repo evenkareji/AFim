@@ -119,7 +119,7 @@ router.put('/:id/follow', async (req, res) => {
 });
 
 // フォロー解除
-router.put('/:id/unfollow', async (req, res) => {
+router.put('/:id/unfollow', async (req: any, res: any) => {
   try {
     const user: any = await User.findById(req.params.id);
     const currentUser: any = await User.findById(req.body.userId);
