@@ -21,17 +21,17 @@ const Post = ({ posts }: any) => {
   const router = useRouter();
   const dispatch = useDispatch();
   const user = useSelector((state: any) => state.user);
-  const result = dispatch(fetchInitialUser());
-  console.log(result, 'fetchResult');
 
   console.log(user, 'client index');
   // データを取ってくる途中でnullになるからpushされてしまうloadingで待ってあげないといけない
 
   useEffect(() => {
+    dispatch(fetchInitialUser());
+
     if (!user.user && !user.loading) {
       router.push('/login');
     }
-  }, [user]);
+  }, []);
 
   const logoutEvent = useCallback(async () => {
     try {

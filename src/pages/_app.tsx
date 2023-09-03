@@ -39,6 +39,7 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
           rel="stylesheet"
         />
       </Head>
+
       {getLayout(<Component {...pageProps} />)}
     </Provider>
   );
