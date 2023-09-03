@@ -27,20 +27,23 @@ export const PostView: FC<{ post: Post }> = (props) => {
 
   const router = useRouter();
 
-  const loginUser = useSelector((state: any) => state.user.user);
+  const loginUser = useSelector((state: any) => state.user);
 
   console.log(loginUser, 'loginUser');
 
-  const { toggleLike, isGood } = useLike(post, loginUser);
+  const { toggleLike, isGood } = useLike(post, loginUser.user);
   useEffect(() => {
     getAuthorByPostId(post);
-    if (!loginUser) {
+    if (!loginUser.user && !loginUser.loading) {
       router.push('/login');
     }
-  }, [post.userId, loginUser]);
+  }, [post.userId, loginUser.user]);
 
-  const onClickFollow = useCallback(() => followUser(post, loginUser), []);
-  const onClickUnFollow = useCallback(() => unFollowUser(post, loginUser), []);
+  const onClickFollow = useCallback(() => followUser(post, loginUser.user), []);
+  const onClickUnFollow = useCallback(
+    () => unFollowUser(post, loginUser.user),
+    [],
+  );
 
   return (
     <PostBorder>
@@ -61,9 +64,9 @@ export const PostView: FC<{ post: Post }> = (props) => {
           <Box>
             <SUserName>{user?.username}</SUserName>
 
-            {loginUser && loginUser._id !== post.userId && (
+            {loginUser.user && loginUser.user._id !== post.userId && (
               <>
-                {loginUser.followings?.includes(post.userId) ? (
+                {loginUser.user.followings?.includes(post.userId) ? (
                   <FollowingButton onClickUnFollow={onClickUnFollow}>
                     フォロー中
                   </FollowingButton>

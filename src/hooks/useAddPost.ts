@@ -3,8 +3,10 @@ import axios from 'axios';
 import { useSelector } from 'react-redux';
 import { AddPost } from '../types';
 import { RefObject } from 'react';
+import { useRouter } from 'next/router';
 
 export const useAddPost = () => {
+  const router = useRouter();
   const user = useSelector((state: any) => state.user.user);
 
   const AddPost = async (e, desc: RefObject<HTMLTextAreaElement>, file) => {
@@ -36,7 +38,7 @@ export const useAddPost = () => {
 
     try {
       await axios.post('/api/posts', newPost);
-      window.location.reload();
+      router.push('/');
     } catch (err) {
       console.log(err);
     }

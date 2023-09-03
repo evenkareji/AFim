@@ -27,11 +27,12 @@ const Post = ({ posts }: any) => {
 
   useEffect(() => {
     dispatch(fetchInitialUser());
-
+  }, []);
+  useEffect(() => {
     if (!user.user && !user.loading) {
       router.push('/login');
     }
-  }, []);
+  }, [user]);
 
   const logoutEvent = useCallback(async () => {
     try {
