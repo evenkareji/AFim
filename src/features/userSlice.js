@@ -1,35 +1,36 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-async function user() {
-  try {
-    const response = await axios.get('/api/getUser');
-    console.log(response.data, 'inside user()');
-    return response.data;
-  } catch (err) {
-    console.log(err);
-  }
-}
-console.log(user(), 'user()');
-const initialStateUser = user();
+const initialStateUser = {
+  loading: true,
+  user: null,
+  error: false,
+};
 
-console.log(user(), 'initialStateUser');
-console.log(initialStateUser, 'initialStateUser');
+export const fetchInitialUser = createAsyncThunk(
+  'user/getUser',
+  async (_, { dispatch, getState }) => {
+    try {
+      const response = await axios.get('/api/getUser');
+
+      return response.data;
+    } catch (err) {
+      console.log(err);
+    }
+  },
+);
 
 export const login = createAsyncThunk(
   'user/login' /**userSliceのlogin reducer */,
   async ({ email, password }, { dispatch, getState }) => {
     try {
-      const response = await axios.post('/api/auth/login', {
+      await axios.post('/api/auth/login', {
         email,
         password,
       });
-
-      console.log(user(), 'response login');
-
-      return user();
+      return fetchInitialUser();
     } catch (err) {
-      return alert(err);
+      console.log(err);
     }
   },
 );
@@ -46,11 +47,7 @@ export const toggleFollow = createAsyncThunk(
 export const userSlice = createSlice({
   name: 'user',
   // stateのこと
-  initialState: {
-    loading: initialStateUser ? false : true,
-    user: initialStateUser,
-    error: false,
-  },
+  initialState: initialStateUser,
   reducers: {
     logout: (state) => {
       state.user = null;
@@ -61,6 +58,20 @@ export const userSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
+    // userState
+    builder.addCase(fetchInitialUser.pending, (state) => {
+      state.loading = true;
+    });
+    builder.addCase(fetchInitialUser.fulfilled, (state, action) => {
+      state.user = action.payload;
+      state.loading = false;
+    });
+    builder.addCase(fetchInitialUser.rejected, (state) => {
+      state.loading = false;
+      state.error = true;
+    });
+
+    // login
     builder.addCase(login.pending, (state) => {
       state.loading = true;
     });

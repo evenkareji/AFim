@@ -8,15 +8,16 @@ import { useFollow } from '../../hooks/useFollow';
 import { useUnFollow } from '../../hooks/useUnFollow';
 import { useGetAuthor } from '../../hooks/useGetAuthor';
 import { useLike } from '../../hooks/useLike';
-
+import { fetchInitialUser } from '../../features/userSlice';
 import { FollowingButton } from '../atoms/FollowingButton';
 import { FollowButton } from '../atoms/FollowButton';
 import { HeartIcon } from '../atoms/HeartIcon/HeartIcon';
 import { Post } from '../../types';
 import { useRouter } from 'next/router';
-
+import { useDispatch } from 'react-redux';
 export const PostView: FC<{ post: Post }> = (props) => {
   const { post } = props;
+  const dispatch = useDispatch();
 
   console.log('Parent render');
 
@@ -26,6 +27,7 @@ export const PostView: FC<{ post: Post }> = (props) => {
   const { getAuthorByPostId, user } = useGetAuthor();
 
   const router = useRouter();
+
   const loginUser = useSelector((state: any) => state.user.user);
 
   console.log(loginUser, 'loginUser');

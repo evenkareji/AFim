@@ -6,7 +6,7 @@ import LogoutIcon from '@mui/icons-material/Logout';
 // import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { logout } from '../features/userSlice';
+import { fetchInitialUser, logout } from '../features/userSlice';
 import { useRouter } from 'next/router';
 import { getPosts } from '../api/getPosts';
 import Layout from '../components/templates/Layout';
@@ -21,6 +21,8 @@ const Post = ({ posts }: any) => {
   const router = useRouter();
   const dispatch = useDispatch();
   const user = useSelector((state: any) => state.user);
+  const result = dispatch(fetchInitialUser());
+  console.log(result, 'fetchResult');
 
   console.log(user, 'client index');
   // データを取ってくる途中でnullになるからpushされてしまうloadingで待ってあげないといけない
