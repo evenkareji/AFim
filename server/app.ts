@@ -76,7 +76,9 @@ app.post('/auth/login', (req: any, res, next) => {
       req.logIn(user, (err) => {
         if (err) throw err;
 
-        return res.send(user);
+        const { password, updatedAt, ...other } = user._doc;
+
+        return res.send(other);
       });
     }
   })(req, res, next);

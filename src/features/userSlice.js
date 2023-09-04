@@ -24,11 +24,12 @@ export const login = createAsyncThunk(
   'user/login' /**userSliceのlogin reducer */,
   async ({ email, password }, { dispatch, getState }) => {
     try {
-      await axios.post('/api/auth/login', {
+      const response = await axios.post('/api/auth/login', {
         email,
         password,
       });
-      return fetchInitialUser();
+
+      return response.data;
     } catch (err) {
       console.log(err);
     }
