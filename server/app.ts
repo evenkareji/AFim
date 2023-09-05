@@ -70,7 +70,8 @@ app.post('/auth/login', (req: any, res, next) => {
     console.log(req.body, 'auth/login');
 
     if (err) throw err;
-    console.log(next, 'in authenticate');
+    console.log(err);
+
     if (!user) res.send('No User Exist');
     else {
       req.logIn(user, (err) => {
@@ -84,10 +85,11 @@ app.post('/auth/login', (req: any, res, next) => {
   })(req, res, next);
 });
 
-app.get('/getUser', (req: any, res) => {
-  const { password, updatedAt, ...other } = req.user._doc;
-
-  return res.send(other); // The req.user stores the entire user that has been authenticated inside of it.
+app.get('/getUser', (req: any, res: any) => {
+  if (req.user && req.user._doc) {
+    const { password, updatedAt, ...other } = req.user._doc;
+    return res.send(other); // The req.user stores the entire user that has been authenticated inside of it.
+  }
 });
 // app.use('/upload', uploadRouter);
 // app.use('/comments', commentRouter);

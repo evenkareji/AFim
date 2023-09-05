@@ -18,6 +18,7 @@ export const useLogin = () => {
 
       const emailValue: any = email.current?.value;
       const passwordValue: any = password.current?.value;
+      console.log('login');
 
       dispatch(login({ email: emailValue, password: passwordValue }));
 

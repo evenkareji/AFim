@@ -25,18 +25,21 @@ export const PostView: FC<{ post: Post }> = (props) => {
   const { unFollowUser } = useUnFollow();
   const { getAuthorByPostId, user } = useGetAuthor();
 
-  const router = useRouter();
+  // const router = useRouter();
 
   const loginUser = useSelector((state: any) => state.user);
 
-  console.log(loginUser, 'loginUser');
+  // console.log(loginUser, 'loginUser');
 
   const { toggleLike, isGood } = useLike(post, loginUser.user);
   useEffect(() => {
     getAuthorByPostId(post);
-    if (!loginUser.user && !loginUser.loading) {
-      router.push('/login');
-    }
+    // if (
+    //   (!loginUser.user === undefined || !loginUser.user === null) &&
+    //   !loginUser.loading
+    // ) {
+    //   router.push('/login');
+    // }
   }, [post.userId, loginUser.user]);
 
   const onClickFollow = useCallback(() => followUser(post, loginUser.user), []);

@@ -64,6 +64,7 @@ export const userSlice = createSlice({
       state.loading = true;
     });
     builder.addCase(fetchInitialUser.fulfilled, (state, action) => {
+      console.log(action.payload, 'fetchInitialUser inside builder');
       state.user = action.payload;
       state.loading = false;
     });
@@ -77,6 +78,7 @@ export const userSlice = createSlice({
       state.loading = true;
     });
     builder.addCase(login.fulfilled, (state, action) => {
+      console.log(action.payload, 'login inside builder');
       state.user = action.payload;
       state.loading = false;
     });

@@ -22,6 +22,7 @@ const Post = ({ posts }: any) => {
   const dispatch = useDispatch();
   const user = useSelector((state: any) => state.user);
 
+  // console.log(user, 'client index');
   console.log(user, 'client index');
   // データを取ってくる途中でnullになるからpushされてしまうloadingで待ってあげないといけない
 
