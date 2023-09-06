@@ -1,7 +1,7 @@
 import express from 'express';
 const router = express.Router();
 import User from '../models/User';
-import bcrypt from 'bcryptjs';
+import bcrypt from 'bcrypt';
 // import passport from 'passport';
 import { Document } from 'mongoose';
 router.get('/', (req, res) => {

@@ -41,7 +41,7 @@ export const toggleFollow = createAsyncThunk(
   async (userInfo, { dispatch, getState }) => {
     dispatch(userSlice.actions.toggleFollow(userInfo));
 
-    const state = getState();
+    // const state = getState();
   },
 );
 

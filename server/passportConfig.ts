@@ -1,5 +1,5 @@
 import User from './models/User';
-import bcrypt from 'bcryptjs';
+import bcrypt from 'bcrypt';
 import { Strategy as LocalStrategy } from 'passport-local';
 
 async function passportConfig(passport) {
