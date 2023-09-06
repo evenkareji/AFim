@@ -13,7 +13,6 @@ import { FollowingButton } from '../atoms/FollowingButton';
 import { FollowButton } from '../atoms/FollowButton';
 import { HeartIcon } from '../atoms/HeartIcon/HeartIcon';
 import { Post } from '../../types';
-import { useRouter } from 'next/router';
 
 export const PostView: FC<{ post: Post }> = (props) => {
   const { post } = props;
@@ -25,21 +24,11 @@ export const PostView: FC<{ post: Post }> = (props) => {
   const { unFollowUser } = useUnFollow();
   const { getAuthorByPostId, user } = useGetAuthor();
 
-  // const router = useRouter();
-
   const loginUser = useSelector((state: any) => state.user);
-
-  // console.log(loginUser, 'loginUser');
 
   const { toggleLike, isGood } = useLike(post, loginUser.user);
   useEffect(() => {
     getAuthorByPostId(post);
-    // if (
-    //   (!loginUser.user === undefined || !loginUser.user === null) &&
-    //   !loginUser.loading
-    // ) {
-    //   router.push('/login');
-    // }
   }, [post.userId, loginUser.user]);
 
   const onClickFollow = useCallback(() => followUser(post, loginUser.user), []);

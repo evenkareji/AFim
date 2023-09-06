@@ -44,7 +44,7 @@ const Post = ({ posts }: any) => {
   }, [dispatch, router]);
 
   if (user.loading) {
-    return <p>loading</p>;
+    return <p>index loading</p>;
   }
 
   return (
