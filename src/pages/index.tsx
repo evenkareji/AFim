@@ -28,6 +28,7 @@ const Post = ({ posts }: any) => {
 
   useEffect(() => {
     dispatch(fetchInitialUser());
+    console.log('after');
   }, []);
   useEffect(() => {
     if (!user.user && !user.loading) {

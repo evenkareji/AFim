@@ -86,9 +86,16 @@ app.post('/auth/login', (req: any, res, next) => {
 });
 
 app.get('/getUser', (req: any, res: any) => {
-  if (req.user && req.user._doc) {
-    const { password, updatedAt, ...other } = req.user._doc;
-    return res.send(other); // The req.user stores the entire user that has been authenticated inside of it.
+  try {
+    if (req.user && req.user._doc) {
+      const { password, updatedAt, ...other } = req.user._doc;
+      return res.send(other); // The req.user stores the entire user that has been authenticated inside of it.
+    } else if (req.user === undefined) {
+      return res.send(null);
+    }
+  } catch (err) {
+    console.log(err);
+    return res.send(err);
   }
 });
 // app.use('/upload', uploadRouter);
