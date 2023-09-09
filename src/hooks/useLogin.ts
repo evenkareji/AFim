@@ -21,8 +21,6 @@ export const useLogin = () => {
       console.log('login');
 
       dispatch(login({ email: emailValue, password: passwordValue }));
-
-      router.push('/');
     } catch (err) {
       console.log(err);
 

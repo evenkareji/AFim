@@ -5,21 +5,28 @@ import { UserIconImg } from '../components/atoms/UserIconImg';
 import { useAddPost } from '../hooks/useAddPost';
 import Layout from '../components/templates/Layout';
 import { useRouter } from 'next/router';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchInitialUser } from '../features/userSlice';
+// import { useRouter } from 'next/router';
 
 const AddPost = () => {
   const desc = useRef<HTMLTextAreaElement>(null);
-  const router = useRouter();
+  // const router = useRouter();
   const PUBLIC_FOLDER = process.env.NEXT_PUBLIC_PUBLIC_FOLDER;
   const [isText, setIsText] = useState(false);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  // const [isLoading, setIsLoading] = useState<boolean>(true);
   const [file, setFile] = useState<File | null>(null);
-  const { AddPost, user } = useAddPost();
-
+  const { AddPost } = useAddPost();
+  const router = useRouter();
+  const dispatch = useDispatch();
+  const user = useSelector((state: any) => state.user);
   useEffect(() => {
-    if (!user) {
+    dispatch(fetchInitialUser());
+    console.log('after');
+  }, []);
+  useEffect(() => {
+    if (!user.user && !user.loading) {
       router.push('/login');
-    } else {
-      setIsLoading(false);
     }
   }, [user]);
 
@@ -38,9 +45,9 @@ const AddPost = () => {
       setIsText(true);
     }
   };
-  if (isLoading) {
-    return <>loading</>;
-  }
+  // if (isLoading) {
+  //   return <>loading</>;
+  // }
 
   return (
     <SPostBox>

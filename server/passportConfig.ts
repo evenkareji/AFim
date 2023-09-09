@@ -24,6 +24,7 @@ async function passportConfig(passport) {
           });
         } catch (err) {
           console.log(err);
+          done(err);
         }
       },
     ),

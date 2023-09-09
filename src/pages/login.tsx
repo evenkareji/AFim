@@ -1,16 +1,22 @@
-import React from 'react';
-import styled from 'styled-components';
 import Link from 'next/link';
+import styled from 'styled-components';
 
 import { useLogin } from '../hooks/useLogin';
 
-import { LoginForm } from '../components/atoms/LoginForm';
-import { Hr } from '../components/atoms/Hr';
 import { ErrorMessage } from '../components/atoms/ErrorMessage';
+import { Hr } from '../components/atoms/Hr';
+import { LoginForm } from '../components/atoms/LoginForm';
+import { useRouter } from 'next/router';
+import { useSelector } from 'react-redux';
 
 const Login = () => {
   const { loginSubmit, isError, email, password } = useLogin();
+  const router = useRouter();
+  const user = useSelector((state: any) => state.user);
 
+  if (!user.loading && user.user) {
+    router.push('/');
+  }
   return (
     <>
       <SLoginBack>

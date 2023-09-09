@@ -27,8 +27,9 @@ const Post = ({ posts }: any) => {
   // データを取ってくる途中でnullになるからpushされてしまうloadingで待ってあげないといけない
 
   useEffect(() => {
+    // ログインしてデータ取得前に実行されてnullになるのかも
     dispatch(fetchInitialUser());
-    console.log('after');
+    // 更新した後にデータを持ってこれてない
   }, []);
   useEffect(() => {
     if (!user.user && !user.loading) {

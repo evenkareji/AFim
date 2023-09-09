@@ -11,11 +11,15 @@ export const fetchInitialUser = createAsyncThunk(
   'user/getUser',
   async (_, { dispatch, getState }) => {
     try {
-      const response = await axios.get('/api/getUser');
+      const response = await axios.get('api/getUser', {
+        withCredentials: true,
+      });
 
+      console.log(response.data, 'api/getUser return');
       return response.data;
     } catch (err) {
       console.log(err);
+      return null;
     }
   },
 );
@@ -28,7 +32,7 @@ export const login = createAsyncThunk(
         email,
         password,
       });
-
+      console.log(response.data, 'login data');
       return response.data;
     } catch (err) {
       console.log(err);
