@@ -16,7 +16,7 @@ export async function getServerSideProps(context) {
   const response = await axios.get(
     `http://localhost:8000/users?username=${username}`,
   );
-
+  // console.log(response.data, 'profile');
   const profileImage = response.data.profileImg
     ? `${process.env.NEXT_PUBLIC_PUBLIC_FOLDER}person/${response.data.profileImg}`
     : `${process.env.NEXT_PUBLIC_PUBLIC_FOLDER}person/noAvatar.png`;
@@ -31,7 +31,9 @@ const ProfilePage = ({ profileUser, profileImage }) => {
   const [isToPage, setIsToPage] = useState<boolean>(false);
   const [isPointer, setIsPointer] = useState<boolean>(false);
 
+  const user = useSelector((state: any) => state.user);
   const { username } = router.query;
+
   useEffect(() => {
     setIsToPage(false);
     setIsPointer(user?.username === username);
@@ -41,11 +43,10 @@ const ProfilePage = ({ profileUser, profileImage }) => {
     if (user.username !== username) return;
     setIsToPage((prev) => !prev);
   };
-
-  const user = useSelector((state: any) => state.user.user);
-
-  if (!profileUser.followings) {
-    return;
+  const followings = profileUser?.followings || [];
+  const followers = profileUser?.followers || [];
+  if (!profileUser.followings && !profileUser) {
+    return <>loading</>;
   }
 
   return (
@@ -64,12 +65,12 @@ const ProfilePage = ({ profileUser, profileImage }) => {
           <ProfileCount
             toFollowsPage={toFollowsPage}
             name="フォロー"
-            count={profileUser.followings.length}
+            count={followings.length}
           />
           <ProfileCount
             toFollowsPage={toFollowsPage}
             name="フォロワー"
-            count={profileUser.followers.length}
+            count={followers.length}
           />
         </SProfileFlex>
         <SIntroduction>{profileUser.desc}</SIntroduction>

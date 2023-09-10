@@ -22,7 +22,6 @@ const AddPost = () => {
   const user = useSelector((state: any) => state.user);
   useEffect(() => {
     dispatch(fetchInitialUser());
-    console.log('after');
   }, []);
   useEffect(() => {
     if (!user.user && !user.loading) {
