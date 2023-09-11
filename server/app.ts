@@ -86,11 +86,9 @@ app.post('/auth/login', (req: any, res, next) => {
 
 app.get('/getUser', (req: any, res: any) => {
   try {
-    console.log(req.user, 'getUser');
-
     if (req.user && req.user._doc) {
       const { password, updatedAt, ...other } = req.user._doc;
-      return res.status(200).send(other); // The req.user stores the entire user that has been authenticated inside of it.
+      return res.status(200).send(other);
     } else if (req.user === undefined) {
       return res.status(401).json(null);
     }

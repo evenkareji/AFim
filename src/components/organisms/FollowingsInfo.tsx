@@ -16,7 +16,6 @@ export const FollowingsInfo = () => {
       const response = await axios.get(
         `/api/users/followings/${user.user._id}`,
       );
-      console.log(response.data);
 
       setFollowings(response.data);
     };

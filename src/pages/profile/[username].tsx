@@ -7,9 +7,10 @@ import axios from 'axios';
 
 import { UserIconWithName } from '../../components/molecules/UserIconWithName';
 import { FollowTab } from '../FollowTab';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
 import Layout from '../../components/templates/Layout';
+import { fetchInitialUser } from '../../features/userSlice';
 
 export async function getServerSideProps(context) {
   const { username } = context.query;
@@ -31,9 +32,23 @@ const ProfilePage = ({ profileUser, profileImage }) => {
   const [isToPage, setIsToPage] = useState<boolean>(false);
   const [isPointer, setIsPointer] = useState<boolean>(false);
 
+  const dispatch = useDispatch();
   const user = useSelector((state: any) => state.user);
-  const { username } = router.query;
 
+  useEffect(() => {
+    dispatch(fetchInitialUser());
+    console.log(user, 'inside [username]');
+  }, []);
+
+  useEffect(() => {
+    if (!user.user && !user.loading) {
+      router.push('/login');
+      console.log('/login');
+    }
+  }, [user]);
+
+  const { username } = router.query;
+  console.log(username, 'usernmae');
   useEffect(() => {
     setIsToPage(false);
     setIsPointer(user?.username === username);
@@ -45,9 +60,9 @@ const ProfilePage = ({ profileUser, profileImage }) => {
   };
   const followings = profileUser?.followings || [];
   const followers = profileUser?.followers || [];
-  if (!profileUser.followings && !profileUser) {
-    return <>loading</>;
-  }
+  // if (!profileUser.followings && !profileUser) {
+  //   return <>loading</>;
+  // }
 
   return (
     <SProfileBox>

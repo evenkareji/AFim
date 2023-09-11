@@ -20,7 +20,8 @@ router.post('/register', async (req, res) => {
     const email = req.body.email;
     const password = req.body.password;
 
-    const hashedPassword = await bcrypt.hash(password, 10);
+    const salt = 10;
+    const hashedPassword = await bcrypt.hash(password, salt);
     const newUser: Document & SetUser = await new User({
       username: username,
       email: email,
@@ -31,6 +32,7 @@ router.post('/register', async (req, res) => {
 
     return res.status(200).json(user);
   } catch (err) {
+    console.log(err);
     return res.status(500).json(err);
   }
 });

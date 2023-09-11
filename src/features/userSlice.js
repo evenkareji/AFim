@@ -11,11 +11,8 @@ export const fetchInitialUser = createAsyncThunk(
   'user/getUser',
   async (_, { dispatch, getState }) => {
     try {
-      const response = await axios.get('api/getUser', {
-        withCredentials: true,
-      });
+      const response = await axios.get('/api/getUser');
 
-      console.log(response.data, 'api/getUser return');
       return response.data;
     } catch (err) {
       console.log(err);
