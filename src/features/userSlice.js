@@ -11,7 +11,7 @@ export const fetchInitialUser = createAsyncThunk(
   'user/getUser',
   async (_, { dispatch, getState }) => {
     try {
-      const response = await axios.get('/api/getUser');
+      const response = await axios.get('/api/users/getUser');
 
       return response.data;
     } catch (err) {
@@ -29,7 +29,7 @@ export const login = createAsyncThunk(
         email,
         password,
       });
-      console.log(response.data, 'login data');
+
       return response.data;
     } catch (err) {
       console.log(err);
@@ -65,7 +65,6 @@ export const userSlice = createSlice({
       state.loading = true;
     });
     builder.addCase(fetchInitialUser.fulfilled, (state, action) => {
-      console.log(action.payload, 'fetchInitialUser inside builder');
       state.user = action.payload;
       state.loading = false;
     });
@@ -79,7 +78,6 @@ export const userSlice = createSlice({
       state.loading = true;
     });
     builder.addCase(login.fulfilled, (state, action) => {
-      console.log(action.payload, 'login inside builder');
       state.user = action.payload;
       state.loading = false;
     });

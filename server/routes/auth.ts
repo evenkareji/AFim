@@ -4,15 +4,31 @@ import User from '../models/User';
 import bcrypt from 'bcrypt';
 // import passport from 'passport';
 import { Document } from 'mongoose';
-router.get('/', (req, res) => {
-  res.json('router auth');
-});
+import passport from 'passport';
 
 type SetUser = {
   username: string;
   email: string;
   password: string;
 };
+
+router.post('/login', (req: any, res, next) => {
+  passport.authenticate('local', (err, user) => {
+    if (err) throw err;
+
+    if (!user) res.send('No User Exist');
+    else {
+      req.logIn(user, (err) => {
+        if (err) throw err;
+
+        const { password, updatedAt, ...other } = user._doc;
+
+        res.send(other);
+      });
+    }
+  })(req, res, next);
+});
+
 // ユーザー登録
 router.post('/register', async (req, res) => {
   try {

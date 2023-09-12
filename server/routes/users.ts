@@ -2,6 +2,21 @@ import express from 'express';
 const router = express.Router();
 import User from '../models/User';
 
+// ログイン維持
+router.get('/getUser', (req: any, res: any) => {
+  try {
+    if (req.user && req.user._doc) {
+      const { password, updatedAt, ...other } = req.user._doc;
+      return res.status(200).send(other);
+    } else if (req.user === undefined) {
+      return res.status(401).json(null);
+    }
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json(err);
+  }
+});
+
 // ユーザー情報の取得
 router.get('/:id', async (req, res) => {
   try {

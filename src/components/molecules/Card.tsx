@@ -56,7 +56,9 @@ export const Card: FC<{ post: Post }> = (props) => {
 
   return (
     <SCard key={post._id}>
-      {loginUser.username === username && <SDeleteIcon onClick={postDelete} />}
+      {loginUser.user.username === username && (
+        <SDeleteIcon onClick={postDelete} />
+      )}
       <SProfileText key={post._id}>{post.desc}</SProfileText>
     </SCard>
   );

@@ -66,37 +66,6 @@ passportConfig(passport);
 app.use('/users', userRouter);
 app.use('/auth', authRouter);
 app.use('/posts', postRouter);
-app.post('/auth/login', (req: any, res, next) => {
-  passport.authenticate('local', (err, user) => {
-    if (err) throw err;
-    console.log(err);
-
-    if (!user) res.send('No User Exist');
-    else {
-      req.logIn(user, (err) => {
-        if (err) throw err;
-
-        const { password, updatedAt, ...other } = user._doc;
-
-        res.send(other);
-      });
-    }
-  })(req, res, next);
-});
-
-app.get('/getUser', (req: any, res: any) => {
-  try {
-    if (req.user && req.user._doc) {
-      const { password, updatedAt, ...other } = req.user._doc;
-      return res.status(200).send(other);
-    } else if (req.user === undefined) {
-      return res.status(401).json(null);
-    }
-  } catch (err) {
-    console.log(err);
-    return res.status(500).json(err);
-  }
-});
 // app.use('/upload', uploadRouter);
 // app.use('/comments', commentRouter);
 

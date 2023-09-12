@@ -8,19 +8,19 @@ import { User } from '../../types';
 
 export const FollowingsInfo = () => {
   const [followings, setFollowings] = useState<Array<User>>([]);
+
   const user = useSelector((state: any) => state.user);
-  console.log(user);
 
   useEffect(() => {
     const getFollowers = async () => {
       const response = await axios.get(
         `/api/users/followings/${user.user._id}`,
       );
-
       setFollowings(response.data);
     };
-    getFollowers();
-  }, []);
+
+    !user.loading && getFollowers();
+  }, [user]);
 
   return (
     <SUsersContainer>
