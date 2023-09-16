@@ -12,13 +12,14 @@ import cookieParser from 'cookie-parser';
 import session from 'express-session';
 import path from 'path';
 import cors from 'cors';
-
+import helmet from 'helmet';
 import { fileURLToPath } from 'url';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 env.config();
 const app: express.Express = express();
+app.use(helmet());
 app.use(
   cors({
     origin: 'http://localhost:3000',
@@ -53,7 +54,7 @@ app.use(
       path: '/', // default
       // jsでcookieをいじれなくなる
       httpOnly: true, // default
-      // maxAge: 10 * 1000, // 10sec
+      maxAge: 24 * 60 * 60 * 1000, // 10sec
     },
   }),
 );
