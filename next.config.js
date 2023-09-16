@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   async rewrites() {
     return [
       {
@@ -8,3 +8,4 @@ module.exports = {
     ];
   },
 };
+// common.js形式だとpackaje.jsonの{type:"module"}と矛盾が起きるのでejs方式で書いた

@@ -16,7 +16,7 @@ export const UserProfileIcon = ({ isIcon /*changeIsIcon*/ }) => {
         : PUBLIC_FOLDER + 'person/noAvatar.png',
     );
   }, [user]);
-  console.log(user?.profileImg, 'userIcon');
+
   return (
     <Icon link={`/profile/${user?.username}`}>
       <SProfileIcon src={userProfileImg} isIcon={isIcon} />

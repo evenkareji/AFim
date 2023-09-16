@@ -27,7 +27,7 @@ export const Card: FC<{ post: Post }> = (props) => {
   // });
 
   const { username } = router.query;
-  const loginUser = useSelector((state: any) => state.user.user);
+  const loginUser = useSelector((state: any) => state.user);
 
   // useEffect(() => {
   //   const fetchUser = async () => {
@@ -43,8 +43,8 @@ export const Card: FC<{ post: Post }> = (props) => {
   const postDelete = async () => {
     try {
       if (window.confirm('本当に削除しますかー？いいの？ほんき？ええ！？')) {
-        await axios.delete(`http://localhost:8000/posts/${post._id}`, {
-          data: { userId: loginUser._id },
+        await axios.delete(`/api/posts/${post._id}`, {
+          data: { userId: loginUser.user._id },
         });
         // 変更エラーが起きる
         // window.location.reload();
@@ -56,7 +56,9 @@ export const Card: FC<{ post: Post }> = (props) => {
 
   return (
     <SCard key={post._id}>
-      {loginUser.username === username && <SDeleteIcon onClick={postDelete} />}
+      {loginUser.user.username === username && (
+        <SDeleteIcon onClick={postDelete} />
+      )}
       <SProfileText key={post._id}>{post.desc}</SProfileText>
     </SCard>
   );

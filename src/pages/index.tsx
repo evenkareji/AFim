@@ -1,12 +1,12 @@
-import React, { ReactElement, useCallback, useState } from 'react';
+import React, { ReactElement, useCallback } from 'react';
 import styled from 'styled-components';
 import { PostView } from '../components/organisms/PostView';
 import { useEffect } from 'react';
 import LogoutIcon from '@mui/icons-material/Logout';
-
+// import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { logout } from '../features/userSlice';
+import { fetchInitialUser, logout } from '../features/userSlice';
 import { useRouter } from 'next/router';
 import { getPosts } from '../api/getPosts';
 import Layout from '../components/templates/Layout';
@@ -18,15 +18,16 @@ export const getServerSideProps = async () => {
 };
 
 const Post = ({ posts }: any) => {
-  const [isLoading, setIsLoading] = useState<boolean>(true);
   const router = useRouter();
   const dispatch = useDispatch();
-  const user = useSelector((state: any) => state.user.user);
+  const user = useSelector((state: any) => state.user);
+
   useEffect(() => {
-    if (!user) {
+    dispatch(fetchInitialUser());
+  }, []);
+  useEffect(() => {
+    if (!user.user && !user.loading) {
       router.push('/login');
-    } else {
-      setIsLoading(false);
     }
   }, [user]);
 
@@ -38,8 +39,8 @@ const Post = ({ posts }: any) => {
     }
   }, [dispatch, router]);
 
-  if (isLoading) {
-    return <p>loading</p>;
+  if (user.loading) {
+    return <p>index loading</p>;
   }
 
   return (

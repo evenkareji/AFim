@@ -1,62 +1,62 @@
-import React from 'react';
-import styled from 'styled-components';
 import Link from 'next/link';
+import styled from 'styled-components';
 
 import { useLogin } from '../hooks/useLogin';
 
-import { LoginForm } from '../components/atoms/LoginForm';
-import { Hr } from '../components/atoms/Hr';
 import { ErrorMessage } from '../components/atoms/ErrorMessage';
-import { Spinner } from '../components/atoms/Spinner';
+import { Hr } from '../components/atoms/Hr';
+import { LoginForm } from '../components/atoms/LoginForm';
+import { useRouter } from 'next/router';
+import { useSelector } from 'react-redux';
 
 const Login = () => {
-  const { loginSubmit, isError, isLoading, email, password } = useLogin();
+  const { loginSubmit, isError, email, password } = useLogin();
+  const router = useRouter();
+  const user = useSelector((state: any) => state.user);
+
+  if (!user.loading && user.user) {
+    router.push('/');
+  }
   return (
     <>
-      {isLoading ? (
-        <Spinner />
-      ) : (
-        <SLoginBack>
-          <SLoginBorder>
-            <SForm onSubmit={(e) => loginSubmit(e)}>
-              <SFormHead>SNS</SFormHead>
-              <p>メールアドレス :test@gmail.com</p>
-              <p>パスワード　　 :test</p>
-              <SEmail
-                ref={email}
-                email="email"
-                placeholder="メールアドレス"
-                autoFocus
-              />
-              <SPassword
-                ref={password}
-                type="password"
-                placeholder="パスワード"
-              />
-              {isError ? (
-                <SErrorMessage style={{ opacity: '1' }}>
-                  メールアドレスかパスワードが間違っています
-                </SErrorMessage>
-              ) : (
-                <SErrorMessage style={{ opacity: '0' }}>
-                  メールアドレスかパスワードが間違っています
-                </SErrorMessage>
-              )}
-              <SSubmit type="submit">ログイン</SSubmit>
+      <SLoginBack>
+        <SLoginBorder>
+          <SForm onSubmit={(e) => loginSubmit(e)}>
+            <SFormHead>SNS</SFormHead>
+            <p>メールアドレス :test@gmail.com</p>
+            <p>パスワード　　 :test</p>
+            <SEmail
+              ref={email}
+              email="email"
+              placeholder="メールアドレス"
+              autoFocus
+            />
+            <SPassword
+              ref={password}
+              type="password"
+              placeholder="パスワード"
+            />
+            {isError ? (
+              <SErrorMessage style={{ opacity: '1' }}>
+                メールアドレスかパスワードが間違っています
+              </SErrorMessage>
+            ) : (
+              <SErrorMessage style={{ opacity: '0' }}>
+                メールアドレスかパスワードが間違っています
+              </SErrorMessage>
+            )}
+            <SSubmit type="submit">ログイン</SSubmit>
 
-              <SHr />
-              <STextFlex>
-                <SAcountQuestion>
-                  アカウントをお持ちでないですか?
-                </SAcountQuestion>
-                <Link href="/register" style={{ textDecoration: 'none' }}>
-                  登録する
-                </Link>
-              </STextFlex>
-            </SForm>
-          </SLoginBorder>
-        </SLoginBack>
-      )}
+            <SHr />
+            <STextFlex>
+              <SAcountQuestion>アカウントをお持ちでないですか?</SAcountQuestion>
+              <Link href="/register" style={{ textDecoration: 'none' }}>
+                登録する
+              </Link>
+            </STextFlex>
+          </SForm>
+        </SLoginBorder>
+      </SLoginBack>
     </>
   );
 };

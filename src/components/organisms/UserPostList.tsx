@@ -13,9 +13,7 @@ export const UserPostList = ({ username }) => {
       if (!username) {
         return;
       }
-      const response: any = await axios.get(
-        `http://localhost:8000/posts/profile/${username}`,
-      );
+      const response: any = await axios.get(`/api/posts/profile/${username}`);
 
       setPosts(
         response.data.sort((post1, post2) => {
