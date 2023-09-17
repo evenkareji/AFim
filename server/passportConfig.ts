@@ -1,6 +1,11 @@
 import User from './models/User';
 import bcrypt from 'bcrypt';
 import { Strategy as LocalStrategy } from 'passport-local';
+import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
+
+const GOOGLE_CLIENT_ID =
+  '117391584691-pjm5ancee5cc2s014v2r7gdra9iopasp.apps.googleusercontent.com';
+const GOOGLE_CLIENT_SECRET = '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';
 
 async function passportConfig(passport) {
   passport.use(
@@ -26,6 +31,18 @@ async function passportConfig(passport) {
           console.log(err);
           done(err);
         }
+      },
+    ),
+  );
+  passport.use(
+    new GoogleStrategy(
+      {
+        clientID: GOOGLE_CLIENT_ID,
+        clientSecret: GOOGLE_CLIENT_SECRET,
+        callbackURL: '/auth/google/callback',
+      },
+      function (accessToken, refreshToken, profile, done) {
+        done(null, profile);
       },
     ),
   );
