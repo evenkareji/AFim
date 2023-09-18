@@ -2,14 +2,15 @@ import express from 'express';
 const router = express.Router();
 import User from '../models/User';
 import bcrypt from 'bcrypt';
-import { Document } from 'mongoose';
+// import { Document } from 'mongoose';
 import passport from 'passport';
 
-type SetUser = {
-  username: string;
-  email: string;
-  password: string;
-};
+// type SetUser = {
+//   username: string;
+//   email: string;
+//   password: string;
+//   method: ['local', 'google'];
+// };
 
 router.post('/login', (req: any, res, next) => {
   passport.authenticate('local', (err, user) => {
@@ -31,6 +32,8 @@ router.post('/login', (req: any, res, next) => {
 const CLIENT_URL = 'http://localhost:3000';
 
 router.get('/login/success', (req: any, res) => {
+  console.log(req.user);
+
   if (req.user) {
     res.status(200).json({
       success: true,
@@ -52,7 +55,10 @@ router.get('/logout', (req: any, res) => {
   res.redirect(CLIENT_URL);
 });
 
-router.get('/google', passport.authenticate('google', { scope: ['profile'] }));
+router.get(
+  '/google',
+  passport.authenticate('google', { scope: ['email', 'profile'] }),
+);
 
 router.get(
   '/google/callback',
@@ -70,10 +76,11 @@ router.post('/register', async (req, res) => {
 
     const salt = 10;
     const hashedPassword = await bcrypt.hash(password, salt);
-    const newUser: Document & SetUser = await new User({
+    const newUser: any = await new User({
       username: username,
       email: email,
       password: hashedPassword,
+      method: ['local'],
     });
 
     const user = await newUser.save();

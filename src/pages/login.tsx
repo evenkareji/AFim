@@ -15,8 +15,6 @@ const Login = () => {
   const user = useSelector((state: any) => state.user);
 
   const googleLogin = () => {
-    console.log('google');
-
     window.open('http://localhost:8000/auth/google', '_self');
   };
 

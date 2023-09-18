@@ -9,6 +9,46 @@ const GOOGLE_CLIENT_SECRET = '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';
 
 async function passportConfig(passport) {
   passport.use(
+    new GoogleStrategy(
+      {
+        clientID: GOOGLE_CLIENT_ID,
+        clientSecret: GOOGLE_CLIENT_SECRET,
+        callbackURL: '/auth/google/callback',
+        scope: ['email', 'profile'],
+      },
+      async function (accessToken, refreshToken, profile, done) {
+        try {
+          // 既存のユーザーかどうか確認
+          let user = await User.findOne({
+            googleId: profile.id,
+          });
+
+          if (user) {
+            // 既存のユーザーならそのまま進める
+            done(null, user);
+          } else {
+            console.log(profile.photos[0].value);
+
+            let newUser = await new User({
+              username: profile.displayName,
+              email: profile!.emails[0].value,
+              profileImg: profile.photos[0].value,
+              googleId: profile.id,
+              method: 'google',
+            });
+            console.log(newUser, 'passport google');
+
+            await newUser.save(); // MongoDBに保存
+            done(null, newUser); // 新しいユーザー情報をdoneに渡す
+          }
+        } catch (error) {
+          console.error('Error:', error);
+          done(error);
+        }
+      },
+    ),
+  );
+  passport.use(
     new LocalStrategy(
       /**以下がないと動かない */
       {
@@ -31,18 +71,6 @@ async function passportConfig(passport) {
           console.log(err);
           done(err);
         }
-      },
-    ),
-  );
-  passport.use(
-    new GoogleStrategy(
-      {
-        clientID: GOOGLE_CLIENT_ID,
-        clientSecret: GOOGLE_CLIENT_SECRET,
-        callbackURL: '/auth/google/callback',
-      },
-      function (accessToken, refreshToken, profile, done) {
-        done(null, profile);
       },
     ),
   );

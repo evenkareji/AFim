@@ -18,7 +18,9 @@ export async function getServerSideProps(context) {
     `http://localhost:8000/users?username=${username}`,
   );
   // console.log(response.data, 'profile');
-  const profileImage = response.data.profileImg
+  const profileImage = response.data.profileImg.includes(
+    'https://lh3.googleusercontent.com/',
+  )
     ? `${process.env.NEXT_PUBLIC_PUBLIC_FOLDER}person/${response.data.profileImg}`
     : `${process.env.NEXT_PUBLIC_PUBLIC_FOLDER}person/noAvatar.png`;
 
