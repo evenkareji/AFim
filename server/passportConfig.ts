@@ -27,8 +27,6 @@ async function passportConfig(passport) {
             // 既存のユーザーならそのまま進める
             done(null, user);
           } else {
-            console.log(profile.photos[0].value);
-
             let newUser = await new User({
               username: profile.displayName,
               email: profile!.emails[0].value,
@@ -36,7 +34,6 @@ async function passportConfig(passport) {
               googleId: profile.id,
               method: 'google',
             });
-            console.log(newUser, 'passport google');
 
             await newUser.save(); // MongoDBに保存
             done(null, newUser); // 新しいユーザー情報をdoneに渡す

@@ -1,9 +1,9 @@
 import express from 'express';
-const router = express.Router();
 import User from '../models/User';
 import bcrypt from 'bcrypt';
 // import { Document } from 'mongoose';
 import passport from 'passport';
+const router = express.Router();
 
 // type SetUser = {
 //   username: string;
@@ -30,6 +30,7 @@ router.post('/login', (req: any, res, next) => {
 });
 
 const CLIENT_URL = 'http://localhost:3000';
+// const LOGOUT_URL = 'http://localhost:3000/login';
 
 router.get('/login/success', (req: any, res) => {
   console.log(req.user);
@@ -50,9 +51,17 @@ router.get('/login/failed', (req, res) => {
   });
 });
 
-router.get('/logout', (req: any, res) => {
-  req.logout();
-  res.redirect(CLIENT_URL);
+router.get('/logout', (req: any, res, next) => {
+  try {
+    req.logout((err) => {
+      if (err) {
+        return next(err);
+      }
+      return res.status(200).json();
+    });
+  } catch (err) {
+    console.log(err);
+  }
 });
 
 router.get(

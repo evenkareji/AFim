@@ -21,11 +21,11 @@ export const UserIconWithName = ({ profileUser, profileImage }) => {
     }
   }, [file]);
 
-  useEffect(() => {
-    if (profileUser && profileUser.profileImg) {
-      setProfileImage(`${PUBLIC_FOLDER}person/${profileUser.profileImg}`);
-    }
-  }, [profileUser]);
+  // useEffect(() => {
+  //   if (profileUser && profileUser.profileImg) {
+  //     setProfileImage(`${PUBLIC_FOLDER}person/${profileUser.profileImg}`);
+  //   }
+  // }, [profileUser]);
 
   async function profileUpload() {
     const newProfile: { userId: string; profileImg?: string } = {
