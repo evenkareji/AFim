@@ -20,6 +20,13 @@ const AddPost = () => {
   const router = useRouter();
   const dispatch = useDispatch();
   const user = useSelector((state: any) => state.user);
+  const isGoogleImg = user?.profileImg?.startsWith(
+    'https://lh3.googleusercontent.com/',
+  );
+  const userIconImgSrc = isGoogleImg
+    ? user?.profileImg
+    : `${PUBLIC_FOLDER}person/${user?.profileImg || 'noAvatar.png'}`;
+
   useEffect(() => {
     dispatch(fetchInitialUser());
   }, []);
@@ -53,13 +60,7 @@ const AddPost = () => {
       <Scenter>
         <SLabel htmlFor="textForm">
           <SForm method="post">
-            <SUserIconImg
-              src={
-                user.profileImg
-                  ? PUBLIC_FOLDER + '/person/' + user.profileImg
-                  : PUBLIC_FOLDER + '/person/noAvatar.png'
-              }
-            />
+            <SUserIconImg src={userIconImgSrc} />
 
             <TextArea
               placeholder="50文字以内で入力してください"

@@ -26,8 +26,12 @@ const UserSchema = new mongoose.Schema(
       required: false,
     },
     method: {
-      type: String,
-      enum: ['local', 'google'],
+      type: [
+        {
+          type: String,
+          enum: ['local', 'google'],
+        },
+      ],
       required: true,
     },
     profileImg: {

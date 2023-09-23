@@ -26,8 +26,8 @@ export async function getServerSideProps(context) {
 
   profileImage = isGoogleImg
     ? profileImg
-    : `${process.env.NEXT_PUBLIC_PUBLIC_FOLDER}${
-        profileImg || 'person/noAvatar.png'
+    : `${process.env.NEXT_PUBLIC_PUBLIC_FOLDER}person/${
+        profileImg || 'noAvatar.png'
       }`;
   return {
     props: { profileUser: response.data, profileImage },
