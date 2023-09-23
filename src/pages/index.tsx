@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { PostView } from '../components/organisms/PostView';
 import { useEffect } from 'react';
 import LogoutIcon from '@mui/icons-material/Logout';
-// import axios from 'axios';
+
 import { useDispatch, useSelector } from 'react-redux';
 
 import { fetchInitialUser, logout } from '../features/userSlice';

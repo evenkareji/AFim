@@ -19,19 +19,16 @@ export async function getServerSideProps(context) {
   );
   // console.log(response.data, 'profile');
   let profileImage;
-  const isExsistGoogleImg =
-    response.data.profileImg.indexOf('https://lh3.googleusercontent.com/') !==
-    -1;
+  const { profileImg } = response.data;
+  const isGoogleImg = profileImg.startsWith(
+    'https://lh3.googleusercontent.com/',
+  );
 
-  if (isExsistGoogleImg) {
-    profileImage = isExsistGoogleImg && response.data.profileImg;
-    console.log(profileImage);
-  } else if (!isExsistGoogleImg) {
-    profileImage = response.data.profileImg
-      ? `${process.env.NEXT_PUBLIC_PUBLIC_FOLDER}${response.data.profileImg}`
-      : `${process.env.NEXT_PUBLIC_PUBLIC_FOLDER}person/noAvatar.png`;
-  }
-
+  profileImage = isGoogleImg
+    ? profileImg
+    : `${process.env.NEXT_PUBLIC_PUBLIC_FOLDER}${
+        profileImg || 'person/noAvatar.png'
+      }`;
   return {
     props: { profileUser: response.data, profileImage },
   };
