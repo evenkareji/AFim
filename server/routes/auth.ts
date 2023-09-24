@@ -30,11 +30,8 @@ router.post('/login', (req: any, res, next) => {
 });
 
 const CLIENT_URL = 'http://localhost:3000';
-// const LOGOUT_URL = 'http://localhost:3000/login';
 
 router.get('/login/success', (req: any, res) => {
-  console.log(req.user);
-
   if (req.user) {
     res.status(200).json({
       success: true,
@@ -57,7 +54,7 @@ router.get('/logout', (req: any, res, next) => {
       if (err) {
         return next(err);
       }
-      return res.status(200).json();
+      return res.status(200).json(null);
     });
   } catch (err) {
     console.log(err);
