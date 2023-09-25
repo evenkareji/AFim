@@ -14,6 +14,10 @@ const Login = () => {
   const router = useRouter();
   const user = useSelector((state: any) => state.user);
 
+  const googleLogin = () => {
+    window.open('http://localhost:8000/auth/google', '_self');
+  };
+
   if (!user.loading && user.user) {
     router.push('/');
   }
@@ -46,7 +50,9 @@ const Login = () => {
               </SErrorMessage>
             )}
             <SSubmit type="submit">ログイン</SSubmit>
-
+            <button onClick={() => googleLogin()} type="button">
+              googleでログイン
+            </button>
             <SHr />
             <STextFlex>
               <SAcountQuestion>アカウントをお持ちでないですか?</SAcountQuestion>

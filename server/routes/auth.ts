@@ -1,16 +1,16 @@
 import express from 'express';
-const router = express.Router();
 import User from '../models/User';
 import bcrypt from 'bcrypt';
-// import passport from 'passport';
-import { Document } from 'mongoose';
+// import { Document } from 'mongoose';
 import passport from 'passport';
+const router = express.Router();
 
-type SetUser = {
-  username: string;
-  email: string;
-  password: string;
-};
+// type SetUser = {
+//   username: string;
+//   email: string;
+//   password: string;
+//   method: ['local', 'google'];
+// };
 
 router.post('/login', (req: any, res, next) => {
   passport.authenticate('local', (err, user) => {
@@ -29,6 +29,50 @@ router.post('/login', (req: any, res, next) => {
   })(req, res, next);
 });
 
+const CLIENT_URL = 'http://localhost:3000';
+
+router.get('/login/success', (req: any, res) => {
+  if (req.user) {
+    res.status(200).json({
+      success: true,
+      message: 'successfull',
+      user: req.user,
+      //   cookies: req.cookies
+    });
+  }
+});
+router.get('/login/failed', (req, res) => {
+  res.status(401).json({
+    success: false,
+    message: 'failure',
+  });
+});
+
+router.get('/logout', (req: any, res, next) => {
+  try {
+    req.logout((err) => {
+      if (err) {
+        return next(err);
+      }
+      return res.status(200).json(null);
+    });
+  } catch (err) {
+    console.log(err);
+  }
+});
+
+router.get(
+  '/google',
+  passport.authenticate('google', { scope: ['email', 'profile'] }),
+);
+
+router.get(
+  '/google/callback',
+  passport.authenticate('google', {
+    successRedirect: CLIENT_URL,
+    failureRedirect: '/login/failed',
+  }),
+);
 // ユーザー登録
 router.post('/register', async (req, res) => {
   try {
@@ -38,10 +82,11 @@ router.post('/register', async (req, res) => {
 
     const salt = 10;
     const hashedPassword = await bcrypt.hash(password, salt);
-    const newUser: Document & SetUser = await new User({
+    const newUser: any = await new User({
       username: username,
       email: email,
       password: hashedPassword,
+      method: ['local'],
     });
 
     const user = await newUser.save();

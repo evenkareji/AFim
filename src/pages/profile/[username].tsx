@@ -18,10 +18,17 @@ export async function getServerSideProps(context) {
     `http://localhost:8000/users?username=${username}`,
   );
   // console.log(response.data, 'profile');
-  const profileImage = response.data.profileImg
-    ? `${process.env.NEXT_PUBLIC_PUBLIC_FOLDER}person/${response.data.profileImg}`
-    : `${process.env.NEXT_PUBLIC_PUBLIC_FOLDER}person/noAvatar.png`;
+  let profileImage;
+  const { profileImg } = response.data;
+  const isGoogleImg = profileImg.startsWith(
+    'https://lh3.googleusercontent.com/',
+  );
 
+  profileImage = isGoogleImg
+    ? profileImg
+    : `${process.env.NEXT_PUBLIC_PUBLIC_FOLDER}person/${
+        profileImg || 'noAvatar.png'
+      }`;
   return {
     props: { profileUser: response.data, profileImage },
   };
@@ -34,6 +41,7 @@ const ProfilePage = ({ profileUser, profileImage }) => {
 
   const dispatch = useDispatch();
   const user = useSelector((state: any) => state.user);
+  console.log(profileImage);
 
   useEffect(() => {
     dispatch(fetchInitialUser());

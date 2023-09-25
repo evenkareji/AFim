@@ -23,7 +23,13 @@ export const PostView: FC<{ post: Post }> = (props) => {
   const { followUser } = useFollow();
   const { unFollowUser } = useUnFollow();
   const { getAuthorByPostId, user } = useGetAuthor();
+  const isGoogleImg = user?.profileImg?.startsWith(
+    'https://lh3.googleusercontent.com/',
+  );
 
+  const userIconImgSrc = isGoogleImg
+    ? user?.profileImg
+    : `${PUBLIC_FOLDER}person/${user?.profileImg || 'noAvatar.png'}`;
   const loginUser = useSelector((state: any) => state.user);
 
   const { toggleLike, isGood } = useLike(post, loginUser.user);
@@ -45,13 +51,7 @@ export const PostView: FC<{ post: Post }> = (props) => {
       <SPostContent>
         <SPostHeader>
           <Link href={`profile/${user?.username}`}>
-            <SUserIconImg
-              src={
-                user?.profileImg
-                  ? PUBLIC_FOLDER + '/person/' + user.profileImg
-                  : PUBLIC_FOLDER + '/person/noAvatar.png'
-              }
-            />
+            <SUserIconImg src={userIconImgSrc} />
           </Link>
           <Box>
             <SUserName>{user?.username}</SUserName>

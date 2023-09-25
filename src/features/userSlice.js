@@ -36,6 +36,18 @@ export const login = createAsyncThunk(
     }
   },
 );
+export const logout = createAsyncThunk(
+  'user/logout',
+  async (_, { dispatch, getState }) => {
+    try {
+      const response = await axios.get('/api/auth/logout');
+
+      return response.data;
+    } catch (err) {
+      console.log(err);
+    }
+  },
+);
 
 export const toggleFollow = createAsyncThunk(
   'user/toggleFollow',
@@ -51,10 +63,6 @@ export const userSlice = createSlice({
   // stateのこと
   initialState: initialStateUser,
   reducers: {
-    logout: (state) => {
-      state.user = null;
-      state.loading = false;
-    },
     toggleFollow: (state, action) => {
       state.user = action.payload;
     },
@@ -85,7 +93,19 @@ export const userSlice = createSlice({
       state.loading = false;
       state.error = true;
     });
+    // logout
+    builder.addCase(logout.pending, (state) => {
+      state.loading = true;
+    });
+    builder.addCase(logout.fulfilled, (state, action) => {
+      state.user = action.payload;
+      state.loading = false;
+    });
+    builder.addCase(logout.rejected, (state) => {
+      state.loading = false;
+      state.error = true;
+    });
   },
 });
-export const { logout } = userSlice.actions;
+// export const {} = userSlice.actions;
 export default userSlice.reducer;

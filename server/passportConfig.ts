@@ -1,8 +1,50 @@
 import User from './models/User';
 import bcrypt from 'bcrypt';
 import { Strategy as LocalStrategy } from 'passport-local';
+import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
+
+const GOOGLE_CLIENT_ID =
+  '117391584691-pjm5ancee5cc2s014v2r7gdra9iopasp.apps.googleusercontent.com';
+const GOOGLE_CLIENT_SECRET = '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';
 
 async function passportConfig(passport) {
+  passport.use(
+    new GoogleStrategy(
+      {
+        clientID: GOOGLE_CLIENT_ID,
+        clientSecret: GOOGLE_CLIENT_SECRET,
+        callbackURL: '/auth/google/callback',
+        scope: ['email', 'profile'],
+      },
+      async function (accessToken, refreshToken, profile, done) {
+        try {
+          // 既存のユーザーかどうか確認
+          let user = await User.findOne({
+            googleId: profile.id,
+          });
+
+          if (user) {
+            // 既存のユーザーならそのまま進める
+            done(null, user);
+          } else {
+            let newUser = await new User({
+              username: profile.displayName,
+              email: profile!.emails[0].value,
+              profileImg: profile.photos[0].value,
+              googleId: profile.id,
+              method: 'google',
+            });
+
+            await newUser.save(); // MongoDBに保存
+            done(null, newUser); // 新しいユーザー情報をdoneに渡す
+          }
+        } catch (error) {
+          console.error('Error:', error);
+          done(error);
+        }
+      },
+    ),
+  );
   passport.use(
     new LocalStrategy(
       /**以下がないと動かない */
