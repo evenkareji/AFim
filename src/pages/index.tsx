@@ -3,9 +3,8 @@ import styled from 'styled-components';
 import { PostView } from '../components/organisms/PostView';
 import { useEffect } from 'react';
 import LogoutIcon from '@mui/icons-material/Logout';
-
-import { useDispatch, useSelector } from 'react-redux';
-
+import { useDispatch } from 'react-redux';
+import { useSelector, AppDispatch } from '../redux/store';
 import { fetchInitialUser, logout } from '../features/userSlice';
 import { useRouter } from 'next/router';
 import { getPosts } from '../api/getPosts';
@@ -19,14 +18,15 @@ export const getServerSideProps = async () => {
 
 const Post = ({ posts }: any) => {
   const router = useRouter();
-  const dispatch = useDispatch();
-  const user = useSelector((state: any) => state.user);
+  const { user, loading } = useSelector((state) => state.user);
+
+  const dispatch: AppDispatch = useDispatch();
 
   useEffect(() => {
     dispatch(fetchInitialUser());
   }, []);
   useEffect(() => {
-    if (!user.user && !user.loading) {
+    if (user && loading) {
       router.push('/login');
     }
   }, [user]);
@@ -39,7 +39,7 @@ const Post = ({ posts }: any) => {
     }
   }, [dispatch, router]);
 
-  if (user.loading) {
+  if (loading) {
     return <p>index loading</p>;
   }
 

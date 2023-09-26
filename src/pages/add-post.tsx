@@ -7,6 +7,7 @@ import Layout from '../components/templates/Layout';
 import { useRouter } from 'next/router';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchInitialUser } from '../features/userSlice';
+import { AppDispatch } from '../redux/store';
 // import { useRouter } from 'next/router';
 
 const AddPost = () => {
@@ -18,7 +19,7 @@ const AddPost = () => {
   const [file, setFile] = useState<File | null>(null);
   const { AddPost } = useAddPost();
   const router = useRouter();
-  const dispatch = useDispatch();
+  const dispatch: AppDispatch = useDispatch();
   const user = useSelector((state: any) => state.user);
   const isGoogleImg = user?.profileImg?.startsWith(
     'https://lh3.googleusercontent.com/',

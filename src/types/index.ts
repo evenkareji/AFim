@@ -1,13 +1,11 @@
 export type User = {
   _id: string;
   username: string;
-  email: string;
-  password: string;
+
   profileImg: string;
 
   followers: string[];
   followings: string[];
-  isAdmin: boolean;
 
   updatedAt: number | null;
 };

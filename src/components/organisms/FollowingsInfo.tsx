@@ -2,24 +2,22 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 
-import { useSelector } from 'react-redux';
 import { FollowingInfo } from '../molecules/FollowingInfo';
 import { User } from '../../types';
+import { useSelector } from '../../redux/store';
 
 export const FollowingsInfo = () => {
   const [followings, setFollowings] = useState<Array<User>>([]);
 
-  const user = useSelector((state: any) => state.user);
+  const { user, loading } = useSelector((state) => state.user);
 
   useEffect(() => {
     const getFollowers = async () => {
-      const response = await axios.get(
-        `/api/users/followings/${user.user._id}`,
-      );
+      const response = await axios.get(`/api/users/followings/${user?._id}`);
       setFollowings(response.data);
     };
 
-    !user.loading && getFollowers();
+    !loading && getFollowers();
   }, [user]);
 
   return (

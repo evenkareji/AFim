@@ -7,18 +7,18 @@ import { ErrorMessage } from '../components/atoms/ErrorMessage';
 import { Hr } from '../components/atoms/Hr';
 import { LoginForm } from '../components/atoms/LoginForm';
 import { useRouter } from 'next/router';
-import { useSelector } from 'react-redux';
+import { useSelector } from '../redux/store';
 
 const Login = () => {
   const { loginSubmit, isError, email, password } = useLogin();
   const router = useRouter();
-  const user = useSelector((state: any) => state.user);
+  const { user, loading } = useSelector((state) => state.user);
 
   const googleLogin = () => {
     window.open('http://localhost:8000/auth/google', '_self');
   };
 
-  if (!user.loading && user.user) {
+  if (!loading && user) {
     router.push('/');
   }
   return (

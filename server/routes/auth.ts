@@ -21,7 +21,8 @@ router.post('/login', (req: any, res, next) => {
       req.logIn(user, (err) => {
         if (err) throw err;
 
-        const { password, updatedAt, ...other } = user._doc;
+        const { password, googleId, method, email, isAdmin, ...other } =
+          user._doc;
 
         res.send(other);
       });

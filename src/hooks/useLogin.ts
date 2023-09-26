@@ -1,12 +1,10 @@
 import { useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
-
-import { useRouter } from 'next/router';
 import { login } from '../features/userSlice';
+import { AppDispatch } from '../redux/store';
 
 export const useLogin = () => {
-  const dispatch = useDispatch();
-  const router = useRouter();
+  const dispatch: AppDispatch = useDispatch();
 
   const email = useRef<HTMLInputElement>();
   const password = useRef<HTMLInputElement>(null);
@@ -16,8 +14,8 @@ export const useLogin = () => {
     try {
       e.preventDefault();
 
-      const emailValue: any = email.current?.value;
-      const passwordValue: any = password.current?.value;
+      const emailValue: string | undefined = email.current?.value;
+      const passwordValue: string | undefined = password.current?.value;
 
       dispatch(login({ email: emailValue, password: passwordValue }));
     } catch (err) {
