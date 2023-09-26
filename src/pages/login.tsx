@@ -18,7 +18,7 @@ const Login = () => {
     window.open('http://localhost:8000/auth/google', '_self');
   };
 
-  if (!loading && user) {
+  if (user && !loading) {
     router.push('/');
   }
   return (

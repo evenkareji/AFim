@@ -24,7 +24,7 @@ router.post('/login', (req: any, res, next) => {
         const { password, googleId, method, email, isAdmin, ...other } =
           user._doc;
 
-        res.send(other);
+        res.status(200).json(other);
       });
     }
   })(req, res, next);

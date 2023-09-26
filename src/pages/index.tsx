@@ -18,7 +18,7 @@ export const getServerSideProps = async () => {
 
 const Post = ({ posts }: any) => {
   const router = useRouter();
-  const { user, loading } = useSelector((state) => state.user);
+  const user = useSelector((state) => state.user);
 
   const dispatch: AppDispatch = useDispatch();
 
@@ -26,7 +26,7 @@ const Post = ({ posts }: any) => {
     dispatch(fetchInitialUser());
   }, []);
   useEffect(() => {
-    if (user && loading) {
+    if (!user.user && !user.loading) {
       router.push('/login');
     }
   }, [user]);
@@ -39,7 +39,7 @@ const Post = ({ posts }: any) => {
     }
   }, [dispatch, router]);
 
-  if (loading) {
+  if (user.loading) {
     return <p>index loading</p>;
   }
 

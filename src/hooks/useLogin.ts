@@ -13,6 +13,7 @@ export const useLogin = () => {
   const loginSubmit = async (e) => {
     try {
       e.preventDefault();
+      console.log('login');
 
       const emailValue: string | undefined = email.current?.value;
       const passwordValue: string | undefined = password.current?.value;
