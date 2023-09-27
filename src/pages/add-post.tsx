@@ -5,9 +5,9 @@ import { UserIconImg } from '../components/atoms/UserIconImg';
 import { useAddPost } from '../hooks/useAddPost';
 import Layout from '../components/templates/Layout';
 import { useRouter } from 'next/router';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { fetchInitialUser } from '../features/userSlice';
-import { AppDispatch } from '../redux/store';
+import { AppDispatch, useSelector } from '../redux/store';
 // import { useRouter } from 'next/router';
 
 const AddPost = () => {
@@ -20,7 +20,7 @@ const AddPost = () => {
   const { AddPost } = useAddPost();
   const router = useRouter();
   const dispatch: AppDispatch = useDispatch();
-  const user = useSelector((state: any) => state.user);
+  const { user, loading } = useSelector((state) => state.user);
   const isGoogleImg = user?.profileImg?.startsWith(
     'https://lh3.googleusercontent.com/',
   );
@@ -32,7 +32,7 @@ const AddPost = () => {
     dispatch(fetchInitialUser());
   }, []);
   useEffect(() => {
-    if (!user.user && !user.loading) {
+    if (!user && !loading) {
       router.push('/login');
     }
   }, [user]);
@@ -52,9 +52,9 @@ const AddPost = () => {
       setIsText(true);
     }
   };
-  // if (isLoading) {
-  //   return <>loading</>;
-  // }
+  if (loading) {
+    return <>loading</>;
+  }
 
   return (
     <SPostBox>

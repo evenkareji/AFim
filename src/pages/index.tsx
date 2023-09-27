@@ -9,14 +9,20 @@ import { fetchInitialUser, logout } from '../features/userSlice';
 import { useRouter } from 'next/router';
 import { getPosts } from '../api/getPosts';
 import Layout from '../components/templates/Layout';
+import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
+import { Post } from '../types';
 
-export const getServerSideProps = async () => {
+export const getServerSideProps: GetServerSideProps<{
+  posts: Post;
+}> = async () => {
   const posts = await getPosts();
 
   return { props: { posts } };
 };
-
-const Post = ({ posts }: any) => {
+// 名前が被った
+const Post = ({
+  posts,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const router = useRouter();
   const user = useSelector((state) => state.user);
 
