@@ -1,18 +1,22 @@
 import axios from 'axios';
 
-import { useSelector } from 'react-redux';
 import { AddPost } from '../types';
 import { RefObject } from 'react';
 import { useRouter } from 'next/router';
+import { useSelector } from '../redux/store';
 
 export const useAddPost = () => {
   const router = useRouter();
-  const user = useSelector((state: any) => state.user.user);
+  const { user } = useSelector((state) => state.user);
 
-  const AddPost = async (e, desc: RefObject<HTMLTextAreaElement>, file) => {
+  const AddPost = async (
+    e: React.FormEvent,
+    desc: RefObject<HTMLTextAreaElement>,
+    file: File | null,
+  ) => {
     e.preventDefault();
 
-    if (!desc.current) {
+    if (!desc.current || !user) {
       return;
     }
 
