@@ -2,7 +2,7 @@ import React, { FC, useCallback, useEffect } from 'react';
 import styled from 'styled-components';
 import Link from 'next/link';
 
-import { useSelector } from 'react-redux';
+import { useSelector } from '../../redux/store';
 
 import { useFollow } from '../../hooks/useFollow';
 import { useUnFollow } from '../../hooks/useUnFollow';
@@ -30,19 +30,26 @@ export const PostView: FC<{ post: Post }> = (props) => {
   const userIconImgSrc = isGoogleImg
     ? user?.profileImg
     : `${PUBLIC_FOLDER}person/${user?.profileImg || 'noAvatar.png'}`;
-  const loginUser = useSelector((state: any) => state.user);
+  const { user: loginUser, loading } = useSelector((state) => state.user);
 
-  const { toggleLike, isGood } = useLike(post, loginUser.user);
+  if (loading) {
+    return <p>loading</p>;
+  }
+  if (!loginUser) {
+    return;
+  }
+
+  const { toggleLike, isGood } = useLike(post, loginUser);
   useEffect(() => {
     getAuthorByPostId(post);
-  }, [post.userId, loginUser.user]);
+  }, [post.userId, loginUser]);
 
-  const onClickFollow = useCallback(() => followUser(post, loginUser.user), []);
-  const onClickUnFollow = useCallback(
-    () => unFollowUser(post, loginUser.user),
-    [],
-  );
+  const onClickFollow = useCallback(() => followUser(post, loginUser), []);
+  const onClickUnFollow = useCallback(() => unFollowUser(post, loginUser), []);
 
+  if (!user) {
+    return <p>ここにskeltonscreen入れる</p>;
+  }
   return (
     <PostBorder>
       {post.img && <SImg src={`${PUBLIC_FOLDER}images/${post.img}`} alt="" />}
@@ -56,9 +63,9 @@ export const PostView: FC<{ post: Post }> = (props) => {
           <Box>
             <SUserName>{user?.username}</SUserName>
 
-            {loginUser.user && loginUser.user._id !== post.userId && (
+            {loginUser && loginUser._id !== post.userId && (
               <>
-                {loginUser.user.followings?.includes(post.userId) ? (
+                {loginUser.followings?.includes(post.userId) ? (
                   <FollowingButton onClickUnFollow={onClickUnFollow}>
                     フォロー中
                   </FollowingButton>
