@@ -123,9 +123,9 @@ router.put('/:id/follow', async (req, res) => {
         });
 
         const updatedLoginUser: any = await User.findById(req.body.userId);
-        // const { password, googleId, method, email, isAdmin, ...other } =
-        //   updatedLoginUser._doc;
-        return res.status(200).json(updatedLoginUser);
+        const { password, googleId, method, email, isAdmin, ...other } =
+          updatedLoginUser._doc;
+        return res.status(200).json(other);
       } else {
         return res.status(403).json('既にフォローしてます');
       }
@@ -149,9 +149,11 @@ router.put('/:id/unfollow', async (req: any, res: any) => {
       await currentUser.updateOne({
         $pull: { followings: req.params.id },
       });
-      const newInfo = await User.findById(req.body.userId);
+      const updatedLoginUser: any = await User.findById(req.body.userId);
+      const { password, googleId, method, email, isAdmin, ...other } =
+        updatedLoginUser._doc;
 
-      return res.status(200).json(newInfo);
+      return res.status(200).json(other);
     }
   } catch (err) {
     return res.status(500).json(err);

@@ -15,7 +15,6 @@ export const useFollow = () => {
       const { data } = await axios.put(`/api/users/${userId}/follow`, {
         userId: loginUser._id,
       });
-      console.log(data);
 
       dispatch(toggleFollow(data));
     } catch (err) {

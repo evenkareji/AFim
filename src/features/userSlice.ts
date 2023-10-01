@@ -62,11 +62,8 @@ export const logout = createAsyncThunk(
 
 export const toggleFollow = createAsyncThunk(
   'user/toggleFollow',
-  async (followingUser, { dispatch, getState }) => {
+  async (followingUser: User, { dispatch, getState }) => {
     dispatch(userSlice.actions.toggleFollow(followingUser));
-
-    const state = getState();
-    console.log(state, 'in togggle follow');
   },
 );
 
@@ -119,5 +116,4 @@ export const userSlice = createSlice({
     });
   },
 });
-// export const {} = userSlice.actions;
 export default userSlice.reducer;
