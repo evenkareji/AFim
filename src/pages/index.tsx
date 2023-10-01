@@ -13,18 +13,18 @@ import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
 import { Post } from '../types';
 
 export const getServerSideProps: GetServerSideProps<{
-  posts: Post;
+  posts: Post[];
 }> = async () => {
   const posts = await getPosts();
 
   return { props: { posts } };
 };
-// 名前が被った
-const Post = ({
+
+const Home = ({
   posts,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const router = useRouter();
-  const user = useSelector((state) => state.user);
+  const { user, loading } = useSelector((state) => state.user);
 
   const dispatch: AppDispatch = useDispatch();
 
@@ -32,7 +32,7 @@ const Post = ({
     dispatch(fetchInitialUser());
   }, []);
   useEffect(() => {
-    if (!user.user && !user.loading) {
+    if (!user && !loading) {
       router.push('/login');
     }
   }, [user]);
@@ -45,7 +45,7 @@ const Post = ({
     }
   }, [dispatch, router]);
 
-  if (user.loading) {
+  if (loading) {
     return <p>index loading</p>;
   }
 
@@ -121,7 +121,7 @@ const PostSlide = styled.div`
   scroll-snap-type: y mandatory;
 `;
 
-Post.getLayout = function getLayout(page: ReactElement) {
+Home.getLayout = function getLayout(page: ReactElement) {
   return <Layout>{page}</Layout>;
 };
-export default Post;
+export default Home;

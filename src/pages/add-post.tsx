@@ -8,14 +8,11 @@ import { useRouter } from 'next/router';
 import { useDispatch } from 'react-redux';
 import { fetchInitialUser } from '../features/userSlice';
 import { AppDispatch, useSelector } from '../redux/store';
-// import { useRouter } from 'next/router';
 
 const AddPost = () => {
   const desc = useRef<HTMLTextAreaElement>(null);
-  // const router = useRouter();
   const PUBLIC_FOLDER = process.env.NEXT_PUBLIC_PUBLIC_FOLDER;
   const [isText, setIsText] = useState(false);
-  // const [isLoading, setIsLoading] = useState<boolean>(true);
   const [file, setFile] = useState<File | null>(null);
   const { AddPost } = useAddPost();
   const router = useRouter();

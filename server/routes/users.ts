@@ -8,7 +8,6 @@ router.get('/getUser', (req: any, res: any) => {
     if (req.user && req.user._doc) {
       const { password, googleId, method, email, isAdmin, ...other } =
         req.user._doc;
-      console.log(other);
       return res.status(200).send(other);
     } else if (req.user === undefined) {
       return res.status(401).json(null);

@@ -18,7 +18,7 @@ export async function getServerSideProps(context) {
   const response = await axios.get(
     `http://localhost:8000/users?username=${username}`,
   );
-  // console.log(response.data, 'profile');
+
   let profileImage;
   const { profileImg } = response.data;
   const isGoogleImg = profileImg.startsWith(

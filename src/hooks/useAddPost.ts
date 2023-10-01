@@ -32,6 +32,7 @@ export const useAddPost = () => {
       try {
         await axios.post('/api/upload/post-image', data);
       } catch (err) {
+        console.log(err);
         alert(err);
       }
     }
