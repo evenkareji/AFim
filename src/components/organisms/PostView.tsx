@@ -47,9 +47,9 @@ export const PostView: FC<{ post: Post }> = (props) => {
   const onClickFollow = useCallback(() => followUser(post, loginUser), []);
   const onClickUnFollow = useCallback(() => unFollowUser(post, loginUser), []);
 
-  if (!user) {
-    return <p>ここにskeltonscreen入れる</p>;
-  }
+  // if (!user) {
+  //   return <p>ここにskeltonscreen入れる</p>;
+  // }
   return (
     <PostBorder>
       {post.img && <SImg src={`${PUBLIC_FOLDER}images/${post.img}`} alt="" />}

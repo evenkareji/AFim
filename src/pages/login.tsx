@@ -8,9 +8,10 @@ import { Hr } from '../components/atoms/Hr';
 import { LoginForm } from '../components/atoms/LoginForm';
 import { useRouter } from 'next/router';
 import { useSelector } from '../redux/store';
-
+import { useForm } from 'react-hook-form';
 const Login = () => {
-  const { loginSubmit, isError, email, password } = useLogin();
+  const { register, handleSubmit } = useForm();
+  const { loginSubmit, isError } = useLogin();
   const router = useRouter();
   const { user, loading } = useSelector((state) => state.user);
 
@@ -25,18 +26,21 @@ const Login = () => {
     <>
       <SLoginBack>
         <SLoginBorder>
-          <SForm onSubmit={(e) => loginSubmit(e)}>
+          <SForm onSubmit={handleSubmit(loginSubmit)}>
             <SFormHead>SNS</SFormHead>
             <p>メールアドレス :test@gmail.com</p>
             <p>パスワード　　 :test</p>
             <SEmail
-              ref={email}
+              id="email"
+              {...register('email')}
               email="email"
               placeholder="メールアドレス"
               autoFocus
             />
             <SPassword
-              ref={password}
+              id="password"
+              {...register('password')}
+              // ref={password}
               type="password"
               placeholder="パスワード"
             />

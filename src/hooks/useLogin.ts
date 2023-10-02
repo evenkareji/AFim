@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { login } from '../features/userSlice';
 import { AppDispatch } from '../redux/store';
@@ -6,19 +6,15 @@ import { AppDispatch } from '../redux/store';
 export const useLogin = () => {
   const dispatch: AppDispatch = useDispatch();
 
-  const email = useRef<HTMLInputElement>();
-  const password = useRef<HTMLInputElement>(null);
+  // const email = useRef<HTMLInputElement>();
+  // const password = useRef<HTMLInputElement>(null);
   const [isError, setIsError] = useState(false);
 
-  const loginSubmit = async (e) => {
+  const loginSubmit = async (data) => {
     try {
-      e.preventDefault();
-      console.log('login');
+      const { email, password } = data;
 
-      const emailValue: string | undefined = email.current?.value;
-      const passwordValue: string | undefined = password.current?.value;
-
-      dispatch(login({ email: emailValue, password: passwordValue }));
+      dispatch(login({ email, password }));
     } catch (err) {
       console.log(err);
 
@@ -29,7 +25,5 @@ export const useLogin = () => {
     loginSubmit,
     setIsError,
     isError,
-    email,
-    password,
   };
 };
