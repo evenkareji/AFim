@@ -20,12 +20,14 @@ export type Post = {
   updatedAt: number | null;
   img: string;
 };
+
 export type Profile = {
   username: string;
   desc: string;
   followings: string[];
   followers: string[];
 };
+
 export type AddPost = {
   userId: string;
   desc: string | undefined;

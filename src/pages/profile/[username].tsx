@@ -54,12 +54,14 @@ const ProfilePage = ({ profileUser, profileImage }) => {
     }
   }, [user]);
 
+  useEffect(() => {
+    setIsToPage(false);
+  }, [isPointer]);
   const { username } = router.query;
 
   useEffect(() => {
-    setIsToPage(false);
     setIsPointer(user?.username === username);
-  }, [isPointer]);
+  }, [user, username]);
 
   const toFollowsPage = () => {
     if (user?.username !== username) return;

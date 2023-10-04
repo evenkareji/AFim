@@ -1,18 +1,18 @@
-import React, { FC, useCallback, useEffect } from 'react';
-import styled from 'styled-components';
 import Link from 'next/link';
+import { FC, useCallback, useEffect } from 'react';
+import styled from 'styled-components';
 
 import { useSelector } from '../../redux/store';
 
 import { useFollow } from '../../hooks/useFollow';
-import { useUnFollow } from '../../hooks/useUnFollow';
 import { useGetAuthor } from '../../hooks/useGetAuthor';
 import { useLike } from '../../hooks/useLike';
+import { useUnFollow } from '../../hooks/useUnFollow';
 
-import { FollowingButton } from '../atoms/FollowingButton';
-import { FollowButton } from '../atoms/FollowButton';
-import { HeartIcon } from '../atoms/HeartIcon/HeartIcon';
+import { useRouter } from 'next/router';
 import { Post } from '../../types';
+import { HeartIcon } from '../atoms/HeartIcon/HeartIcon';
+import { FollowToggleButton } from '../molecules/FollowToggleButton';
 
 export const PostView: FC<{ post: Post }> = (props) => {
   const { post } = props;
@@ -23,6 +23,7 @@ export const PostView: FC<{ post: Post }> = (props) => {
   const { followUser } = useFollow();
   const { unFollowUser } = useUnFollow();
   const { getAuthorByPostId, user } = useGetAuthor();
+  const router = useRouter();
   const isGoogleImg = user?.profileImg?.startsWith(
     'https://lh3.googleusercontent.com/',
   );
@@ -32,9 +33,11 @@ export const PostView: FC<{ post: Post }> = (props) => {
     : `${PUBLIC_FOLDER}person/${user?.profileImg || 'noAvatar.png'}`;
   const { user: loginUser, loading } = useSelector((state) => state.user);
 
-  if (loading) {
-    return <p>loading</p>;
-  }
+  useEffect(() => {
+    if (!loginUser && !loading) {
+      router.push('/login');
+    }
+  }, [user]);
   if (!loginUser) {
     return;
   }
@@ -47,9 +50,6 @@ export const PostView: FC<{ post: Post }> = (props) => {
   const onClickFollow = useCallback(() => followUser(post, loginUser), []);
   const onClickUnFollow = useCallback(() => unFollowUser(post, loginUser), []);
 
-  // if (!user) {
-  //   return <p>ここにskeltonscreen入れる</p>;
-  // }
   return (
     <PostBorder>
       {post.img && <SImg src={`${PUBLIC_FOLDER}images/${post.img}`} alt="" />}
@@ -63,19 +63,12 @@ export const PostView: FC<{ post: Post }> = (props) => {
           <Box>
             <SUserName>{user?.username}</SUserName>
 
-            {loginUser && loginUser._id !== post.userId && (
-              <>
-                {loginUser.followings?.includes(post.userId) ? (
-                  <FollowingButton onClickUnFollow={onClickUnFollow}>
-                    フォロー中
-                  </FollowingButton>
-                ) : (
-                  <FollowButton onClickFollow={onClickFollow}>
-                    フォロー
-                  </FollowButton>
-                )}
-              </>
-            )}
+            <FollowToggleButton
+              loginUser={loginUser}
+              postUserId={post.userId}
+              onClickFollow={onClickFollow}
+              onClickUnFollow={onClickUnFollow}
+            />
           </Box>
         </SPostHeader>
         <SDescContainer>
