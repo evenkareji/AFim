@@ -67,6 +67,7 @@ export const UserIconWithName = ({ profileUser, profileImage }) => {
   return (
     <>
       <SLabel htmlFor="profile_image">
+        {/* この画像のキャッシュは画像にランダムな名前を付与したらできる */}
         <SProfileImg src={frprofileImage} />
         <SAddCircleIcon />
         <input

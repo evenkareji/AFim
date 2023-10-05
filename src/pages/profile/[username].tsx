@@ -42,7 +42,6 @@ const ProfilePage = ({ profileUser, profileImage }) => {
 
   const dispatch: AppDispatch = useDispatch();
   const { user, loading } = useSelector((state) => state.user);
-  console.log(profileImage);
 
   useEffect(() => {
     dispatch(fetchInitialUser());
