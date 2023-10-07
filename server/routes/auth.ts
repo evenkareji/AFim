@@ -5,7 +5,7 @@ import passport from 'passport';
 const router = express.Router();
 
 interface ExtendedRequest extends Request {
-  user?: any;
+  user?: number;
   logIn?: (user: any, callback: (err: any) => void) => void;
   logout?: (callback: (err: any) => void) => void;
 }
@@ -18,6 +18,8 @@ router.post(
 
       if (!user) res.send('No User Exist');
       else {
+        console.log(user);
+
         if (req.logIn) {
           req.logIn(user, (err) => {
             if (err) throw err;
@@ -86,11 +88,9 @@ router.get(
   }),
 );
 // ユーザー登録
-router.post('/register', async (req, res) => {
+router.post('/register', async (req: Request, res: Response) => {
   try {
-    const username = req.body.username;
-    const email = req.body.email;
-    const password = req.body.password;
+    const { username, email, password } = req.body;
 
     const salt = 10;
     const hashedPassword = await bcrypt.hash(password, salt);
