@@ -9,15 +9,15 @@ interface LayoutProps {
 const Layout = ({ children }: LayoutProps) => {
   return (
     <SFlex>
-      {children}
       <Footer />
+      {children}
     </SFlex>
   );
 };
 const SFlex = styled.div`
   position: relative;
   display: flex;
-  flex-direction: row-reverse;
+  /* flex-direction: row-reverse; */
   width: 100%;
 `;
 export default Layout;
