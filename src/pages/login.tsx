@@ -2,13 +2,13 @@ import Link from 'next/link';
 import styled from 'styled-components';
 
 import { useLogin } from '../hooks/useLogin';
-
 import { ErrorMessage } from '../components/atoms/ErrorMessage';
 import { Hr } from '../components/atoms/Hr';
 import { LoginForm } from '../components/atoms/LoginForm';
 import { useRouter } from 'next/router';
 import { useSelector } from '../redux/store';
 import { useForm } from 'react-hook-form';
+
 const Login = () => {
   const { register, handleSubmit } = useForm();
   const { loginSubmit, isError } = useLogin();
@@ -40,7 +40,6 @@ const Login = () => {
             <SPassword
               id="password"
               {...register('password')}
-              // ref={password}
               type="password"
               placeholder="パスワード"
             />

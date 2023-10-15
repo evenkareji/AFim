@@ -5,7 +5,7 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
-import { FollowerLists } from './FollowerLists';
+import { FollowerLists } from '../components/templates/FollowerLists';
 import { FollowLists } from './FollowLists';
 
 export const FollowTab = ({ isToPage, toFollowsPage }) => {
