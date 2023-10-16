@@ -6,7 +6,7 @@ import { IconButton } from '@mui/material';
 import axios from 'axios';
 
 import { UserIconWithName } from '../../components/molecules/UserIconWithName';
-import { FollowTab } from '../FollowTab';
+import { FollowTab } from '../../components/organisms/FollowTab';
 import { useDispatch } from 'react-redux';
 import { useRouter } from 'next/router';
 import Layout from '../../components/templates/Layout';

@@ -8,7 +8,6 @@ import { LoginForm } from '../components/atoms/LoginForm';
 import { useRouter } from 'next/router';
 import { useSelector } from '../redux/store';
 import { useForm } from 'react-hook-form';
-
 const Login = () => {
   const { register, handleSubmit } = useForm();
   const { loginSubmit, isError } = useLogin();

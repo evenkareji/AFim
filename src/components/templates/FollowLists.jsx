@@ -1,6 +1,5 @@
-import { SearchUsers } from '../components/molecules/SearchUsers';
-import { FollowingsInfo } from '../components/organisms/FollowingsInfo';
-
+import { SearchUsers } from '../molecules/SearchUsers';
+import { FollowingsInfo } from '../organisms/FollowingsInfo';
 export const FollowLists = () => {
   return (
     <div>
