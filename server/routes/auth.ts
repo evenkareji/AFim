@@ -2,6 +2,8 @@ import express, { Request, Response, NextFunction } from 'express';
 import User from '../models/User';
 import bcrypt from 'bcrypt';
 import passport from 'passport';
+import { sendVerificationEmail } from '../helpers/mailer';
+import { generateToken } from '../helpers/tokens';
 const router = express.Router();
 
 interface ExtendedRequest extends Request {
@@ -102,7 +104,12 @@ router.post('/register', async (req: Request, res: Response) => {
     });
 
     const user = await newUser.save();
-
+    const emailVerificationToken = generateToken(
+      { id: user._id.toString() },
+      '30m',
+    );
+    const url = `${process.env.BASE_URL}/activate/${emailVerificationToken}`;
+    sendVerificationEmail(user.email, user.username, url);
     return res.status(200).json(user);
   } catch (err) {
     console.log(err);

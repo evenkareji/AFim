@@ -30,7 +30,8 @@
     "**/*.ts",
     "**/*.tsx",
     "src/components/templates/Footer.jsx",
-    "server/routes/auth.ts"
+    "server/routes/auth.ts",
+    "server/helpers/mailer.js"
   ],
   "exclude": ["node_modules"]
 }
