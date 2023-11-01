@@ -4,8 +4,8 @@ import env from 'dotenv';
 import authRouter from './routes/auth';
 import userRouter from './routes/users';
 import postRouter from './routes/post';
-// import uploadRouter from './routes/upload';
-// import commentRouter from './routes/comments.mjs';
+import uploadRouter from './routes/upload';
+
 import passport from 'passport';
 import passportConfig from './passportConfig';
 import cookieParser from 'cookie-parser';
@@ -32,7 +32,7 @@ const post = process.env.PORT || 8000;
 
 // データベース接続
 mongoose
-  .connect(process.env.MONGO_URL as any)
+  .connect(process.env.MONGO_URL as string)
   .then(() => {
     console.log('DBと接続中');
   })
@@ -68,8 +68,7 @@ passportConfig(passport);
 app.use('/users', userRouter);
 app.use('/auth', authRouter);
 app.use('/posts', postRouter);
-// app.use('/upload', uploadRouter);
-// app.use('/comments', commentRouter);
+app.use('/upload', uploadRouter);
 
 app.get('*', function (req, res) {
   const indexHtml = path.resolve('build', 'index.html');

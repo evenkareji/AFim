@@ -1,33 +1,39 @@
-import express from 'express';
+import express, { Request, Response, NextFunction } from 'express';
 import User from '../models/User';
 import bcrypt from 'bcrypt';
-// import { Document } from 'mongoose';
 import passport from 'passport';
+import { sendVerificationEmail } from '../helpers/mailer';
+import { generateToken } from '../helpers/tokens';
 const router = express.Router();
 
-// type SetUser = {
-//   username: string;
-//   email: string;
-//   password: string;
-//   method: ['local', 'google'];
-// };
+interface ExtendedRequest extends Request {
+  user?: number;
+  logIn?: (user: any, callback: (err: any) => void) => void;
+  logout?: (callback: (err: any) => void) => void;
+}
 
-router.post('/login', (req: any, res, next) => {
-  passport.authenticate('local', (err, user) => {
-    if (err) throw err;
+router.post(
+  '/login',
+  (req: ExtendedRequest, res: Response, next: NextFunction) => {
+    passport.authenticate('local', (err, user) => {
+      if (err) throw err;
 
-    if (!user) res.send('No User Exist');
-    else {
-      req.logIn(user, (err) => {
-        if (err) throw err;
+      if (!user) res.status(401).json(null);
+      else {
+        if (req.logIn) {
+          req.logIn(user, (err) => {
+            if (err) throw err;
 
-        const { password, updatedAt, ...other } = user._doc;
+            const { password, googleId, method, email, isAdmin, ...other } =
+              user._doc;
 
-        res.send(other);
-      });
-    }
-  })(req, res, next);
-});
+            res.status(200).json(other);
+          });
+        }
+      }
+    })(req, res, next);
+  },
+);
 
 const CLIENT_URL = 'http://localhost:3000';
 
@@ -37,7 +43,6 @@ router.get('/login/success', (req: any, res) => {
       success: true,
       message: 'successfull',
       user: req.user,
-      //   cookies: req.cookies
     });
   }
 });
@@ -48,18 +53,26 @@ router.get('/login/failed', (req, res) => {
   });
 });
 
-router.get('/logout', (req: any, res, next) => {
-  try {
-    req.logout((err) => {
-      if (err) {
-        return next(err);
+router.get(
+  '/logout',
+  (req: ExtendedRequest, res: Response, next: NextFunction) => {
+    try {
+      if (req.logout) {
+        req.logout((err) => {
+          if (err) {
+            return next(err);
+          }
+          return res.status(200).json(null);
+        });
+      } else {
+        // ここに、logoutメソッドが存在しない場合の処理を書くことができます
+        res.status(500).send('Logout function not available');
       }
-      return res.status(200).json(null);
-    });
-  } catch (err) {
-    console.log(err);
-  }
-});
+    } catch (err) {
+      console.log(err);
+    }
+  },
+);
 
 router.get(
   '/google',
@@ -74,15 +87,13 @@ router.get(
   }),
 );
 // ユーザー登録
-router.post('/register', async (req, res) => {
+router.post('/register', async (req: Request, res: Response) => {
   try {
-    const username = req.body.username;
-    const email = req.body.email;
-    const password = req.body.password;
+    const { username, email, password } = req.body;
 
     const salt = 10;
     const hashedPassword = await bcrypt.hash(password, salt);
-    const newUser: any = await new User({
+    const newUser = await new User({
       username: username,
       email: email,
       password: hashedPassword,
@@ -90,7 +101,12 @@ router.post('/register', async (req, res) => {
     });
 
     const user = await newUser.save();
-
+    const emailVerificationToken = generateToken(
+      { id: user._id.toString() },
+      '30m',
+    );
+    const url = `${process.env.BASE_URL}/activate/${emailVerificationToken}`;
+    sendVerificationEmail(user.email, user.username, url);
     return res.status(200).json(user);
   } catch (err) {
     console.log(err);

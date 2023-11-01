@@ -6,18 +6,19 @@ import { IconButton } from '@mui/material';
 import axios from 'axios';
 
 import { UserIconWithName } from '../../components/molecules/UserIconWithName';
-import { FollowTab } from '../FollowTab';
-import { useDispatch, useSelector } from 'react-redux';
+import { FollowTab } from '../../components/organisms/FollowTab';
+import { useDispatch } from 'react-redux';
 import { useRouter } from 'next/router';
 import Layout from '../../components/templates/Layout';
 import { fetchInitialUser } from '../../features/userSlice';
+import { AppDispatch, useSelector } from '../../redux/store';
 
 export async function getServerSideProps(context) {
   const { username } = context.query;
   const response = await axios.get(
     `http://localhost:8000/users?username=${username}`,
   );
-  // console.log(response.data, 'profile');
+
   let profileImage;
   const { profileImg } = response.data;
   const isGoogleImg = profileImg.startsWith(
@@ -39,34 +40,35 @@ const ProfilePage = ({ profileUser, profileImage }) => {
   const [isToPage, setIsToPage] = useState<boolean>(false);
   const [isPointer, setIsPointer] = useState<boolean>(false);
 
-  const dispatch = useDispatch();
-  const user = useSelector((state: any) => state.user);
-  console.log(profileImage);
+  const dispatch: AppDispatch = useDispatch();
+  const { user, loading } = useSelector((state) => state.user);
 
   useEffect(() => {
     dispatch(fetchInitialUser());
   }, []);
 
   useEffect(() => {
-    if (!user.user && !user.loading) {
+    if (!user && !loading) {
       router.push('/login');
     }
   }, [user]);
 
+  useEffect(() => {
+    setIsToPage(false);
+  }, [isPointer]);
   const { username } = router.query;
 
   useEffect(() => {
-    setIsToPage(false);
     setIsPointer(user?.username === username);
-  }, [isPointer]);
+  }, [user, username]);
 
   const toFollowsPage = () => {
-    if (user.username !== username) return;
+    if (user?.username !== username) return;
     setIsToPage((prev) => !prev);
   };
   const followings = profileUser?.followings || [];
   const followers = profileUser?.followers || [];
-  if (user.loading) {
+  if (loading) {
     return <p>loading...</p>;
   }
   return (

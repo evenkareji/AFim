@@ -1,18 +1,18 @@
-import React, { FC, useCallback, useEffect } from 'react';
-import styled from 'styled-components';
 import Link from 'next/link';
+import { FC, useCallback, useEffect } from 'react';
+import styled from 'styled-components';
 
-import { useSelector } from 'react-redux';
+import { useSelector } from '../../redux/store';
 
 import { useFollow } from '../../hooks/useFollow';
-import { useUnFollow } from '../../hooks/useUnFollow';
 import { useGetAuthor } from '../../hooks/useGetAuthor';
 import { useLike } from '../../hooks/useLike';
+import { useUnFollow } from '../../hooks/useUnFollow';
 
-import { FollowingButton } from '../atoms/FollowingButton';
-import { FollowButton } from '../atoms/FollowButton';
-import { HeartIcon } from '../atoms/HeartIcon/HeartIcon';
+import { useRouter } from 'next/router';
 import { Post } from '../../types';
+import { HeartIcon } from '../atoms/HeartIcon/HeartIcon';
+import { FollowToggleButton } from '../molecules/FollowToggleButton';
 
 export const PostView: FC<{ post: Post }> = (props) => {
   const { post } = props;
@@ -23,6 +23,7 @@ export const PostView: FC<{ post: Post }> = (props) => {
   const { followUser } = useFollow();
   const { unFollowUser } = useUnFollow();
   const { getAuthorByPostId, user } = useGetAuthor();
+  const router = useRouter();
   const isGoogleImg = user?.profileImg?.startsWith(
     'https://lh3.googleusercontent.com/',
   );
@@ -30,18 +31,24 @@ export const PostView: FC<{ post: Post }> = (props) => {
   const userIconImgSrc = isGoogleImg
     ? user?.profileImg
     : `${PUBLIC_FOLDER}person/${user?.profileImg || 'noAvatar.png'}`;
-  const loginUser = useSelector((state: any) => state.user);
+  const { user: loginUser, loading } = useSelector((state) => state.user);
 
-  const { toggleLike, isGood } = useLike(post, loginUser.user);
+  useEffect(() => {
+    if (!loginUser && !loading) {
+      router.push('/login');
+    }
+  }, [user]);
+  if (!loginUser) {
+    return;
+  }
+
+  const { toggleLike, isGood } = useLike(post, loginUser);
   useEffect(() => {
     getAuthorByPostId(post);
-  }, [post.userId, loginUser.user]);
+  }, [post.userId, loginUser]);
 
-  const onClickFollow = useCallback(() => followUser(post, loginUser.user), []);
-  const onClickUnFollow = useCallback(
-    () => unFollowUser(post, loginUser.user),
-    [],
-  );
+  const onClickFollow = useCallback(() => followUser(post, loginUser), []);
+  const onClickUnFollow = useCallback(() => unFollowUser(post, loginUser), []);
 
   return (
     <PostBorder>
@@ -56,19 +63,12 @@ export const PostView: FC<{ post: Post }> = (props) => {
           <Box>
             <SUserName>{user?.username}</SUserName>
 
-            {loginUser.user && loginUser.user._id !== post.userId && (
-              <>
-                {loginUser.user.followings?.includes(post.userId) ? (
-                  <FollowingButton onClickUnFollow={onClickUnFollow}>
-                    フォロー中
-                  </FollowingButton>
-                ) : (
-                  <FollowButton onClickFollow={onClickFollow}>
-                    フォロー
-                  </FollowButton>
-                )}
-              </>
-            )}
+            <FollowToggleButton
+              loginUser={loginUser}
+              postUserId={post.userId}
+              onClickFollow={onClickFollow}
+              onClickUnFollow={onClickUnFollow}
+            />
           </Box>
         </SPostHeader>
         <SDescContainer>

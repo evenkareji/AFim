@@ -4,9 +4,10 @@ import { useDispatch } from 'react-redux';
 import { toggleFollow } from '../features/userSlice';
 
 import { User, Post } from '../types';
+import { AppDispatch } from '../redux/store';
 
 export const useFollow = () => {
-  const dispatch = useDispatch();
+  const dispatch: AppDispatch = useDispatch();
 
   const followUser = async (post: Post, loginUser: User): Promise<void> => {
     const { userId } = post;

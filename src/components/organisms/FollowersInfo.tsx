@@ -3,16 +3,16 @@ import styled from 'styled-components';
 import axios from 'axios';
 
 import { FollowerInfo } from '../molecules/FollowerInfo';
-import { useSelector } from 'react-redux';
 import { User } from '../../types';
+import { useSelector } from '../../redux/store';
 
 export const FollowersInfo = () => {
   const [followers, setFollowers] = useState<Array<User>>([]);
-  const user = useSelector((state: any) => state.user.user);
+  const { user } = useSelector((state) => state.user);
   useEffect(() => {
     const getFollowers = async () => {
       const response = await axios.get(
-        `http://localhost:8000/users/followers/${user._id}`,
+        `http://localhost:8000/users/followers/${user?._id}`,
       );
       setFollowers(response.data);
     };

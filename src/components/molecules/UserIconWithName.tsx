@@ -4,16 +4,17 @@ import axios from 'axios';
 
 import { UserIconImg } from '../atoms/UserIconImg';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { toggleFollow } from '../../features/userSlice';
+import { AppDispatch, useSelector } from '../../redux/store';
 
 export const UserIconWithName = ({ profileUser, profileImage }) => {
   const PUBLIC_FOLDER = process.env.NEXT_PUBLIC_PUBLIC_FOLDER;
   const [file, setFile] = useState<File | null>(null);
   const [frprofileImage, setProfileImage] = useState<string>(profileImage);
-  const dispatch = useDispatch();
+  const dispatch: AppDispatch = useDispatch();
 
-  const user = useSelector((state: any) => state.user.user);
+  const { user } = useSelector((state) => state.user);
 
   useEffect(() => {
     if (file) {
@@ -28,6 +29,11 @@ export const UserIconWithName = ({ profileUser, profileImage }) => {
   // }, [profileUser]);
 
   async function profileUpload() {
+    if (!user) {
+      console.error('user情報がありません');
+      return;
+    }
+
     const newProfile: { userId: string; profileImg?: string } = {
       userId: user._id,
     };
@@ -38,7 +44,6 @@ export const UserIconWithName = ({ profileUser, profileImage }) => {
         data.append('name', fileName);
         data.append('profile_image', file);
         newProfile.profileImg = fileName;
-        console.log('実行');
 
         // 画像が日本語であったり、spaceがあると表示されない。だからサーバーで名前を変えてあげるといい
         await axios.post('/api/upload/profile-image', data);
@@ -62,6 +67,7 @@ export const UserIconWithName = ({ profileUser, profileImage }) => {
   return (
     <>
       <SLabel htmlFor="profile_image">
+        {/* この画像のキャッシュは画像にランダムな名前を付与したらできる */}
         <SProfileImg src={frprofileImage} />
         <SAddCircleIcon />
         <input

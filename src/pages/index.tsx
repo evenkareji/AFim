@@ -3,30 +3,36 @@ import styled from 'styled-components';
 import { PostView } from '../components/organisms/PostView';
 import { useEffect } from 'react';
 import LogoutIcon from '@mui/icons-material/Logout';
-
-import { useDispatch, useSelector } from 'react-redux';
-
+import { useDispatch } from 'react-redux';
+import { useSelector, AppDispatch } from '../redux/store';
 import { fetchInitialUser, logout } from '../features/userSlice';
 import { useRouter } from 'next/router';
 import { getPosts } from '../api/getPosts';
 import Layout from '../components/templates/Layout';
+import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
+import { Post } from '../types';
 
-export const getServerSideProps = async () => {
+export const getServerSideProps: GetServerSideProps<{
+  posts: Post[];
+}> = async () => {
   const posts = await getPosts();
 
   return { props: { posts } };
 };
 
-const Post = ({ posts }: any) => {
+const Home = ({
+  posts,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const router = useRouter();
-  const dispatch = useDispatch();
-  const user = useSelector((state: any) => state.user);
+  const { user, loading } = useSelector((state) => state.user);
+
+  const dispatch: AppDispatch = useDispatch();
 
   useEffect(() => {
     dispatch(fetchInitialUser());
   }, []);
   useEffect(() => {
-    if (!user.user && !user.loading) {
+    if (!user && !loading) {
       router.push('/login');
     }
   }, [user]);
@@ -39,7 +45,7 @@ const Post = ({ posts }: any) => {
     }
   }, [dispatch, router]);
 
-  if (user.loading) {
+  if (loading) {
     return <p>index loading</p>;
   }
 
@@ -115,7 +121,7 @@ const PostSlide = styled.div`
   scroll-snap-type: y mandatory;
 `;
 
-Post.getLayout = function getLayout(page: ReactElement) {
+Home.getLayout = function getLayout(page: ReactElement) {
   return <Layout>{page}</Layout>;
 };
-export default Post;
+export default Home;

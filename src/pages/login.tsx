@@ -2,41 +2,45 @@ import Link from 'next/link';
 import styled from 'styled-components';
 
 import { useLogin } from '../hooks/useLogin';
-
 import { ErrorMessage } from '../components/atoms/ErrorMessage';
 import { Hr } from '../components/atoms/Hr';
 import { LoginForm } from '../components/atoms/LoginForm';
 import { useRouter } from 'next/router';
-import { useSelector } from 'react-redux';
-
+import { useSelector } from '../redux/store';
+import { useForm } from 'react-hook-form';
 const Login = () => {
-  const { loginSubmit, isError, email, password } = useLogin();
+  const { register, handleSubmit } = useForm();
+  const { loginSubmit, isError } = useLogin();
   const router = useRouter();
-  const user = useSelector((state: any) => state.user);
+  const { user, loading } = useSelector((state) => state.user);
 
   const googleLogin = () => {
     window.open('http://localhost:8000/auth/google', '_self');
   };
 
-  if (!user.loading && user.user) {
+  if (user && !loading) {
+    console.log(user, loading);
+
     router.push('/');
   }
   return (
     <>
       <SLoginBack>
         <SLoginBorder>
-          <SForm onSubmit={(e) => loginSubmit(e)}>
+          <SForm onSubmit={handleSubmit(loginSubmit)}>
             <SFormHead>SNS</SFormHead>
             <p>メールアドレス :test@gmail.com</p>
             <p>パスワード　　 :test</p>
             <SEmail
-              ref={email}
+              id="email"
+              {...register('email')}
               email="email"
               placeholder="メールアドレス"
               autoFocus
             />
             <SPassword
-              ref={password}
+              id="password"
+              {...register('password')}
               type="password"
               placeholder="パスワード"
             />
