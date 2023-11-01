@@ -1,7 +1,7 @@
-import User from './models/User';
 import bcrypt from 'bcrypt';
-import { Strategy as LocalStrategy } from 'passport-local';
 import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
+import { Strategy as LocalStrategy } from 'passport-local';
+import User from './models/User';
 
 const GOOGLE_CLIENT_ID =
   '117391584691-pjm5ancee5cc2s014v2r7gdra9iopasp.apps.googleusercontent.com';
@@ -78,7 +78,8 @@ async function passportConfig(passport) {
   // セッションにあるuser.idを用いてuser情報を取得
   passport.deserializeUser(async (id, cb) => {
     try {
-      const user: any = await User.findOne({ _id: id });
+      const user = await User.findOne({ _id: id });
+
       cb(null, user);
     } catch (err) {
       console.log(err);

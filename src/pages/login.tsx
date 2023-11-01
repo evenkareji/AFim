@@ -19,6 +19,8 @@ const Login = () => {
   };
 
   if (user && !loading) {
+    console.log(user, loading);
+
     router.push('/');
   }
   return (

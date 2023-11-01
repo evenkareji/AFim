@@ -18,10 +18,8 @@ router.post(
     passport.authenticate('local', (err, user) => {
       if (err) throw err;
 
-      if (!user) res.send('No User Exist');
+      if (!user) res.status(401).json(null);
       else {
-        console.log(user);
-
         if (req.logIn) {
           req.logIn(user, (err) => {
             if (err) throw err;
@@ -45,7 +43,6 @@ router.get('/login/success', (req: any, res) => {
       success: true,
       message: 'successfull',
       user: req.user,
-      //   cookies: req.cookies
     });
   }
 });
