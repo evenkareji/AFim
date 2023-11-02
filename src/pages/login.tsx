@@ -8,14 +8,15 @@ import { LoginForm } from '../components/atoms/LoginForm';
 import { useRouter } from 'next/router';
 import { useSelector } from '../redux/store';
 import { useForm } from 'react-hook-form';
+import { SignInData } from '../types';
 
 const Login = () => {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm({ mode: 'onChange' });
-  const { loginSubmit, isError } = useLogin();
+  } = useForm<SignInData>({ mode: 'onChange' });
+  const { loginSubmit, showError } = useLogin();
   const router = useRouter();
   const { user, loading } = useSelector((state) => state.user);
 
@@ -38,7 +39,7 @@ const Login = () => {
             <SEmail
               id="email"
               {...register('email', {
-                required: true,
+                required: 'メールアドレスを入力してください',
                 maxLength: {
                   value: 50,
                   message: '50文字以下で入力してください',
@@ -59,7 +60,7 @@ const Login = () => {
             <SPassword
               id="password"
               {...register('password', {
-                required: 'パスワードは必須です',
+                required: 'パスワードを入力してください',
                 minLength: {
                   value: 6,
                   message: 'パスワードは6文字以上で入力してください',
@@ -75,7 +76,8 @@ const Login = () => {
             <p style={{ marginBottom: '14px', color: 'red' }}>
               {errors.password?.message as React.ReactNode}
             </p>
-            {isError ? (
+
+            {showError ? (
               <SErrorMessage style={{ opacity: '1' }}>
                 メールアドレスかパスワードが間違っています
               </SErrorMessage>
