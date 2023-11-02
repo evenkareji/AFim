@@ -43,6 +43,7 @@ export const login = createAsyncThunk<
     return response.data as User;
   } catch (err) {
     console.log(err);
+
     // rejectWithValueを使ってエラー情報を返す
     return rejectWithValue(err.response.data);
   }
