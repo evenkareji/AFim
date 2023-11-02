@@ -17,7 +17,6 @@ export const useLogin = () => {
       dispatch(login({ email, password }));
     } catch (err) {
       console.log(err);
-
       setIsError(true);
     }
   };
