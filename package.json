@@ -12,6 +12,7 @@
     "@fortawesome/free-regular-svg-icons": "^6.2.1",
     "@fortawesome/free-solid-svg-icons": "^6.2.1",
     "@fortawesome/react-fontawesome": "^0.2.0",
+    "@hookform/resolvers": "^3.3.2",
     "@mui/icons-material": "^5.11.0",
     "@mui/material": "^5.11.3",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.3",
@@ -82,7 +83,8 @@
     "webpack": "^5.64.4",
     "webpack-dev-server": "^4.6.0",
     "webpack-manifest-plugin": "^4.0.2",
-    "workbox-webpack-plugin": "^6.4.1"
+    "workbox-webpack-plugin": "^6.4.1",
+    "zod": "^3.22.4"
   },
   "scripts": {
     "start": "next start",

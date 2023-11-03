@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import Link from 'next/link';
 
@@ -7,16 +7,25 @@ import { ErrorMessage } from '../components/atoms/ErrorMessage';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import { useRegister } from '../hooks/useRegister';
 import { useForm } from 'react-hook-form';
+import { registerValidationSchema } from '../utils/validationSchema';
+import { zodResolver } from '@hookform/resolvers/zod';
 
 const Register = () => {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm({ mode: 'onChange' });
+  } = useForm({
+    mode: 'onChange',
+    resolver: zodResolver(registerValidationSchema),
+  });
 
   const { registerSubmit, emailExist, isError } = useRegister();
+  const [passwordShown, setPasswordShown] = useState(false);
 
+  const togglePasswordVisiblity = () => {
+    setPasswordShown((passwordShown) => !passwordShown);
+  };
   return (
     <SLoginBack>
       <SLoginBorder>
@@ -31,57 +40,48 @@ const Register = () => {
             type="text"
             autoFocus={true}
             placeholder="ユーザー名"
-            {...register('username', {
-              required: 'ユーザー名を入力してください',
-              minLength: {
-                value: 1,
-                message: 'ユーザー名は6文字以上で入力してください',
-              },
-              maxLength: {
-                value: 15,
-                message: 'ユーザー名は50文字以下で入力してください',
-              },
-            })}
+            {...register('username')}
           />
+          <p style={{ marginBottom: '14px', color: 'red' }}>
+            {errors.username?.message as React.ReactNode}
+          </p>
           <SEmail
             type="email"
             placeholder="メールアドレス *本物のメールアドレスは入力しないでください"
-            {...register('email', {
-              required: 'メールアドレスを入力してください',
-              maxLength: {
-                value: 50,
-                message: '50文字以下で入力してください',
-              },
-              pattern: {
-                value:
-                  /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
-                message: 'メールアドレスの形式が不正です',
-              },
-            })}
+            {...register('email')}
           />
           <p style={{ marginBottom: '14px', color: 'red' }}>
             {errors.email?.message as React.ReactNode}
           </p>
           {emailExist ? (
-            <SEmailExist style={{ opacity: '1' }}>
+            <SEmailExist style={{ display: 'block' }}>
               そのメールアドレスは使用されています
             </SEmailExist>
           ) : (
-            <SEmailExist style={{ opacity: '0' }}>
+            <SEmailExist style={{ display: 'none' }}>
               そのメールアドレスは使用されています
             </SEmailExist>
           )}
           <SPassword
-            type="password"
-            placeholder="パスワード"
+            type={passwordShown ? 'text' : 'password'} // typeを動的に変更
             {...register('password')}
           />
+          <button type="button" onClick={togglePasswordVisiblity}>
+            表示/非表示
+          </button>
+          {/* ここにアイコンを追加することもできます */}
+          <p style={{ marginBottom: '14px', color: 'red' }}>
+            {errors.password?.message as React.ReactNode}
+          </p>
           <SPasswordConfirmation
             placeholder="確認用パスワード"
             type="password"
             {...register('passwordConfirmation')}
             isError={isError}
-          />
+          />{' '}
+          <p style={{ marginBottom: '14px', color: 'red' }}>
+            {errors.password?.message as React.ReactNode}
+          </p>
           {isError ? (
             <SErrorMessage style={{ opacity: '1' }}>
               パスワードが一致しません
@@ -91,7 +91,6 @@ const Register = () => {
               パスワードが一致しません
             </SErrorMessage>
           )}
-
           <SSubmit type="submit" formnovalidate>
             登録
           </SSubmit>
@@ -169,12 +168,12 @@ const SHead = styled.div`
   margin-bottom: 40px;
 `;
 const SName = styled(LoginForm)`
-  margin-bottom: 18px;
+  /* margin-bottom: 18px; */
 `;
 const SEmail = styled(LoginForm)``;
 
 const SPassword = styled(LoginForm)`
-  margin-bottom: 18px;
+  /* margin-bottom: 18px; */
 `;
 const SPasswordConfirmation = styled(LoginForm)`
   outline: ${({ isError }) => isError && '#ed0303 auto 2px'};
