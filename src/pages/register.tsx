@@ -6,22 +6,21 @@ import { LoginForm } from '../components/atoms/LoginForm';
 import { ErrorMessage } from '../components/atoms/ErrorMessage';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import { useRegister } from '../hooks/useRegister';
+import { useForm } from 'react-hook-form';
 
 const Register = () => {
   const {
-    registerSubmit,
-    emailExist,
-    isError,
-    username,
-    email,
-    password,
-    passwordConfirmation,
-  } = useRegister();
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({ mode: 'onChange' });
+
+  const { registerSubmit, emailExist, isError } = useRegister();
 
   return (
     <SLoginBack>
       <SLoginBorder>
-        <SForm onSubmit={(e) => registerSubmit(e)}>
+        <SForm onSubmit={handleSubmit(registerSubmit)}>
           <SArrowBackIosNewIconBox href={'/login'}>
             <SArrowBackIosNewIcon />
           </SArrowBackIosNewIconBox>
@@ -30,15 +29,39 @@ const Register = () => {
           </SHead>
           <SName
             type="text"
+            autoFocus={true}
             placeholder="ユーザー名"
-            ref={username}
-            autoFocus
+            {...register('username', {
+              required: 'ユーザー名を入力してください',
+              minLength: {
+                value: 1,
+                message: 'ユーザー名は6文字以上で入力してください',
+              },
+              maxLength: {
+                value: 15,
+                message: 'ユーザー名は50文字以下で入力してください',
+              },
+            })}
           />
           <SEmail
             type="email"
             placeholder="メールアドレス *本物のメールアドレスは入力しないでください"
-            ref={email}
+            {...register('email', {
+              required: 'メールアドレスを入力してください',
+              maxLength: {
+                value: 50,
+                message: '50文字以下で入力してください',
+              },
+              pattern: {
+                value:
+                  /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
+                message: 'メールアドレスの形式が不正です',
+              },
+            })}
           />
+          <p style={{ marginBottom: '14px', color: 'red' }}>
+            {errors.email?.message as React.ReactNode}
+          </p>
           {emailExist ? (
             <SEmailExist style={{ opacity: '1' }}>
               そのメールアドレスは使用されています
@@ -48,11 +71,15 @@ const Register = () => {
               そのメールアドレスは使用されています
             </SEmailExist>
           )}
-          <SPassword type="password" placeholder="パスワード" ref={password} />
+          <SPassword
+            type="password"
+            placeholder="パスワード"
+            {...register('password')}
+          />
           <SPasswordConfirmation
             placeholder="確認用パスワード"
             type="password"
-            ref={passwordConfirmation}
+            {...register('passwordConfirmation')}
             isError={isError}
           />
           {isError ? (

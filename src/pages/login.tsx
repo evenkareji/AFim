@@ -38,6 +38,7 @@ const Login = () => {
             <p>パスワード　　 :test</p>
             <SEmail
               id="email"
+              autoFocus={true}
               {...register('email', {
                 required: 'メールアドレスを入力してください',
                 maxLength: {
@@ -52,7 +53,6 @@ const Login = () => {
               })}
               email="email"
               placeholder="メールアドレス"
-              autoFocus
             />
             <p style={{ marginBottom: '14px', color: 'red' }}>
               {errors.email?.message as React.ReactNode}

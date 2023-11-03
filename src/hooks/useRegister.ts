@@ -1,29 +1,26 @@
 import axios from 'axios';
 import { useRouter } from 'next/router';
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 
 export const useRegister = () => {
-  const username = useRef<HTMLInputElement>();
-  const email = useRef<HTMLInputElement>();
-  const password = useRef<HTMLInputElement>();
-  const passwordConfirmation = useRef<HTMLInputElement>();
   const [isError, setIsError] = useState(false);
   const [emailExist, setEmailExist] = useState(false);
   const router = useRouter();
 
-  const registerSubmit = async (e) => {
-    e.preventDefault();
+  const registerSubmit = async (data) => {
+    const { username, email, password, passwordConfirmation } = data;
+
     const user: {
       username: string | undefined;
       email: string | undefined;
       password: string | undefined;
     } = {
-      username: username.current?.value,
-      email: email.current?.value,
-      password: password.current?.value,
+      username,
+      email,
+      password,
     };
 
-    if (password.current?.value !== passwordConfirmation.current?.value) {
+    if (password !== passwordConfirmation) {
       setIsError(true);
     } else {
       try {
@@ -39,9 +36,5 @@ export const useRegister = () => {
     registerSubmit,
     emailExist,
     isError,
-    username,
-    email,
-    password,
-    passwordConfirmation,
   };
 };
