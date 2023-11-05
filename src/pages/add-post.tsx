@@ -1,4 +1,4 @@
-import React, { ReactElement, useEffect, useRef, useState } from 'react';
+import React, { ReactElement, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { TextArea } from '../components/atoms/TextArea';
 import { UserIconImg } from '../components/atoms/UserIconImg';
@@ -8,12 +8,21 @@ import { useRouter } from 'next/router';
 import { useDispatch } from 'react-redux';
 import { fetchInitialUser } from '../features/userSlice';
 import { AppDispatch, useSelector } from '../redux/store';
+// import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
 
 const AddPost = () => {
-  const desc = useRef<HTMLTextAreaElement>(null);
   const PUBLIC_FOLDER = process.env.NEXT_PUBLIC_PUBLIC_FOLDER;
   const [isText, setIsText] = useState(false);
   const [file, setFile] = useState<File | null>(null);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    mode: 'onChange',
+    // resolver: zodResolver(registerValidationSchema),
+  });
   const { AddPost } = useAddPost();
   const router = useRouter();
   const dispatch: AppDispatch = useDispatch();
@@ -34,8 +43,7 @@ const AddPost = () => {
     }
   }, [user]);
 
-  const handleSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) =>
-    AddPost(e, desc, file);
+  const handleAddPost = ({ desc }) => AddPost(desc, file);
 
   const textLimit = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const maxText = 50;
@@ -53,12 +61,12 @@ const AddPost = () => {
     <SPostBox>
       <Scenter>
         <SLabel htmlFor="textForm">
-          <SForm method="post">
+          <SForm method="post" onSubmit={handleSubmit(handleAddPost)}>
             <SUserIconImg src={userIconImgSrc} />
 
             <TextArea
               placeholder="50文字以内で入力してください"
-              ref={desc}
+              {...register('desc')}
               onChange={(e) => textLimit(e)}
               id="textForm"
             ></TextArea>
@@ -74,11 +82,7 @@ const AddPost = () => {
               }}
             />
             <SHr />
-            <SSubmit
-              isText={isText}
-              type="submit"
-              onClick={(e) => handleSubmit(e)}
-            >
+            <SSubmit isText={isText} type="submit">
               送信
             </SSubmit>
           </SForm>
