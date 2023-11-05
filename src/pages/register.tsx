@@ -69,7 +69,6 @@ const Register = () => {
           <button type="button" onClick={togglePasswordVisiblity}>
             表示/非表示
           </button>
-          {/* ここにアイコンを追加することもできます */}
           <p style={{ marginBottom: '14px', color: 'red' }}>
             {errors.password?.message as React.ReactNode}
           </p>

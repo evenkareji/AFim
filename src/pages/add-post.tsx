@@ -38,17 +38,13 @@ const AddPost = () => {
     AddPost(e, desc, file);
 
   const textLimit = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    const minText = 0;
     const maxText = 50;
 
-    if (e.target.value.trim().length === minText) {
-      setIsText(false);
-    } else if (maxText < e.target.value.length) {
-      setIsText(false);
-    } else {
-      setIsText(true);
-    }
+    const textLength = e.target.value.trim().length;
+
+    setIsText(textLength > 0 && textLength <= maxText);
   };
+
   if (loading) {
     return <>loading</>;
   }
