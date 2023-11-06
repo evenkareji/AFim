@@ -8,8 +8,8 @@ import { useRouter } from 'next/router';
 import { useDispatch } from 'react-redux';
 import { fetchInitialUser } from '../features/userSlice';
 import { AppDispatch, useSelector } from '../redux/store';
-// import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
+import RingLoader from 'react-spinners/RingLoader';
 
 const AddPost = () => {
   const PUBLIC_FOLDER = process.env.NEXT_PUBLIC_PUBLIC_FOLDER;
@@ -19,10 +19,17 @@ const AddPost = () => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm({
-    mode: 'onChange',
-    // resolver: zodResolver(registerValidationSchema),
-  });
+    watch,
+    setValue,
+  } = useForm();
+
+  let descWatch = watch('desc', '');
+  useEffect(() => {
+    const maxText = 50;
+    const textLength = descWatch.trim().length;
+    setIsText(textLength > 0 && textLength <= maxText);
+  }, [descWatch, setIsText]);
+
   const { AddPost } = useAddPost();
   const router = useRouter();
   const dispatch: AppDispatch = useDispatch();
@@ -54,7 +61,11 @@ const AddPost = () => {
   };
 
   if (loading) {
-    return <>loading</>;
+    return (
+      <div className="loader-container">
+        <RingLoader color="#ed6103" loading={true} size={50} />
+      </div>
+    );
   }
 
   return (
@@ -63,12 +74,13 @@ const AddPost = () => {
         <SLabel htmlFor="textForm">
           <SForm method="post" onSubmit={handleSubmit(handleAddPost)}>
             <SUserIconImg src={userIconImgSrc} />
-
             <TextArea
               placeholder="50文字以内で入力してください"
               {...register('desc')}
-              onChange={(e) => textLimit(e)}
-              id="textForm"
+              onChange={(e) => {
+                textLimit(e);
+                setValue('desc', e.target.value);
+              }}
             ></TextArea>
             <input
               type="file"
@@ -82,11 +94,16 @@ const AddPost = () => {
               }}
             />
             <SHr />
+            <p style={{ color: descWatch.length > 50 ? 'red' : 'inherit' }}>
+              {descWatch.length}/50
+            </p>
+
             <SSubmit isText={isText} type="submit">
               送信
             </SSubmit>
           </SForm>
         </SLabel>
+
         {/* <FooterAddPost /> */}
       </Scenter>
     </SPostBox>

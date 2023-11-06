@@ -11,6 +11,7 @@ import { getPosts } from '../api/getPosts';
 import Layout from '../components/templates/Layout';
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
 import { Post } from '../types';
+import RingLoader from 'react-spinners/RingLoader';
 
 export const getServerSideProps: GetServerSideProps<{
   posts: Post[];
@@ -46,7 +47,11 @@ const Home = ({
   }, [dispatch, router]);
 
   if (loading) {
-    return <p>index loading</p>;
+    return (
+      <div className="loader-container">
+        <RingLoader color="#ed6103" loading={true} size={50} />
+      </div>
+    );
   }
 
   return (

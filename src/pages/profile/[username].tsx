@@ -12,6 +12,7 @@ import { useRouter } from 'next/router';
 import Layout from '../../components/templates/Layout';
 import { fetchInitialUser } from '../../features/userSlice';
 import { AppDispatch, useSelector } from '../../redux/store';
+import RingLoader from 'react-spinners/RingLoader';
 
 export async function getServerSideProps(context) {
   const { username } = context.query;
@@ -68,9 +69,15 @@ const ProfilePage = ({ profileUser, profileImage }) => {
   };
   const followings = profileUser?.followings || [];
   const followers = profileUser?.followers || [];
+
   if (loading) {
-    return <p>loading...</p>;
+    return (
+      <div className="loader-container">
+        <RingLoader color="#ed6103" loading={true} size={50} />
+      </div>
+    );
   }
+
   return (
     <SProfileBox>
       <SFollowTab
