@@ -4,10 +4,13 @@ import User from '../models/User';
 
 // ログイン維持
 router.get('/getUser', (req: any, res: any) => {
+  console.log(req.user, 'out getUser');
   try {
     if (req.user && req.user._doc) {
       const { password, googleId, method, email, isAdmin, ...other } =
         req.user._doc;
+      console.log(other, 'in getUser');
+
       return res.status(200).send(other);
     } else if (req.user === undefined) {
       return res.status(401).json(null);

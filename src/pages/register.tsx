@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Link from 'next/link';
 
+import { useRouter } from 'next/router';
 import { LoginForm } from '../components/atoms/LoginForm';
 import { ErrorMessage } from '../components/atoms/ErrorMessage';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
@@ -9,7 +10,7 @@ import { useRegister } from '../hooks/useRegister';
 import { useForm } from 'react-hook-form';
 import { registerValidationSchema } from '../utils/validationSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
-
+import { useSelector } from '../redux/store';
 const Register = () => {
   const {
     register,
@@ -19,13 +20,25 @@ const Register = () => {
     mode: 'onChange',
     resolver: zodResolver(registerValidationSchema),
   });
+  const router = useRouter();
+  const { user, loading } = useSelector((state) => state.user);
 
   const { registerSubmit, emailExist, isError } = useRegister();
   const [passwordShown, setPasswordShown] = useState(false);
+  useEffect(() => {
+    console.log(user, 'out');
+
+    if (user && !loading) {
+      console.log(user, 'in');
+
+      router.push('/');
+    }
+  }, [user]);
 
   const togglePasswordVisiblity = () => {
     setPasswordShown((passwordShown) => !passwordShown);
   };
+
   return (
     <SLoginBack>
       <SLoginBorder>
@@ -77,7 +90,7 @@ const Register = () => {
             type="password"
             {...register('passwordConfirmation')}
             isError={isError}
-          />{' '}
+          />
           <p style={{ marginBottom: '14px', color: 'red' }}>
             {errors.password?.message as React.ReactNode}
           </p>

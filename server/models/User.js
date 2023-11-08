@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+const { ObjectId } = mongoose.Schema;
 
 const UserSchema = new mongoose.Schema(
   {
@@ -7,12 +8,14 @@ const UserSchema = new mongoose.Schema(
       required: true,
       min: 1,
       max: 15,
+      trim: true,
       unique: true,
     },
     email: {
       type: String,
       required: true,
       max: 50,
+      trim: true,
       unique: true,
     },
     password: {
@@ -53,6 +56,11 @@ const UserSchema = new mongoose.Schema(
     desc: {
       type: String,
       max: 10,
+    },
+
+    verified: {
+      type: Boolean,
+      default: false,
     },
   },
   { timestamps: true },

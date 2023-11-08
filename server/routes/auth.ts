@@ -24,10 +24,11 @@ router.post(
           req.logIn(user, (err) => {
             if (err) throw err;
 
+            const token = generateToken({ id: user._id.toString() }, '7d');
             const { password, googleId, method, email, isAdmin, ...other } =
               user._doc;
 
-            res.status(200).json(other);
+            res.status(200).json({ ...other, token });
           });
         }
       }
@@ -86,19 +87,18 @@ router.get(
     failureRedirect: '/login/failed',
   }),
 );
-// ユーザー登録
-router.post('/register', async (req: Request, res: Response) => {
-  try {
-    const { username, email, password } = req.body;
 
+// ユーザー登録
+router.post('/register', async (req: any, res: any) => {
+  try {
     const salt = 10;
-    const hashedPassword = await bcrypt.hash(password, salt);
-    const newUser = await new User({
-      username: username,
-      email: email,
+    const hashedPassword = await bcrypt.hash(req.body.password, salt);
+    const newUser = (await new User({
+      username: req.body.username,
+      email: req.body.email,
       password: hashedPassword,
       method: ['local'],
-    });
+    })) as typeof user & { _doc: any };
 
     const user = await newUser.save();
     const emailVerificationToken = generateToken(
@@ -107,7 +107,11 @@ router.post('/register', async (req: Request, res: Response) => {
     );
     const url = `${process.env.BASE_URL}/activate/${emailVerificationToken}`;
     sendVerificationEmail(user.email, user.username, url);
-    return res.status(200).json(user);
+    const token = generateToken({ id: user._id.toString() }, '7d');
+
+    const { password, googleId, method, email, isAdmin, ...other } = user._doc;
+
+    res.status(200).json({ ...other, token });
   } catch (err) {
     console.log(err);
     return res.status(500).json(err);

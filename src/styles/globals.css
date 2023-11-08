@@ -12,6 +12,11 @@ body {
   font-family: 'Helvetica Neue', 'Helvetica', 'Hiragino Sans',
     'Hiragino Kaku Gothic ProN', 'Arial', 'Yu Gothic', 'Meiryo', sans-serif;
 }
+input,
+textarea,
+button {
+  font-family: inherit;
+}
 .loader-container {
   position: fixed;
   top: 50%;

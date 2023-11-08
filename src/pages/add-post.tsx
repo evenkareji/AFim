@@ -15,13 +15,7 @@ const AddPost = () => {
   const PUBLIC_FOLDER = process.env.NEXT_PUBLIC_PUBLIC_FOLDER;
   const [isText, setIsText] = useState(false);
   const [file, setFile] = useState<File | null>(null);
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    watch,
-    setValue,
-  } = useForm();
+  const { register, handleSubmit, watch, setValue } = useForm();
 
   let descWatch = watch('desc', '');
   useEffect(() => {

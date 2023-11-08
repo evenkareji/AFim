@@ -1,16 +1,17 @@
-import axios from 'axios';
-import { useRouter } from 'next/router';
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { register } from '../features/userSlice';
+import { AppDispatch } from '../redux/store';
 
 export const useRegister = () => {
   const [isError, setIsError] = useState(false);
   const [emailExist, setEmailExist] = useState(false);
-  const router = useRouter();
+  const dispatch: AppDispatch = useDispatch();
 
   const registerSubmit = async (data) => {
     const { username, email, password, passwordConfirmation } = data;
 
-    const user: {
+    const authUser: {
       username: string | undefined;
       email: string | undefined;
       password: string | undefined;
@@ -24,10 +25,9 @@ export const useRegister = () => {
       setIsError(true);
     } else {
       try {
-        await axios.post('/api/auth/register', user);
-        router.push('/login');
-      } catch (err) {
-        console.log(err);
+        await dispatch(register(authUser)).unwrap();
+      } catch (error) {
+        console.log(error);
         setEmailExist(true);
       }
     }

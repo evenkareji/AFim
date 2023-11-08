@@ -172,6 +172,9 @@ const SSubmit = styled.button`
   margin-left: auto;
   justify-content: center;
   align-items: center;
+  &:hover {
+    cursor: pointer;
+  }
 `;
 
 const STextFlex = styled.div`
