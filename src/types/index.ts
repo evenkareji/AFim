@@ -33,3 +33,7 @@ export type AddPost = {
   desc: string | undefined;
   img?: string;
 };
+export type SignInData = {
+  email: string;
+  password: string;
+};

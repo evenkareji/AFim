@@ -26,8 +26,9 @@ router.post(
 
             const { password, googleId, method, email, isAdmin, ...other } =
               user._doc;
+            const token = generateToken({ id: user._id.toString() }, '7d');
 
-            res.status(200).json(other);
+            res.status(200).json({ ...other, token });
           });
         }
       }
@@ -86,33 +87,45 @@ router.get(
     failureRedirect: '/login/failed',
   }),
 );
-// ユーザー登録
-router.post('/register', async (req: Request, res: Response) => {
-  try {
-    const { username, email, password } = req.body;
 
+// ユーザー登録
+router.post('/register', async (req: any, res: any) => {
+  try {
     const salt = 10;
-    const hashedPassword = await bcrypt.hash(password, salt);
-    const newUser = await new User({
-      username: username,
-      email: email,
+    const hashedPassword = await bcrypt.hash(req.body.password, salt);
+    let newUser = new User({
+      username: req.body.username,
+      email: req.body.email,
       password: hashedPassword,
       method: ['local'],
-    });
+    }) as any;
 
-    const user = await newUser.save();
+    newUser = await newUser.save();
     const emailVerificationToken = generateToken(
-      { id: user._id.toString() },
+      { id: newUser._id.toString() },
       '30m',
     );
     const url = `${process.env.BASE_URL}/activate/${emailVerificationToken}`;
-    sendVerificationEmail(user.email, user.username, url);
-    return res.status(200).json(user);
+    sendVerificationEmail(newUser.email, newUser.username, url);
+
+    // Passport.js の req.logIn を使ってログイン処理を行う
+    req.logIn(newUser, (err) => {
+      if (err) {
+        throw err;
+      }
+
+      const { password, googleId, method, email, isAdmin, ...other } =
+        newUser._doc;
+      const token = generateToken({ id: newUser._id.toString() }, '7d');
+
+      res.status(200).json({ ...other, token });
+    });
   } catch (err) {
     console.log(err);
     return res.status(500).json(err);
   }
 });
+
 // ユーザー更新
 // router.put('/register', async (req, res) => {
 //   try {

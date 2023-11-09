@@ -1,27 +1,44 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Link from 'next/link';
 
+import { useRouter } from 'next/router';
 import { LoginForm } from '../components/atoms/LoginForm';
 import { ErrorMessage } from '../components/atoms/ErrorMessage';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import { useRegister } from '../hooks/useRegister';
-
+import { useForm } from 'react-hook-form';
+import { registerValidationSchema } from '../utils/validationSchema';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useSelector } from '../redux/store';
 const Register = () => {
   const {
-    registerSubmit,
-    emailExist,
-    isError,
-    username,
-    email,
-    password,
-    passwordConfirmation,
-  } = useRegister();
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    mode: 'onChange',
+    resolver: zodResolver(registerValidationSchema),
+  });
+  const router = useRouter();
+  const { user, loading } = useSelector((state) => state.user);
+
+  const { registerSubmit, emailExist, isError } = useRegister();
+  const [passwordShown, setPasswordShown] = useState(false);
+  useEffect(() => {
+    if (user && !loading) {
+      router.push('/');
+    }
+  }, [user]);
+
+  const togglePasswordVisiblity = () => {
+    setPasswordShown((passwordShown) => !passwordShown);
+  };
 
   return (
     <SLoginBack>
       <SLoginBorder>
-        <SForm onSubmit={(e) => registerSubmit(e)}>
+        <SForm onSubmit={handleSubmit(registerSubmit)}>
           <SArrowBackIosNewIconBox href={'/login'}>
             <SArrowBackIosNewIcon />
           </SArrowBackIosNewIconBox>
@@ -30,31 +47,49 @@ const Register = () => {
           </SHead>
           <SName
             type="text"
+            autoFocus={true}
             placeholder="ユーザー名"
-            ref={username}
-            autoFocus
+            {...register('username')}
           />
+          <p style={{ marginBottom: '14px', color: 'red' }}>
+            {errors.username?.message as React.ReactNode}
+          </p>
           <SEmail
             type="email"
             placeholder="メールアドレス *本物のメールアドレスは入力しないでください"
-            ref={email}
+            {...register('email')}
           />
+          <p style={{ marginBottom: '14px', color: 'red' }}>
+            {errors.email?.message as React.ReactNode}
+          </p>
           {emailExist ? (
-            <SEmailExist style={{ opacity: '1' }}>
+            <SEmailExist style={{ display: 'block' }}>
               そのメールアドレスは使用されています
             </SEmailExist>
           ) : (
-            <SEmailExist style={{ opacity: '0' }}>
+            <SEmailExist style={{ display: 'none' }}>
               そのメールアドレスは使用されています
             </SEmailExist>
           )}
-          <SPassword type="password" placeholder="パスワード" ref={password} />
+          <SPassword
+            type={passwordShown ? 'text' : 'password'} // typeを動的に変更
+            {...register('password')}
+          />
+          <button type="button" onClick={togglePasswordVisiblity}>
+            表示/非表示
+          </button>
+          <p style={{ marginBottom: '14px', color: 'red' }}>
+            {errors.password?.message as React.ReactNode}
+          </p>
           <SPasswordConfirmation
             placeholder="確認用パスワード"
             type="password"
-            ref={passwordConfirmation}
+            {...register('passwordConfirmation')}
             isError={isError}
           />
+          <p style={{ marginBottom: '14px', color: 'red' }}>
+            {errors.password?.message as React.ReactNode}
+          </p>
           {isError ? (
             <SErrorMessage style={{ opacity: '1' }}>
               パスワードが一致しません
@@ -64,7 +99,6 @@ const Register = () => {
               パスワードが一致しません
             </SErrorMessage>
           )}
-
           <SSubmit type="submit" formnovalidate>
             登録
           </SSubmit>
@@ -142,12 +176,12 @@ const SHead = styled.div`
   margin-bottom: 40px;
 `;
 const SName = styled(LoginForm)`
-  margin-bottom: 18px;
+  /* margin-bottom: 18px; */
 `;
 const SEmail = styled(LoginForm)``;
 
 const SPassword = styled(LoginForm)`
-  margin-bottom: 18px;
+  /* margin-bottom: 18px; */
 `;
 const SPasswordConfirmation = styled(LoginForm)`
   outline: ${({ isError }) => isError && '#ed0303 auto 2px'};

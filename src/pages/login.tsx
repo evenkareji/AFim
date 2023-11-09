@@ -1,6 +1,8 @@
 import Link from 'next/link';
 import styled from 'styled-components';
+import { useState } from 'react';
 
+import { zodResolver } from '@hookform/resolvers/zod';
 import { useLogin } from '../hooks/useLogin';
 import { ErrorMessage } from '../components/atoms/ErrorMessage';
 import { Hr } from '../components/atoms/Hr';
@@ -8,12 +10,17 @@ import { LoginForm } from '../components/atoms/LoginForm';
 import { useRouter } from 'next/router';
 import { useSelector } from '../redux/store';
 import { useForm } from 'react-hook-form';
+import { SignInData } from '../types';
+import { loginValidationSchema } from '../utils/validationSchema';
+
 const Login = () => {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm({ mode: 'onChange' });
+  } = useForm<SignInData>({
+    resolver: zodResolver(loginValidationSchema),
+  });
   const { loginSubmit, isError } = useLogin();
   const router = useRouter();
   const { user, loading } = useSelector((state) => state.user);
@@ -21,10 +28,15 @@ const Login = () => {
   const googleLogin = () => {
     window.open('http://localhost:8000/auth/google', '_self');
   };
+  const [passwordShown, setPasswordShown] = useState(false);
 
+  const togglePasswordVisiblity = () => {
+    setPasswordShown((passwordShown) => !passwordShown);
+  };
   if (user && !loading) {
     router.push('/');
   }
+
   return (
     <>
       <SLoginBack>
@@ -35,42 +47,23 @@ const Login = () => {
             <p>パスワード　　 :test</p>
             <SEmail
               id="email"
-              {...register('email', {
-                required: true,
-                maxLength: {
-                  value: 50,
-                  message: '50文字以下で入力してください',
-                },
-                pattern: {
-                  value:
-                    /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
-                  message: 'メールアドレスの形式が不正です',
-                },
-              })}
+              autoFocus={true}
+              {...register('email')}
               email="email"
               placeholder="メールアドレス"
-              autoFocus
             />
-            <p style={{ marginBottom: '14px', color: 'red' }}>
-              {errors.email?.message as React.ReactNode}
-            </p>
             <SPassword
               id="password"
-              {...register('password', {
-                required: 'パスワードは必須です',
-                minLength: {
-                  value: 6,
-                  message: 'パスワードは6文字以上で入力してください',
-                },
-                maxLength: {
-                  value: 50,
-                  message: 'パスワードは50文字以下で入力してください',
-                },
-              })}
-              type="password"
+              type={passwordShown ? 'text' : 'password'}
+              {...register('password')}
               placeholder="パスワード"
             />
+            <button type="button" onClick={togglePasswordVisiblity}>
+              表示/非表示
+            </button>
+
             <p style={{ marginBottom: '14px', color: 'red' }}>
+              {errors.email?.message as React.ReactNode}{' '}
               {errors.password?.message as React.ReactNode}
             </p>
             {isError ? (
@@ -160,7 +153,7 @@ const SFormHead = styled.div`
   margin-bottom: 40px;
 `;
 const SEmail = styled(LoginForm)`
-  /* margin-bottom: 14px; */
+  margin-bottom: 14px;
 `;
 
 const SPassword = styled(LoginForm)``;
@@ -179,6 +172,9 @@ const SSubmit = styled.button`
   margin-left: auto;
   justify-content: center;
   align-items: center;
+  &:hover {
+    cursor: pointer;
+  }
 `;
 
 const STextFlex = styled.div`

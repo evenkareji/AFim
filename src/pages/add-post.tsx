@@ -1,4 +1,4 @@
-import React, { ReactElement, useEffect, useRef, useState } from 'react';
+import React, { ReactElement, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { TextArea } from '../components/atoms/TextArea';
 import { UserIconImg } from '../components/atoms/UserIconImg';
@@ -8,12 +8,22 @@ import { useRouter } from 'next/router';
 import { useDispatch } from 'react-redux';
 import { fetchInitialUser } from '../features/userSlice';
 import { AppDispatch, useSelector } from '../redux/store';
+import { useForm } from 'react-hook-form';
+import RingLoader from 'react-spinners/RingLoader';
 
 const AddPost = () => {
-  const desc = useRef<HTMLTextAreaElement>(null);
   const PUBLIC_FOLDER = process.env.NEXT_PUBLIC_PUBLIC_FOLDER;
   const [isText, setIsText] = useState(false);
   const [file, setFile] = useState<File | null>(null);
+  const { register, handleSubmit, watch, setValue } = useForm();
+
+  let descWatch = watch('desc', '');
+  useEffect(() => {
+    const maxText = 50;
+    const textLength = descWatch.trim().length;
+    setIsText(textLength > 0 && textLength <= maxText);
+  }, [descWatch, setIsText]);
+
   const { AddPost } = useAddPost();
   const router = useRouter();
   const dispatch: AppDispatch = useDispatch();
@@ -34,37 +44,37 @@ const AddPost = () => {
     }
   }, [user]);
 
-  const handleSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) =>
-    AddPost(e, desc, file);
+  const handleAddPost = ({ desc }) => AddPost(desc, file);
 
   const textLimit = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    const minText = 0;
     const maxText = 50;
 
-    if (e.target.value.trim().length === minText) {
-      setIsText(false);
-    } else if (maxText < e.target.value.length) {
-      setIsText(false);
-    } else {
-      setIsText(true);
-    }
+    const textLength = e.target.value.trim().length;
+
+    setIsText(textLength > 0 && textLength <= maxText);
   };
+
   if (loading) {
-    return <>loading</>;
+    return (
+      <div className="loader-container">
+        <RingLoader color="#ed6103" loading={true} size={50} />
+      </div>
+    );
   }
 
   return (
     <SPostBox>
       <Scenter>
         <SLabel htmlFor="textForm">
-          <SForm method="post">
+          <SForm method="post" onSubmit={handleSubmit(handleAddPost)}>
             <SUserIconImg src={userIconImgSrc} />
-
             <TextArea
               placeholder="50文字以内で入力してください"
-              ref={desc}
-              onChange={(e) => textLimit(e)}
-              id="textForm"
+              {...register('desc')}
+              onChange={(e) => {
+                textLimit(e);
+                setValue('desc', e.target.value);
+              }}
             ></TextArea>
             <input
               type="file"
@@ -78,15 +88,16 @@ const AddPost = () => {
               }}
             />
             <SHr />
-            <SSubmit
-              isText={isText}
-              type="submit"
-              onClick={(e) => handleSubmit(e)}
-            >
+            <p style={{ color: descWatch.length > 50 ? 'red' : 'inherit' }}>
+              {descWatch.length}/50
+            </p>
+
+            <SSubmit isText={isText} type="submit">
               送信
             </SSubmit>
           </SForm>
         </SLabel>
+
         {/* <FooterAddPost /> */}
       </Scenter>
     </SPostBox>

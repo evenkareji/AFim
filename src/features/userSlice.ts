@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { User } from '../types';
+import Cookies from 'js-cookie';
 
 type InitialStateUser = {
   loading: boolean;
@@ -29,6 +30,34 @@ export const fetchInitialUser = createAsyncThunk(
 
 type YourErrorType = any; // ここを適切なエラー型に変更してください
 
+export const register = createAsyncThunk<
+  User,
+  {
+    username: string | undefined;
+    email: string | undefined;
+    password: string | undefined;
+  },
+  { rejectValue: YourErrorType }
+>(
+  'user/register',
+  async ({ username, email, password }, { rejectWithValue }) => {
+    try {
+      const response = await axios.post('/api/auth/register', {
+        username,
+        email,
+        password,
+      });
+
+      Cookies.set('token', JSON.stringify(response.data.token));
+      return response.data as User;
+    } catch (err) {
+      console.log(err);
+
+      // rejectWithValueを使ってエラー情報を返す
+      return rejectWithValue(err.response.data);
+    }
+  },
+);
 export const login = createAsyncThunk<
   User,
   { email: string | undefined; password: string | undefined },
@@ -39,10 +68,13 @@ export const login = createAsyncThunk<
       email,
       password,
     });
+    console.log(response.data.token);
 
+    Cookies.set('token', JSON.stringify(response.data.token));
     return response.data as User;
   } catch (err) {
     console.log(err);
+
     // rejectWithValueを使ってエラー情報を返す
     return rejectWithValue(err.response.data);
   }
@@ -90,6 +122,20 @@ export const userSlice = createSlice({
       state.error = true;
     });
 
+    // register
+    builder.addCase(register.pending, (state) => {
+      state.loading = true;
+    });
+    builder.addCase(register.fulfilled, (state, action) => {
+      state.user = action.payload;
+      console.log(action.payload);
+
+      state.loading = false;
+    });
+    builder.addCase(register.rejected, (state) => {
+      state.loading = false;
+      state.error = true;
+    });
     // login
     builder.addCase(login.pending, (state) => {
       state.loading = true;

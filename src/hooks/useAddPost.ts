@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 import { AddPost } from '../types';
-import { RefObject } from 'react';
+
 import { useRouter } from 'next/router';
 import { useSelector } from '../redux/store';
 
@@ -9,21 +9,17 @@ export const useAddPost = () => {
   const router = useRouter();
   const { user } = useSelector((state) => state.user);
 
-  const AddPost = async (
-    e: React.FormEvent,
-    desc: RefObject<HTMLTextAreaElement>,
-    file: File | null,
-  ) => {
-    e.preventDefault();
-
-    if (!desc.current || !user) {
+  const AddPost = async (desc: string, file: File | null) => {
+    if (!desc || !user) {
       return;
     }
+    console.log(desc);
 
     const newPost: AddPost = {
       userId: user._id,
-      desc: desc.current.value,
+      desc,
     };
+    console.log(newPost);
 
     if (file) {
       const data = new FormData();
