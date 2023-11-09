@@ -26,11 +26,7 @@ const Register = () => {
   const { registerSubmit, emailExist, isError } = useRegister();
   const [passwordShown, setPasswordShown] = useState(false);
   useEffect(() => {
-    console.log(user, 'out');
-
     if (user && !loading) {
-      console.log(user, 'in');
-
       router.push('/');
     }
   }, [user]);

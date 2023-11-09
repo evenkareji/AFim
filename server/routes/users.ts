@@ -1,15 +1,13 @@
 import express from 'express';
 const router = express.Router();
 import User from '../models/User';
-
+import jwt from 'jsonwebtoken';
 // ログイン維持
 router.get('/getUser', (req: any, res: any) => {
-  console.log(req.user, 'out getUser');
   try {
     if (req.user && req.user._doc) {
       const { password, googleId, method, email, isAdmin, ...other } =
         req.user._doc;
-      console.log(other, 'in getUser');
 
       return res.status(200).send(other);
     } else if (req.user === undefined) {
@@ -20,7 +18,27 @@ router.get('/getUser', (req: any, res: any) => {
     return res.status(500).json(err);
   }
 });
+// verifyをtrue
+router.post('/activate', async (req: any, res: any) => {
+  try {
+    const { token } = req.body;
+    const user = jwt.verify(token, process.env.TOKEN_SECRET);
 
+    const check: any = await User.findById(user.id);
+    if (check.verified == true) {
+      return res
+        .status(400)
+        .json({ message: 'this email is already activated' });
+    } else {
+      await User.findByIdAndUpdate(user.id, { verified: true });
+      return res
+        .status(200)
+        .json({ message: 'Account has beeen activated successfully.' });
+    }
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
 // ユーザー情報の取得
 router.get('/:id', async (req, res) => {
   try {

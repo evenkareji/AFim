@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { User } from '../types';
+import Cookies from 'js-cookie';
 
 type InitialStateUser = {
   loading: boolean;
@@ -18,7 +19,6 @@ export const fetchInitialUser = createAsyncThunk(
   async (_, { dispatch, getState }) => {
     try {
       const response = await axios.get('/api/users/getUser');
-      console.log(response.data);
 
       return response.data;
     } catch (err) {
@@ -48,6 +48,7 @@ export const register = createAsyncThunk<
         password,
       });
 
+      Cookies.set('token', JSON.stringify(response.data.token));
       return response.data as User;
     } catch (err) {
       console.log(err);
@@ -67,7 +68,9 @@ export const login = createAsyncThunk<
       email,
       password,
     });
+    console.log(response.data.token);
 
+    Cookies.set('token', JSON.stringify(response.data.token));
     return response.data as User;
   } catch (err) {
     console.log(err);

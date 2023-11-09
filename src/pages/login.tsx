@@ -21,7 +21,7 @@ const Login = () => {
   } = useForm<SignInData>({
     resolver: zodResolver(loginValidationSchema),
   });
-  const { loginSubmit, showError } = useLogin();
+  const { loginSubmit, isError } = useLogin();
   const router = useRouter();
   const { user, loading } = useSelector((state) => state.user);
 
@@ -66,7 +66,7 @@ const Login = () => {
               {errors.email?.message as React.ReactNode}{' '}
               {errors.password?.message as React.ReactNode}
             </p>
-            {showError ? (
+            {isError ? (
               <SErrorMessage style={{ opacity: '1' }}>
                 メールアドレスかパスワードが間違っています
               </SErrorMessage>
