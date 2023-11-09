@@ -1,8 +1,10 @@
 import express, { Request, Response, NextFunction } from 'express';
 import User from '../models/User';
+import Code from '../models/Code';
 import bcrypt from 'bcrypt';
 import passport from 'passport';
-import { sendVerificationEmail } from '../helpers/mailer';
+import { sendResetCode, sendVerificationEmail } from '../helpers/mailer';
+import { generateCode } from '../helpers/generateCode';
 import { generateToken } from '../helpers/tokens';
 const router = express.Router();
 
@@ -123,6 +125,42 @@ router.post('/register', async (req: any, res: any) => {
   } catch (err) {
     console.log(err);
     return res.status(500).json(err);
+  }
+});
+
+// なくていいかもしれないところ
+router.post('/findUser', async (req: any, res: any) => {
+  try {
+    const { email } = req.body;
+    const user = await User.findOne({ email }).select('-password');
+    if (!user) {
+      return res.status(400).json({ message: 'Account does not exist' });
+    }
+    return res.status(200).json({ email: user.email });
+  } catch (error) {
+    console.log(error);
+  }
+});
+// リセットパスワード
+router.post('/sendResetPasswordCode', async (req: any, res: any) => {
+  try {
+    const { email } = req.body;
+    const user = await User.findOne({ email }).select('-password');
+    if (!user) {
+      return res.status(400).json({ message: 'Account was not found' });
+    }
+    await Code.findOneAndRemove({ user: user._id });
+    const code = generateCode(5);
+    await new Code({
+      code,
+      user: user.id,
+    });
+    sendResetCode(user.email, user.username, code);
+    return res
+      .status(200)
+      .json({ message: 'Email reset code has been sent to your email' });
+  } catch (error) {
+    console.log(error);
   }
 });
 
