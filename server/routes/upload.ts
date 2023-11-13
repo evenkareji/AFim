@@ -70,5 +70,11 @@ router.post(
     }
   },
 );
-
+router.post('/uploadImages', async (req: any, res: any) => {
+  try {
+    res.json('welcome from image upload');
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+});
 export default router;

@@ -1,8 +1,10 @@
 import express, { Request, Response, NextFunction } from 'express';
 import User from '../models/User';
+import Code from '../models/Code';
 import bcrypt from 'bcrypt';
 import passport from 'passport';
-import { sendVerificationEmail } from '../helpers/mailer';
+import { sendResetCode, sendVerificationEmail } from '../helpers/mailer';
+import { generateCode } from '../helpers/generateCode';
 import { generateToken } from '../helpers/tokens';
 const router = express.Router();
 
@@ -124,6 +126,76 @@ router.post('/register', async (req: any, res: any) => {
     console.log(err);
     return res.status(500).json(err);
   }
+});
+
+// なくていいかもしれないところ
+router.post('/findUser', async (req: any, res: any) => {
+  try {
+    const { email } = req.body;
+    const user = await User.findOne({ email }).select('-password');
+    if (!user) {
+      return res.status(400).json({ message: 'Account does not exist' });
+    }
+    return res.status(200).json({ email: user.email });
+  } catch (error) {
+    console.log(error);
+  }
+});
+// Codeを発行する
+router.post('/sendResetPasswordCode', async (req: any, res: any) => {
+  try {
+    const { email } = req.body;
+    const user = await User.findOne({ email }).select('-password');
+    if (!user) {
+      return res
+        .status(400)
+        .json({ message: '一致するユーザーは見つかりませんでした' });
+    }
+    await Code.findOneAndRemove({ user: user._id });
+    const code = generateCode(5);
+    await new Code({
+      code,
+      user: user.id,
+    }).save();
+    sendResetCode(user.email, user.username, code);
+    return res.status(200).json({
+      message: 'Email reset code has been sent to your email',
+    });
+  } catch (error) {
+    console.log(error);
+  }
+});
+router.post('/validateResetCode', async (req: any, res: any) => {
+  try {
+    const { email, code } = req.body;
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(400).json({ message: 'ユーザーが存在しません' });
+    }
+    const Dbcode = await Code.findOne({ user: user._id });
+
+    if (!Dbcode) {
+      return res
+        .status(400)
+        .json({ message: '認証コードが発行されていません' });
+    }
+
+    if (Dbcode.code !== code) {
+      return res.status(400).json({ message: '認証コードは間違っています' });
+    }
+
+    return res.status(200).json({ message: '認証コードが一致しました' });
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({ message: error.message });
+  }
+});
+router.post('/changePassword', async (req: any, res: any) => {
+  const { email, password } = req.body;
+  const salt = 10;
+  const hashedPassword = await bcrypt.hash(password, salt);
+  await User.findOneAndUpdate({ email }, { password: hashedPassword });
+  return res.status(200).json({ message: 'パスワードを更新しました' });
 });
 
 // ユーザー更新

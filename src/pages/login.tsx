@@ -61,7 +61,7 @@ const Login = () => {
             <button type="button" onClick={togglePasswordVisiblity}>
               表示/非表示
             </button>
-
+            <Link href="/reset">パスワードを忘れた場合</Link>
             <p style={{ marginBottom: '14px', color: 'red' }}>
               {errors.email?.message as React.ReactNode}{' '}
               {errors.password?.message as React.ReactNode}
