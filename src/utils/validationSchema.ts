@@ -20,3 +20,25 @@ export const registerValidationSchema = commonValidationSchema.extend({
     .min(6, 'パスワードは6文字以上で入力してください')
     .max(50, 'パスワードは50文字以下で入力してください'),
 });
+
+export const sendVerificationEmail = commonValidationSchema.omit({
+  password: true,
+});
+
+export const sendVerificationCode = z.object({
+  code: z
+    .number()
+    .min(10000, 'コードは5桁の数値でなければなりません')
+    .max(99999, 'コードは5桁の数値でなければなりません'),
+});
+
+export const changePasswordValidationSchema = commonValidationSchema
+  .omit({
+    email: true,
+  })
+  .extend({
+    passwordConfirmation: z
+      .string()
+      .min(6, 'パスワードは6文字以上で入力してください')
+      .max(50, 'パスワードは50文字以下で入力してください'),
+  });
