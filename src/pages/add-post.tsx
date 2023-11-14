@@ -76,6 +76,7 @@ const AddPost = () => {
                 setValue('desc', e.target.value);
               }}
             ></TextArea>
+            <SBg src={userIconImgSrc} alt="" />
             <input
               type="file"
               id="file"
@@ -124,6 +125,8 @@ const SLabel = styled.label`
   border-radius: 20px;
 `;
 const SForm = styled.form`
+  position: relative;
+  z-index: 2;
   max-width: 500px;
   width: 90%;
   margin: 0 auto;
@@ -169,6 +172,16 @@ const SHr = styled.hr`
   border: 1px solid rgb(207, 217, 222);
   margin-top: 52px;
   margin-bottom: 42px;
+`;
+
+const SBg = styled.img`
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -1;
 `;
 
 AddPost.getLayout = function getLayout(page: ReactElement) {

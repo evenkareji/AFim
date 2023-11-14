@@ -11,6 +11,7 @@ const Layout = ({ children }: LayoutProps) => {
     <SFlex>
       <Footer />
       {children}
+      {/* ボタンが押されたらここに投稿フォームをpopupする */}
     </SFlex>
   );
 };

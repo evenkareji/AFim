@@ -1,25 +1,23 @@
 import mongoose from 'mongoose';
 const Schema = mongoose.Schema;
+const { ObjectId } = mongoose.Schema.Types;
 
 const postSchema = new Schema(
   {
     userId: {
-      type: String,
+      type: ObjectId,
+      ref: 'User',
       required: true,
     },
     desc: {
       type: String,
-      max: 30,
+      max: 50,
     },
     img: {
       type: String,
     },
 
     likes: {
-      type: Array,
-      default: [],
-    },
-    comments: {
       type: Array,
       default: [],
     },
