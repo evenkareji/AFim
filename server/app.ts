@@ -13,6 +13,7 @@ import session from 'express-session';
 import path from 'path';
 import cors from 'cors';
 import helmet from 'helmet';
+import fileUpload from 'express-fileupload';
 import { fileURLToPath } from 'url';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -64,6 +65,7 @@ app.use(cookieParser('secretcode'));
 app.use(passport.initialize());
 app.use(passport.session());
 passportConfig(passport);
+app.use(fileUpload({ useTempFiles: true }));
 
 app.use('/users', userRouter);
 app.use('/auth', authRouter);
