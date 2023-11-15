@@ -14,6 +14,7 @@ import RingLoader from 'react-spinners/RingLoader';
 const AddPost = () => {
   const PUBLIC_FOLDER = process.env.NEXT_PUBLIC_PUBLIC_FOLDER;
   const [isText, setIsText] = useState(false);
+  const [images, setImages] = useState<any>([]);
   const [file, setFile] = useState<File | null>(null);
   const { register, handleSubmit, watch, setValue } = useForm();
 
@@ -54,6 +55,17 @@ const AddPost = () => {
     setIsText(textLength > 0 && textLength <= maxText);
   };
 
+  const handleImages = (e) => {
+    let file = e.target.files[0];
+    if (file) {
+      const reader: any = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = (readerEvent) => {
+        setImages([readerEvent.target.result]);
+      };
+    }
+  };
+
   if (loading) {
     return (
       <div className="loader-container">
@@ -76,8 +88,14 @@ const AddPost = () => {
                 setValue('desc', e.target.value);
               }}
             ></TextArea>
-            <SBg src={userIconImgSrc} alt="" />
-            <input
+            {images && (
+              <>
+                {images.map((img, i) => (
+                  <img src={img} key={i} alt="" />
+                ))}
+              </>
+            )}
+            {/* <input
               type="file"
               id="file"
               name="file"
@@ -87,12 +105,17 @@ const AddPost = () => {
                 const file = target.files ? target.files[0] : null;
                 setFile(file);
               }}
+            /> */}
+            <input
+              type="file"
+              accept="image/jpeg,image/png,image/gif,image/webp"
+              onChange={handleImages}
             />
+
             <SHr />
             <p style={{ color: descWatch.length > 50 ? 'red' : 'inherit' }}>
               {descWatch.length}/50
             </p>
-
             <SSubmit isText={isText} type="submit">
               送信
             </SSubmit>
