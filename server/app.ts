@@ -19,6 +19,9 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 env.config();
+
+mongoose.set('strictQuery', false);
+
 const app: express.Express = express();
 app.use(helmet());
 app.use(
