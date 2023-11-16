@@ -19,18 +19,11 @@ export const PostView: FC<{ post: Post }> = (props) => {
 
   console.log('Parent render');
 
-  const PUBLIC_FOLDER = process.env.NEXT_PUBLIC_PUBLIC_FOLDER;
   const { followUser } = useFollow();
   const { unFollowUser } = useUnFollow();
   const { getAuthorByPostId, user } = useGetAuthor();
   const router = useRouter();
-  const isGoogleImg = user?.profileImg?.startsWith(
-    'https://lh3.googleusercontent.com/',
-  );
 
-  const userIconImgSrc = isGoogleImg
-    ? user?.profileImg
-    : `${PUBLIC_FOLDER}person/${user?.profileImg || 'noAvatar.png'}`;
   const { user: loginUser, loading } = useSelector((state) => state.user);
 
   useEffect(() => {
@@ -58,7 +51,7 @@ export const PostView: FC<{ post: Post }> = (props) => {
       <SPostContent>
         <SPostHeader>
           <Link href={`profile/${user?.username}`}>
-            <SUserIconImg src={userIconImgSrc} />
+            <SUserIconImg src={user?.profileImg} />
           </Link>
           <Box>
             <SUserName>{user?.username}</SUserName>
@@ -126,6 +119,7 @@ const SUserIconImg = styled.img`
   width: 52px;
   height: 52px;
   background-color: #fff;
+  cursor: pointer;
 `;
 const SUserName = styled.h1`
   color: #000;

@@ -9,7 +9,7 @@ export const useAddPost = (image) => {
   const router = useRouter();
   const { user } = useSelector((state) => state.user);
 
-  const AddPost = async (desc: string, file: File | null) => {
+  const AddPost = async (desc: string) => {
     if (!desc || !user) {
       return;
     }
@@ -21,8 +21,6 @@ export const useAddPost = (image) => {
     console.log(newPost);
 
     if (image) {
-      console.log(image, 'inAddPpost');
-
       const postImage = dataURItoBlob(image); // 単一の画像をBlobに変換
       const path = `${user.username}/post Image`;
       const formData = new FormData();

@@ -7,26 +7,30 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { useDispatch } from 'react-redux';
 import { toggleFollow } from '../../features/userSlice';
 import { AppDispatch, useSelector } from '../../redux/store';
+import dataURItoBlob from '../../utils/blobConverter';
 
-export const UserIconWithName = ({ profileUser, profileImage }) => {
-  const PUBLIC_FOLDER = process.env.NEXT_PUBLIC_PUBLIC_FOLDER;
-  const [file, setFile] = useState<File | null>(null);
-  const [frprofileImage, setProfileImage] = useState<string>(profileImage);
+export const UserIconWithName = ({ profileUser }) => {
+  const [image, setImage] = useState<any>();
   const dispatch: AppDispatch = useDispatch();
 
   const { user } = useSelector((state) => state.user);
 
   useEffect(() => {
-    if (file) {
+    if (image) {
       profileUpload();
     }
-  }, [file]);
+  }, [image]);
 
-  // useEffect(() => {
-  //   if (profileUser && profileUser.profileImg) {
-  //     setProfileImage(`${PUBLIC_FOLDER}person/${profileUser.profileImg}`);
-  //   }
-  // }, [profileUser]);
+  const handleImages = (e) => {
+    let file = e.target.files[0];
+    if (file) {
+      const reader: any = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = (readerEvent) => {
+        setImage(readerEvent.target.result);
+      };
+    }
+  };
 
   async function profileUpload() {
     if (!user) {
@@ -37,19 +41,18 @@ export const UserIconWithName = ({ profileUser, profileImage }) => {
     const newProfile: { userId: string; profileImg?: string } = {
       userId: user._id,
     };
-    if (file) {
+    if (image) {
+      const postImage = dataURItoBlob(image); // 単一の画像をBlobに変換
+      const path = `${user.username}/post Image`;
+      const formData = new FormData();
+      formData.append('path', path);
+      formData.append('file', postImage);
+
       try {
-        const data = new FormData();
-        const fileName = file.name;
-        data.append('name', fileName);
-        data.append('profile_image', file);
-        newProfile.profileImg = fileName;
+        const { data } = await axios.post('/api/upload/uploadImages', formData);
 
-        // 画像が日本語であったり、spaceがあると表示されない。だからサーバーで名前を変えてあげるといい
-        await axios.post('/api/upload/profile-image', data);
-        console.log('実行完了');
-
-        setProfileImage(`${PUBLIC_FOLDER}person/${fileName}`);
+        newProfile.profileImg = data.url.url;
+        // setProfileImage(newProfile.profileImg);
       } catch (err) {
         console.log(err);
       }
@@ -68,18 +71,15 @@ export const UserIconWithName = ({ profileUser, profileImage }) => {
     <>
       <SLabel htmlFor="profile_image">
         {/* この画像のキャッシュは画像にランダムな名前を付与したらできる */}
-        <SProfileImg src={frprofileImage} />
+        <SProfileImg src={profileUser.profileImg} />
         <SAddCircleIcon />
         <input
           type="file"
           id="profile_image"
           name="profile_image"
-          style={{ display: 'none' }}
-          onChange={(e) => {
-            if (e.target.files && e.target.files.length > 0) {
-              setFile(e.target.files[0]);
-            }
-          }}
+          hidden
+          accept="image/jpeg,image/png,image/gif,image/webp"
+          onChange={handleImages}
         />
       </SLabel>
 

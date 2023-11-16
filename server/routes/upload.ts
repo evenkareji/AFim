@@ -117,6 +117,33 @@ router.post('/uploadImages', async (req: any, res: any) => {
   }
 });
 
+router.post('/uploadProfileImage', async (req: any, res: any) => {
+  try {
+    if (!req.files || Object.keys(req.files).length === 0) {
+      return res.status(400).json({ message: 'No files selected' });
+    }
+
+    // ユーザーIDのチェック（例）
+    const userId = req.body.userId;
+    if (!userId) {
+      return res.status(400).json({ message: 'User ID is missing' });
+    }
+
+    const file = req.files.file;
+
+    // ファイル形式とサイズのチェック...
+
+    // 画像をアップロード
+    const url = await uploadToCloudinary(file, `profile/${userId}`);
+
+    // データベースにプロフィール画像URLを保存する処理をここに追加
+
+    res.json({ url });
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+});
+
 const uploadToCloudinary = async (file, path) => {
   return new Promise((resolve, reject) => {
     cloudinary.uploader.upload(

@@ -20,23 +20,12 @@ export async function getServerSideProps(context) {
     `http://localhost:8000/users?username=${username}`,
   );
 
-  let profileImage;
-  const { profileImg } = response.data;
-  const isGoogleImg = profileImg.startsWith(
-    'https://lh3.googleusercontent.com/',
-  );
-
-  profileImage = isGoogleImg
-    ? profileImg
-    : `${process.env.NEXT_PUBLIC_PUBLIC_FOLDER}person/${
-        profileImg || 'noAvatar.png'
-      }`;
   return {
-    props: { profileUser: response.data, profileImage },
+    props: { profileUser: response.data },
   };
 }
 
-const ProfilePage = ({ profileUser, profileImage }) => {
+const ProfilePage = ({ profileUser }) => {
   const router = useRouter();
   const [isToPage, setIsToPage] = useState<boolean>(false);
   const [isPointer, setIsPointer] = useState<boolean>(false);
@@ -86,10 +75,7 @@ const ProfilePage = ({ profileUser, profileImage }) => {
         style={{ position: 'absolute' }}
       />
       <SProfileInfo>
-        <UserIconWithName
-          profileUser={profileUser}
-          profileImage={profileImage}
-        />
+        <UserIconWithName profileUser={profileUser} />
         <SProfileFlex isPointer={isPointer}>
           <ProfileCount
             toFollowsPage={toFollowsPage}

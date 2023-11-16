@@ -12,10 +12,8 @@ import { useForm } from 'react-hook-form';
 import RingLoader from 'react-spinners/RingLoader';
 
 const AddPost = () => {
-  const PUBLIC_FOLDER = process.env.NEXT_PUBLIC_PUBLIC_FOLDER;
   const [isText, setIsText] = useState(false);
   const [image, setImage] = useState<any>();
-  const [file, setFile] = useState<File | null>(null);
   const { register, handleSubmit, watch, setValue } = useForm();
 
   let descWatch = watch('desc', '');
@@ -29,12 +27,6 @@ const AddPost = () => {
   const router = useRouter();
   const dispatch: AppDispatch = useDispatch();
   const { user, loading } = useSelector((state) => state.user);
-  const isGoogleImg = user?.profileImg?.startsWith(
-    'https://lh3.googleusercontent.com/',
-  );
-  const userIconImgSrc = isGoogleImg
-    ? user?.profileImg
-    : `${PUBLIC_FOLDER}person/${user?.profileImg || 'noAvatar.png'}`;
 
   useEffect(() => {
     dispatch(fetchInitialUser());
@@ -45,7 +37,7 @@ const AddPost = () => {
     }
   }, [user]);
 
-  const handleAddPost = ({ desc }) => AddPost(desc, file);
+  const handleAddPost = ({ desc }) => AddPost(desc);
 
   const textLimit = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const maxText = 50;
@@ -79,7 +71,7 @@ const AddPost = () => {
       <Scenter>
         <SLabel htmlFor="textForm">
           <SForm method="post" onSubmit={handleSubmit(handleAddPost)}>
-            <SUserIconImg src={userIconImgSrc} />
+            <SUserIconImg src={user?.profileImg} />
             <TextArea
               placeholder="50文字以内で入力してください"
               {...register('desc')}
@@ -93,17 +85,7 @@ const AddPost = () => {
                 <img src={image} alt="" />
               </>
             )}
-            {/* <input
-              type="file"
-              id="file"
-              name="file"
-              // style={{ display: 'none' }}
-              onChange={(e) => {
-                const target = e.target as HTMLInputElement;
-                const file = target.files ? target.files[0] : null;
-                setFile(file);
-              }}
-            /> */}
+
             <input
               type="file"
               accept="image/jpeg,image/png,image/gif,image/webp"
@@ -193,16 +175,6 @@ const SHr = styled.hr`
   border: 1px solid rgb(207, 217, 222);
   margin-top: 52px;
   margin-bottom: 42px;
-`;
-
-const SBg = styled.img`
-  position: absolute;
-  top: 0px;
-  left: 0px;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  z-index: -1;
 `;
 
 AddPost.getLayout = function getLayout(page: ReactElement) {

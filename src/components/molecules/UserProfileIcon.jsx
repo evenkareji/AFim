@@ -19,7 +19,7 @@ export const UserProfileIcon = ({ isIcon /*changeIsIcon*/ }) => {
 
   return (
     <Icon link={`/profile/${user?.username}`}>
-      <SProfileIcon src={userProfileImg} isIcon={isIcon} />
+      <SProfileIcon src={user?.profileImg} isIcon={isIcon} />
       <SIconText isIcon={isIcon}>プロフィール</SIconText>
     </Icon>
   );
