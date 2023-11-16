@@ -5,11 +5,12 @@ import dataURItoBlob from '../utils/blobConverter';
 import { useRouter } from 'next/router';
 import { useSelector } from '../redux/store';
 
-export const useAddPost = (image) => {
+export const useAddPost = (image, setIsLoadingSubmission) => {
   const router = useRouter();
   const { user } = useSelector((state) => state.user);
 
   const AddPost = async (desc: string) => {
+    setIsLoadingSubmission(true);
     if (!desc || !user) {
       return;
     }
@@ -18,7 +19,6 @@ export const useAddPost = (image) => {
       userId: user._id,
       desc,
     };
-    console.log(newPost);
 
     if (image) {
       const postImage = dataURItoBlob(image); // 単一の画像をBlobに変換
@@ -32,7 +32,6 @@ export const useAddPost = (image) => {
         console.log(data, 'data');
 
         newPost.img = data.url.url;
-        console.log(newPost, '成功しました');
       } catch (err) {
         console.log(err);
 
@@ -42,9 +41,12 @@ export const useAddPost = (image) => {
 
     try {
       await axios.post('/api/posts', newPost);
+
       router.push('/');
     } catch (err) {
       console.log(err);
+    } finally {
+      setIsLoadingSubmission(false);
     }
   };
 

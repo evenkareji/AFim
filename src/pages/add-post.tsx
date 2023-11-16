@@ -10,10 +10,14 @@ import { fetchInitialUser } from '../features/userSlice';
 import { AppDispatch, useSelector } from '../redux/store';
 import { useForm } from 'react-hook-form';
 import RingLoader from 'react-spinners/RingLoader';
+import PulseLoader from 'react-spinners/PulseLoader';
 
 const AddPost = () => {
   const [isText, setIsText] = useState(false);
   const [image, setImage] = useState<any>();
+  const [isLoadingSubmission, setIsLoadingSubmission] =
+    useState<boolean>(false);
+
   const { register, handleSubmit, watch, setValue } = useForm();
 
   let descWatch = watch('desc', '');
@@ -23,10 +27,11 @@ const AddPost = () => {
     setIsText(textLength > 0 && textLength <= maxText);
   }, [descWatch, setIsText]);
 
-  const { AddPost } = useAddPost(image);
+  const { AddPost } = useAddPost(image, setIsLoadingSubmission);
   const router = useRouter();
   const dispatch: AppDispatch = useDispatch();
   const { user, loading } = useSelector((state) => state.user);
+  console.log(loading, '送信loading');
 
   useEffect(() => {
     dispatch(fetchInitialUser());
@@ -96,8 +101,16 @@ const AddPost = () => {
             <p style={{ color: descWatch.length > 50 ? 'red' : 'inherit' }}>
               {descWatch.length}/50
             </p>
-            <SSubmit isText={isText} type="submit">
-              送信
+            <SSubmit
+              isText={isText}
+              disabled={isLoadingSubmission}
+              type="submit"
+            >
+              {isLoadingSubmission ? (
+                <PulseLoader color="#fff" size={5} />
+              ) : (
+                '送信'
+              )}
             </SSubmit>
           </SForm>
         </SLabel>
