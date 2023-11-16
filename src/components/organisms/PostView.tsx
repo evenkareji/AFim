@@ -52,7 +52,7 @@ export const PostView: FC<{ post: Post }> = (props) => {
 
   return (
     <PostBorder>
-      {post.img && <SImg src={`${PUBLIC_FOLDER}images/${post.img}`} alt="" />}
+      {post.img && <SImg src={post.img} alt="" />}
 
       <SBg />
       <SPostContent>

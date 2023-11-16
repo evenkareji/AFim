@@ -1,11 +1,11 @@
 import axios from 'axios';
 
 import { AddPost } from '../types';
-
+import dataURItoBlob from '../utils/blobConverter';
 import { useRouter } from 'next/router';
 import { useSelector } from '../redux/store';
 
-export const useAddPost = () => {
+export const useAddPost = (image) => {
   const router = useRouter();
   const { user } = useSelector((state) => state.user);
 
@@ -13,7 +13,6 @@ export const useAddPost = () => {
     if (!desc || !user) {
       return;
     }
-    console.log(desc);
 
     const newPost: AddPost = {
       userId: user._id,
@@ -21,18 +20,24 @@ export const useAddPost = () => {
     };
     console.log(newPost);
 
-    if (file) {
-      const data = new FormData();
-      const fileName = file.name;
+    if (image) {
+      console.log(image, 'inAddPpost');
 
-      // 画像apiを叩く
-      data.append('name', fileName);
-      data.append('file', file);
-      newPost.img = fileName;
+      const postImage = dataURItoBlob(image); // 単一の画像をBlobに変換
+      const path = `${user.username}/post Image`;
+      const formData = new FormData();
+      formData.append('path', path);
+      formData.append('file', postImage);
+
       try {
-        await axios.post('/api/upload/post-image', data);
+        const { data } = await axios.post('/api/upload/uploadImages', formData);
+        console.log(data, 'data');
+
+        newPost.img = data.url.url;
+        console.log(newPost, '成功しました');
       } catch (err) {
         console.log(err);
+
         alert(err);
       }
     }

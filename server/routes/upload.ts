@@ -78,45 +78,40 @@ router.post(
     }
   },
 );
+
+// cloudinary
 router.post('/uploadImages', async (req: any, res: any) => {
   try {
-    console.log(req.body);
-
-    if (!req.files || Object.values(req.files).flat().length === 0) {
+    if (!req.files || Object.keys(req.files).length === 0) {
       return res.status(400).json({ message: 'No files selected' });
     }
-    let files: any = Object.values(req.files).flat();
-    files.forEach((file: any) => {
-      if (
-        file.mimetype !== 'image/jpeg' &&
-        file.mimetype !== 'image/gif' &&
-        file.mimetype !== 'image/png' &&
-        file.mimetype !== 'image/webp'
-      ) {
-        removeTmp(file.tempFilePath);
-        return res
-          .status(400)
-          .json({ message: 'この画像形式はサポートされていません' });
-      }
-      if (file.size > 1024 * 1024 * 5) {
-        removeTmp(file.tempFilePath);
-        return res
-          .status(400)
-          .json({ message: 'ファイルのサイズが大きすぎます' });
-      }
-    });
 
-    // ------next()----------
-    const { path } = req.body;
+    const file = req.files.file;
 
-    let images: any = [];
-    for (const file of files) {
-      const url = await uploadToCloudinary(file, path);
-
-      images.push(url);
+    // ファイル形式のチェック
+    if (
+      file.mimetype !== 'image/jpeg' &&
+      file.mimetype !== 'image/gif' &&
+      file.mimetype !== 'image/png' &&
+      file.mimetype !== 'image/webp'
+    ) {
       removeTmp(file.tempFilePath);
+      return res
+        .status(400)
+        .json({ message: 'この画像形式はサポートされていません' });
     }
-    res.json(images);
+
+    // ファイルサイズのチェック
+    if (file.size > 1024 * 1024 * 5) {
+      removeTmp(file.tempFilePath);
+      return res
+        .status(400)
+        .json({ message: 'ファイルのサイズが大きすぎます' });
+    }
+
+    // 画像をアップロード
+    const url = await uploadToCloudinary(file, req.body.path);
+    res.json({ url });
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }

@@ -14,7 +14,7 @@ import RingLoader from 'react-spinners/RingLoader';
 const AddPost = () => {
   const PUBLIC_FOLDER = process.env.NEXT_PUBLIC_PUBLIC_FOLDER;
   const [isText, setIsText] = useState(false);
-  const [images, setImages] = useState<any>([]);
+  const [image, setImage] = useState<any>();
   const [file, setFile] = useState<File | null>(null);
   const { register, handleSubmit, watch, setValue } = useForm();
 
@@ -25,7 +25,7 @@ const AddPost = () => {
     setIsText(textLength > 0 && textLength <= maxText);
   }, [descWatch, setIsText]);
 
-  const { AddPost } = useAddPost();
+  const { AddPost } = useAddPost(image);
   const router = useRouter();
   const dispatch: AppDispatch = useDispatch();
   const { user, loading } = useSelector((state) => state.user);
@@ -61,7 +61,7 @@ const AddPost = () => {
       const reader: any = new FileReader();
       reader.readAsDataURL(file);
       reader.onload = (readerEvent) => {
-        setImages([readerEvent.target.result]);
+        setImage(readerEvent.target.result);
       };
     }
   };
@@ -88,11 +88,9 @@ const AddPost = () => {
                 setValue('desc', e.target.value);
               }}
             ></TextArea>
-            {images && (
+            {image && (
               <>
-                {images.map((img, i) => (
-                  <img src={img} key={i} alt="" />
-                ))}
+                <img src={image} alt="" />
               </>
             )}
             {/* <input
