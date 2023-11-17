@@ -26,12 +26,10 @@ const SOnFollowBtn = styled(BaseBtn)`
   border-radius: 8px;
   border: none;
 
-  color: #fff;
-  background-color: #ed6103;
-
-  border: 1px solid #ed6103;
+  color: #0f0f0f;
+  background-color: rgba(0, 0, 0, 0.05);
 
   &:hover {
-    background-color: #ff6702;
+    background-color: #dbdbdb;
   }
 `;

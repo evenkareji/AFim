@@ -13,11 +13,15 @@ import session from 'express-session';
 import path from 'path';
 import cors from 'cors';
 import helmet from 'helmet';
+import fileUpload from 'express-fileupload';
 import { fileURLToPath } from 'url';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 env.config();
+
+mongoose.set('strictQuery', false);
+
 const app: express.Express = express();
 app.use(helmet());
 app.use(
@@ -64,6 +68,7 @@ app.use(cookieParser('secretcode'));
 app.use(passport.initialize());
 app.use(passport.session());
 passportConfig(passport);
+app.use(fileUpload({ useTempFiles: true }));
 
 app.use('/users', userRouter);
 app.use('/auth', authRouter);

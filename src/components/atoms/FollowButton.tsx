@@ -25,7 +25,9 @@ const SUnFollowBtn = styled(BaseBtn)`
   padding: 6px 15px 5px 17px;
 
   border-radius: 8px;
-  border: 1px solid #000;
-
-  color: #000000;
+  background: #ff8d06;
+  color: #fff;
+  &:hover {
+    background: #ff6702;
+  }
 `;

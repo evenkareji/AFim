@@ -10,11 +10,14 @@ import { fetchInitialUser } from '../features/userSlice';
 import { AppDispatch, useSelector } from '../redux/store';
 import { useForm } from 'react-hook-form';
 import RingLoader from 'react-spinners/RingLoader';
+import PulseLoader from 'react-spinners/PulseLoader';
 
 const AddPost = () => {
-  const PUBLIC_FOLDER = process.env.NEXT_PUBLIC_PUBLIC_FOLDER;
   const [isText, setIsText] = useState(false);
-  const [file, setFile] = useState<File | null>(null);
+  const [image, setImage] = useState<any>();
+  const [isLoadingSubmission, setIsLoadingSubmission] =
+    useState<boolean>(false);
+
   const { register, handleSubmit, watch, setValue } = useForm();
 
   let descWatch = watch('desc', '');
@@ -24,16 +27,11 @@ const AddPost = () => {
     setIsText(textLength > 0 && textLength <= maxText);
   }, [descWatch, setIsText]);
 
-  const { AddPost } = useAddPost();
+  const { AddPost } = useAddPost(image, setIsLoadingSubmission);
   const router = useRouter();
   const dispatch: AppDispatch = useDispatch();
   const { user, loading } = useSelector((state) => state.user);
-  const isGoogleImg = user?.profileImg?.startsWith(
-    'https://lh3.googleusercontent.com/',
-  );
-  const userIconImgSrc = isGoogleImg
-    ? user?.profileImg
-    : `${PUBLIC_FOLDER}person/${user?.profileImg || 'noAvatar.png'}`;
+  console.log(loading, '送信loading');
 
   useEffect(() => {
     dispatch(fetchInitialUser());
@@ -44,7 +42,7 @@ const AddPost = () => {
     }
   }, [user]);
 
-  const handleAddPost = ({ desc }) => AddPost(desc, file);
+  const handleAddPost = ({ desc }) => AddPost(desc);
 
   const textLimit = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const maxText = 50;
@@ -52,6 +50,17 @@ const AddPost = () => {
     const textLength = e.target.value.trim().length;
 
     setIsText(textLength > 0 && textLength <= maxText);
+  };
+
+  const handleImages = (e) => {
+    let file = e.target.files[0];
+    if (file) {
+      const reader: any = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = (readerEvent) => {
+        setImage(readerEvent.target.result);
+      };
+    }
   };
 
   if (loading) {
@@ -67,7 +76,7 @@ const AddPost = () => {
       <Scenter>
         <SLabel htmlFor="textForm">
           <SForm method="post" onSubmit={handleSubmit(handleAddPost)}>
-            <SUserIconImg src={userIconImgSrc} />
+            <SUserIconImg src={user?.profileImg} />
             <TextArea
               placeholder="50文字以内で入力してください"
               {...register('desc')}
@@ -76,24 +85,32 @@ const AddPost = () => {
                 setValue('desc', e.target.value);
               }}
             ></TextArea>
+            {image && (
+              <>
+                <img src={image} alt="" />
+              </>
+            )}
+
             <input
               type="file"
-              id="file"
-              name="file"
-              // style={{ display: 'none' }}
-              onChange={(e) => {
-                const target = e.target as HTMLInputElement;
-                const file = target.files ? target.files[0] : null;
-                setFile(file);
-              }}
+              accept="image/jpeg,image/png,image/gif,image/webp"
+              onChange={handleImages}
             />
+
             <SHr />
             <p style={{ color: descWatch.length > 50 ? 'red' : 'inherit' }}>
               {descWatch.length}/50
             </p>
-
-            <SSubmit isText={isText} type="submit">
-              送信
+            <SSubmit
+              isText={isText}
+              disabled={isLoadingSubmission}
+              type="submit"
+            >
+              {isLoadingSubmission ? (
+                <PulseLoader color="#fff" size={5} />
+              ) : (
+                '送信'
+              )}
             </SSubmit>
           </SForm>
         </SLabel>
@@ -124,6 +141,8 @@ const SLabel = styled.label`
   border-radius: 20px;
 `;
 const SForm = styled.form`
+  position: relative;
+  z-index: 2;
   max-width: 500px;
   width: 90%;
   margin: 0 auto;

@@ -80,6 +80,7 @@ const SLogoutButton = styled.div`
   position: absolute;
   top: 10%;
   left: 20px;
+  cursor: pointer;
   z-index: 10;
 `;
 const SPostMain = styled.div`

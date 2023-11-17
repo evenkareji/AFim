@@ -1,25 +1,26 @@
 import mongoose from 'mongoose';
-const Schema = mongoose.Schema;
+const {
+  Schema,
+  Schema: {
+    Types: { Mixed },
+  },
+} = mongoose;
 
 const postSchema = new Schema(
   {
     userId: {
-      type: String,
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
       required: true,
     },
     desc: {
       type: String,
-      max: 30,
+      max: 50,
     },
     img: {
-      type: String,
+      type: Mixed, // ここでMixed型を使用
     },
-
     likes: {
-      type: Array,
-      default: [],
-    },
-    comments: {
       type: Array,
       default: [],
     },
