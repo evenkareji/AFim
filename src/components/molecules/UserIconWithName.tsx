@@ -52,7 +52,6 @@ export const UserIconWithName = ({ profileUser }) => {
         const { data } = await axios.post('/api/upload/uploadImages', formData);
 
         newProfile.profileImg = data.url.url;
-        // setProfileImage(newProfile.profileImg);
       } catch (err) {
         console.log(err);
       }
@@ -90,6 +89,7 @@ export const UserIconWithName = ({ profileUser }) => {
 const SLabel = styled.label`
   position: relative;
   display: block;
+  cursor: pointer;
   width: 160px;
   height: 160px;
   margin: 0 auto 14px;
