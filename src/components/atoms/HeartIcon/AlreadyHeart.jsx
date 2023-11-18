@@ -1,5 +1,4 @@
-import { useState } from 'react';
-import styled, { keyframes, css } from 'styled-components';
+import styled from 'styled-components';
 import './HeartIcon.css';
 
 export const AlreadyHeart = () => {
