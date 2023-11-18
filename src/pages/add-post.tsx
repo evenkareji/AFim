@@ -31,7 +31,6 @@ const AddPost = () => {
   const router = useRouter();
   const dispatch: AppDispatch = useDispatch();
   const { user, loading } = useSelector((state) => state.user);
-  console.log(loading, '送信loading');
 
   useEffect(() => {
     dispatch(fetchInitialUser());
