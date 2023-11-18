@@ -8,18 +8,25 @@ import { AppDispatch } from '../redux/store';
 // useUnFollow関数に引数入れたら親コンポーネントのstate入れれるんじゃないか
 export const useUnFollow = () => {
   const dispatch: AppDispatch = useDispatch();
-  const unFollowUser = async (post: Post, loginUser: User): Promise<void> => {
-    try {
-      const { data: followingUser } = await axios.put(
-        `/api/users/${post.userId}/unfollow`,
-        {
-          userId: loginUser._id,
-        },
-      );
+  const unFollowUser = async (
+    post: Post,
+    loginUser: User | null,
+  ): Promise<void> => {
+    if (loginUser) {
+      try {
+        const { data: followingUser } = await axios.put(
+          `/api/users/${post.userId}/unfollow`,
+          {
+            userId: loginUser._id,
+          },
+        );
 
-      dispatch(toggleFollow(followingUser));
-    } catch (err) {
-      console.log(err);
+        dispatch(toggleFollow(followingUser));
+      } catch (err) {
+        console.log(err);
+      }
+    } else {
+      console.log('Error: loginUser is null');
     }
   };
 

@@ -2,7 +2,7 @@ import axios from 'axios';
 import { useCallback, useState } from 'react';
 import { User, Post } from '../types';
 
-export const useLike = (post: Post, loginUser: User) => {
+export const useLike = (post: Post, loginUser: User | null) => {
   const [isGood, setIsGood] = useState<boolean>(
     loginUser ? post.likes.includes(loginUser._id) : false,
   );

@@ -16,34 +16,38 @@ import { FollowToggleButton } from '../molecules/FollowToggleButton';
 
 export const PostView: FC<{ post: Post }> = (props) => {
   const { post } = props;
-  console.log(post, 'in postview');
-
-  console.log('Parent render');
 
   const { followUser } = useFollow();
   const { unFollowUser } = useUnFollow();
   const { getAuthorByPostId, user } = useGetAuthor();
   const router = useRouter();
-
   const { user: loginUser, loading } = useSelector((state) => state.user);
+
+  // `useLike`フックの呼び出しを条件付きからトップレベルへ移動
+  const { toggleLike, isGood } = useLike(post, loginUser);
 
   useEffect(() => {
     if (!loginUser && !loading) {
       router.push('/login');
     }
-  }, [user]);
+  }, [loginUser, loading, router]);
+
+  useEffect(() => {
+    getAuthorByPostId(post);
+  }, [post, loginUser, getAuthorByPostId]);
+
+  const onClickFollow = useCallback(
+    () => followUser(post, loginUser),
+    [post, loginUser, followUser],
+  );
+  const onClickUnFollow = useCallback(
+    () => unFollowUser(post, loginUser),
+    [post, loginUser, unFollowUser],
+  );
+
   if (!loginUser) {
     return null;
   }
-
-  const { toggleLike, isGood } = useLike(post, loginUser);
-  useEffect(() => {
-    getAuthorByPostId(post);
-  }, [post.userId, loginUser]);
-
-  const onClickFollow = useCallback(() => followUser(post, loginUser), []);
-  const onClickUnFollow = useCallback(() => unFollowUser(post, loginUser), []);
-
   return (
     <PostBorder>
       {post.img && <SImg src={post.img} alt="" />}

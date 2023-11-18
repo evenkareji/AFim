@@ -210,8 +210,6 @@ const PostView = props => {
   const {
     post
   } = props;
-  console.log(post, 'in postview');
-  console.log('Parent render');
   const {
     followUser
   } = (0,_hooks_useFollow__WEBPACK_IMPORTED_MODULE_4__/* .useFollow */ .O)();
@@ -226,26 +224,27 @@ const PostView = props => {
   const {
     user: loginUser,
     loading
-  } = (0,_redux_store__WEBPACK_IMPORTED_MODULE_3__/* .useSelector */ .v)(state => state.user);
-  (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
-    if (!loginUser && !loading) {
-      router.push('/login');
-    }
-  }, [user]);
-
-  if (!loginUser) {
-    return null;
-  }
+  } = (0,_redux_store__WEBPACK_IMPORTED_MODULE_3__/* .useSelector */ .v)(state => state.user); // `useLike`フックの呼び出しを条件付きからトップレベルへ移動
 
   const {
     toggleLike,
     isGood
   } = (0,_hooks_useLike__WEBPACK_IMPORTED_MODULE_6__/* .useLike */ .U)(post, loginUser);
   (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
+    if (!loginUser && !loading) {
+      router.push('/login');
+    }
+  }, [loginUser, loading, router]);
+  (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
     getAuthorByPostId(post);
-  }, [post.userId, loginUser]);
-  const onClickFollow = (0,react__WEBPACK_IMPORTED_MODULE_1__.useCallback)(() => followUser(post, loginUser), []);
-  const onClickUnFollow = (0,react__WEBPACK_IMPORTED_MODULE_1__.useCallback)(() => unFollowUser(post, loginUser), []);
+  }, [post, loginUser, getAuthorByPostId]);
+  const onClickFollow = (0,react__WEBPACK_IMPORTED_MODULE_1__.useCallback)(() => followUser(post, loginUser), [post, loginUser, followUser]);
+  const onClickUnFollow = (0,react__WEBPACK_IMPORTED_MODULE_1__.useCallback)(() => unFollowUser(post, loginUser), [post, loginUser, unFollowUser]);
+
+  if (!loginUser) {
+    return null;
+  }
+
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)(PostBorder, {
     children: [post.img && /*#__PURE__*/react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx(SImg, {
       src: post.img,
@@ -361,19 +360,22 @@ const useFollow = () => {
   const dispatch = (0,react_redux__WEBPACK_IMPORTED_MODULE_1__.useDispatch)();
 
   const followUser = async (post, loginUser) => {
-    const {
-      userId
-    } = post;
-
-    try {
-      const {
-        data
-      } = await axios__WEBPACK_IMPORTED_MODULE_0__["default"].put(`/api/users/${userId}/follow`, {
-        userId: loginUser._id
-      });
-      dispatch((0,_features_userSlice__WEBPACK_IMPORTED_MODULE_2__/* .toggleFollow */ .Gm)(data));
-    } catch (err) {
-      console.log(err);
+    if (loginUser) {
+      try {
+        const {
+          userId
+        } = post;
+        const {
+          data
+        } = await axios__WEBPACK_IMPORTED_MODULE_0__["default"].put(`/api/users/${userId}/follow`, {
+          userId: loginUser._id
+        });
+        dispatch((0,_features_userSlice__WEBPACK_IMPORTED_MODULE_2__/* .toggleFollow */ .Gm)(data));
+      } catch (err) {
+        console.log(err);
+      }
+    } else {
+      console.log('Error: loginUser is null');
     }
   };
 
@@ -486,15 +488,19 @@ const useUnFollow = () => {
   const dispatch = (0,react_redux__WEBPACK_IMPORTED_MODULE_1__.useDispatch)();
 
   const unFollowUser = async (post, loginUser) => {
-    try {
-      const {
-        data: followingUser
-      } = await axios__WEBPACK_IMPORTED_MODULE_0__["default"].put(`/api/users/${post.userId}/unfollow`, {
-        userId: loginUser._id
-      });
-      dispatch((0,_features_userSlice__WEBPACK_IMPORTED_MODULE_2__/* .toggleFollow */ .Gm)(followingUser));
-    } catch (err) {
-      console.log(err);
+    if (loginUser) {
+      try {
+        const {
+          data: followingUser
+        } = await axios__WEBPACK_IMPORTED_MODULE_0__["default"].put(`/api/users/${post.userId}/unfollow`, {
+          userId: loginUser._id
+        });
+        dispatch((0,_features_userSlice__WEBPACK_IMPORTED_MODULE_2__/* .toggleFollow */ .Gm)(followingUser));
+      } catch (err) {
+        console.log(err);
+      }
+    } else {
+      console.log('Error: loginUser is null');
     }
   };
 
