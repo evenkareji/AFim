@@ -16,6 +16,7 @@ import { FollowToggleButton } from '../molecules/FollowToggleButton';
 
 export const PostView: FC<{ post: Post }> = (props) => {
   const { post } = props;
+  console.log(post, 'in postview');
 
   console.log('Parent render');
 
@@ -32,7 +33,7 @@ export const PostView: FC<{ post: Post }> = (props) => {
     }
   }, [user]);
   if (!loginUser) {
-    return;
+    return null;
   }
 
   const { toggleLike, isGood } = useLike(post, loginUser);

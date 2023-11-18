@@ -14,7 +14,6 @@ export type Post = {
   _id: string;
   userId: string;
   desc: string;
-  comments: string[];
   likes: string[];
   createdAt: string;
   updatedAt: number | null;
