@@ -34,7 +34,6 @@ app.use(
 
 const post = process.env.PORT || 8000;
 
-// データベース接続
 mongoose
   .connect(process.env.MONGO_URL as string)
   .then(() => {
