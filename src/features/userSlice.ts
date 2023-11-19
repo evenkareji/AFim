@@ -16,14 +16,18 @@ const initialStateUser: InitialStateUser = {
 
 export const fetchInitialUser = createAsyncThunk(
   'user/getUser',
-  async (_, { dispatch, getState }) => {
+  async (_, { dispatch, getState, rejectWithValue }) => {
     try {
       const response = await axios.get('/api/users/getUser');
+      console.log(response.data);
 
       return response.data;
     } catch (err) {
       console.log(err);
-      return null;
+      return rejectWithValue({
+        message: err.response.data.message,
+        status: err.response.status,
+      });
     }
   },
 );

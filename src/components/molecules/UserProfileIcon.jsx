@@ -7,14 +7,10 @@ import { useSelector } from 'react-redux';
 
 export const UserProfileIcon = ({ isIcon /*changeIsIcon*/ }) => {
   const user = useSelector((state) => state.user.user);
-  const PUBLIC_FOLDER = process.env.NEXT_PUBLIC_PUBLIC_FOLDER;
+
   const [userProfileImg, setUserProfileImg] = useState('');
   useEffect(() => {
-    setUserProfileImg(
-      user?.profileImg
-        ? PUBLIC_FOLDER + 'person/' + user.profileImg
-        : PUBLIC_FOLDER + 'person/noAvatar.png',
-    );
+    setUserProfileImg(user?.profileImg);
   }, [user]);
 
   return (

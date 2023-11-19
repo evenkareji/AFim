@@ -23,7 +23,6 @@ export const PostView: FC<{ post: Post }> = (props) => {
   const router = useRouter();
   const { user: loginUser, loading } = useSelector((state) => state.user);
 
-  // `useLike`フックの呼び出しを条件付きからトップレベルへ移動
   const { toggleLike, isGood } = useLike(post, loginUser);
 
   useEffect(() => {

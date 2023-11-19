@@ -74,8 +74,8 @@ app.use('/auth', authRouter);
 app.use('/posts', postRouter);
 app.use('/upload', uploadRouter);
 
-app.get('*', function (req, res) {
-  const indexHtml = path.resolve('build', 'index.html');
-  res.sendFile(indexHtml);
-});
+// app.get('*', function (req, res) {
+//   const indexHtml = path.resolve('build', 'index.html');
+//   res.sendFile(indexHtml);
+// });
 app.listen(post, () => console.log(`Server is running ... localhost:${post}`));
