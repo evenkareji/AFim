@@ -26,7 +26,7 @@ const Login = () => {
   const { user, loading } = useSelector((state) => state.user);
 
   const googleLogin = () => {
-    window.open(process.env.NEXT_PUBLIC_AUTH_URL, '_self');
+    window.open('http://localhost:8000/auth/google', '_self');
   };
   const [passwordShown, setPasswordShown] = useState(false);
 
