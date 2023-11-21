@@ -1,13 +1,9 @@
 {
   "/_app": "pages/_app.js",
-  "/_document": "pages/_document.js",
-  "/login": "pages/login.html",
-  "/add-post": "pages/add-post.html",
-  "/reset": "pages/reset.html",
-  "/register": "pages/register.html",
   "/_error": "pages/_error.js",
-  "/profile/[username]": "pages/profile/[username].js",
-  "/activate/[token]": "pages/activate/[token].js",
+  "/_document": "pages/_document.js",
+  "/add-post": "pages/add-post.js",
   "/": "pages/index.js",
-  "/404": "pages/404.html"
+  "/profile/[username]": "pages/profile/[username].js",
+  "/login": "pages/login.js"
 }
