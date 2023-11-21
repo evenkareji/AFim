@@ -3,7 +3,9 @@ export default {
     return [
       {
         source: '/api/:path*',
-        destination: 'http://localhost:8000/:path*',
+        destination: process.env.CLIENT_URL
+          ? `${process.env.CLIENT_URL}/:path*`
+          : 'http://localhost:8000/:path*',
       },
     ];
   },
