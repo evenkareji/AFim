@@ -1,3 +1,4 @@
+import React from 'react';
 import { User } from '../../types';
 import { FollowButton } from '../atoms/FollowButton';
 import { FollowingButton } from '../atoms/FollowingButton';
@@ -7,7 +8,7 @@ export const FollowToggleButton: React.FC<{
   postUserId: string;
   onClickFollow: () => void;
   onClickUnFollow: () => void;
-}> = ({ loginUser, postUserId, onClickFollow, onClickUnFollow }) => {
+}> = React.memo(({ loginUser, postUserId, onClickFollow, onClickUnFollow }) => {
   if (!loginUser || loginUser._id === postUserId) return null;
 
   const isFollowing = loginUser.followings?.includes(postUserId);
@@ -19,4 +20,4 @@ export const FollowToggleButton: React.FC<{
   ) : (
     <FollowButton onClickFollow={onClickFollow}>フォロー</FollowButton>
   );
-};
+});

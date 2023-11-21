@@ -76,11 +76,12 @@ __webpack_require__.d(__webpack_exports__, {
   "T": () => (/* binding */ FollowToggleButton)
 });
 
+// EXTERNAL MODULE: external "react"
+var external_react_ = __webpack_require__(6689);
+var external_react_default = /*#__PURE__*/__webpack_require__.n(external_react_);
 // EXTERNAL MODULE: external "@mui/material/IconButton"
 var IconButton_ = __webpack_require__(7934);
 var IconButton_default = /*#__PURE__*/__webpack_require__.n(IconButton_);
-// EXTERNAL MODULE: external "react"
-var external_react_ = __webpack_require__(6689);
 // EXTERNAL MODULE: external "styled-components"
 var external_styled_components_ = __webpack_require__(7518);
 var external_styled_components_default = /*#__PURE__*/__webpack_require__.n(external_styled_components_);
@@ -103,6 +104,7 @@ const FollowButton = /*#__PURE__*/(0,external_react_.memo)(props => {
     children,
     onClickFollow
   } = props;
+  console.log('FollowButton');
   return /*#__PURE__*/jsx_runtime_.jsx((IconButton_default()), {
     style: {
       padding: '0px'
@@ -148,7 +150,8 @@ const SOnFollowBtn = external_styled_components_default()(BaseBtn).withConfig({
 
 
 
-const FollowToggleButton = ({
+
+const FollowToggleButton = /*#__PURE__*/external_react_default().memo(({
   loginUser,
   postUserId,
   onClickFollow,
@@ -163,7 +166,7 @@ const FollowToggleButton = ({
     onClickFollow: onClickFollow,
     children: "\u30D5\u30A9\u30ED\u30FC"
   });
-};
+});
 
 /***/ }),
 
@@ -233,12 +236,12 @@ const PostView = props => {
     if (!loginUser && !loading) {
       router.push('/login');
     }
-  }, [loginUser, loading, router]);
+  }, [loading, loginUser, router]);
   (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
     getAuthorByPostId(post);
-  }, [post, loginUser, getAuthorByPostId]);
-  const onClickFollow = (0,react__WEBPACK_IMPORTED_MODULE_1__.useCallback)(() => followUser(post, loginUser), [post, loginUser, followUser]);
-  const onClickUnFollow = (0,react__WEBPACK_IMPORTED_MODULE_1__.useCallback)(() => unFollowUser(post, loginUser), [post, loginUser, unFollowUser]);
+  }, [post, getAuthorByPostId]);
+  const onClickFollow = (0,react__WEBPACK_IMPORTED_MODULE_1__.useCallback)(() => followUser(post, loginUser), [post._id, loginUser?._id, followUser]);
+  const onClickUnFollow = (0,react__WEBPACK_IMPORTED_MODULE_1__.useCallback)(() => unFollowUser(post, loginUser), [post._id, loginUser?._id, unFollowUser]);
 
   if (!loginUser) {
     return null;
