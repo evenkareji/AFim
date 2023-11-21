@@ -66,6 +66,7 @@ const UserSchema = new mongoose.Schema(
     },
   },
   { timestamps: true },
+  { versionKey: false },
 );
 
 export default mongoose.model('User', UserSchema);

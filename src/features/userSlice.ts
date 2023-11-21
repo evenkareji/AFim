@@ -19,7 +19,6 @@ export const fetchInitialUser = createAsyncThunk(
   async (_, { dispatch, getState, rejectWithValue }) => {
     try {
       const response = await axios.get('/api/users/getUser');
-      console.log(response.data);
 
       return response.data;
     } catch (err) {

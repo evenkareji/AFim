@@ -35,7 +35,7 @@ const ProfilePage = ({ profileUser }) => {
 
   useEffect(() => {
     dispatch(fetchInitialUser());
-  }, [user]);
+  }, []);
 
   useEffect(() => {
     if (!user && !loading) {
