@@ -43,8 +43,8 @@ const Login = () => {
         <SLoginBorder>
           <SForm onSubmit={handleSubmit(loginSubmit)}>
             <SFormHead>SNS</SFormHead>
-            <p>メールアドレス :test@gmail.com</p>
-            <p>パスワード　　 :test</p>
+            <p>メールアドレス :fsf@gmail.com</p>
+            <p>パスワード　　 :123456</p>
             <SEmail
               id="email"
               autoFocus={true}

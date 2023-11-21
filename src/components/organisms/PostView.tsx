@@ -33,7 +33,7 @@ export const PostView: FC<{ post: Post }> = (props) => {
 
   useEffect(() => {
     getAuthorByPostId(post);
-  }, [post, getAuthorByPostId]);
+  }, [post]);
 
   const onClickFollow = useCallback(
     () => followUser(post, loginUser),
