@@ -1,13 +1,7 @@
 {
   "/_app": "pages/_app.js",
-  "/_document": "pages/_document.js",
-  "/add-post": "pages/add-post.html",
-  "/login": "pages/login.html",
   "/_error": "pages/_error.js",
-  "/register": "pages/register.html",
-  "/reset": "pages/reset.html",
-  "/activate/[token]": "pages/activate/[token].js",
-  "/profile/[username]": "pages/profile/[username].js",
-  "/": "pages/index.js",
-  "/404": "pages/404.html"
+  "/_document": "pages/_document.js",
+  "/login": "pages/login.js",
+  "/": "pages/index.js"
 }
