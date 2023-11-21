@@ -239,7 +239,7 @@ const PostView = props => {
   }, [loading, loginUser, router]);
   (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
     getAuthorByPostId(post);
-  }, [post, getAuthorByPostId]);
+  }, [post]);
   const onClickFollow = (0,react__WEBPACK_IMPORTED_MODULE_1__.useCallback)(() => followUser(post, loginUser), [post._id, loginUser?._id, followUser]);
   const onClickUnFollow = (0,react__WEBPACK_IMPORTED_MODULE_1__.useCallback)(() => unFollowUser(post, loginUser), [post._id, loginUser?._id, unFollowUser]);
 
