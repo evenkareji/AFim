@@ -32,7 +32,7 @@ app.use(
   }),
 );
 
-const post = process.env.PORT || 8000;
+const port = process.env.PORT || 8000;
 
 mongoose
   .connect(process.env.MONGO_URL as string)
@@ -78,4 +78,4 @@ app.use('/upload', uploadRouter);
 //   const indexHtml = path.resolve('build', 'index.html');
 //   res.sendFile(indexHtml);
 // });
-app.listen(post, () => console.log(`Server is running ... localhost:${post}`));
+app.listen(port, () => console.log(`Server is running ... localhost:${port}`));
