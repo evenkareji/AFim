@@ -38,8 +38,6 @@ router.post(
   },
 );
 
-const CLIENT_URL = 'http://localhost:3000';
-
 router.get('/login/success', (req: any, res) => {
   if (req.user) {
     res.status(200).json({
@@ -85,7 +83,7 @@ router.get(
 router.get(
   '/google/callback',
   passport.authenticate('google', {
-    successRedirect: CLIENT_URL,
+    successRedirect: process.env.CLIENT_URL,
     failureRedirect: '/login/failed',
   }),
 );
