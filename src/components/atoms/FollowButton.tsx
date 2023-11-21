@@ -9,6 +9,7 @@ type Props = {
 };
 export const FollowButton: FC<Props> = memo((props) => {
   const { children, onClickFollow } = props;
+  console.log('FollowButton');
 
   return (
     <IconButton style={{ padding: '0px' }} onClick={onClickFollow}>
