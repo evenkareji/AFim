@@ -875,7 +875,7 @@ async function getServerSideProps(context) {
   const {
     username
   } = context.query;
-  const response = await axios__WEBPACK_IMPORTED_MODULE_5__["default"].get(`http://localhost:8000/users?username=${username}`);
+  const response = await axios__WEBPACK_IMPORTED_MODULE_5__["default"].get(`${process.env.API_URL}/users?username=${username}`);
   return {
     props: {
       profileUser: response.data
