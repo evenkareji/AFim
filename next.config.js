@@ -2,6 +2,10 @@ export default {
   async rewrites() {
     return [
       {
+        source: '/auth/google',
+        destination: `${process.env.API_URL}/auth/google`,
+      },
+      {
         source: '/api/:path*',
         destination: `${process.env.API_URL}/:path*`,
       },
