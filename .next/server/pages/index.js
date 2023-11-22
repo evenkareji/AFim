@@ -18,7 +18,7 @@ axios__WEBPACK_IMPORTED_MODULE_0__ = (__webpack_async_dependencies__.then ? (awa
  // getServerSideProps;
 
 const getPosts = async () => {
-  const response = await axios__WEBPACK_IMPORTED_MODULE_0__["default"].get('http://localhost:8000/posts');
+  const response = await axios__WEBPACK_IMPORTED_MODULE_0__["default"].get(`${process.env.API_URL}/posts`);
   return response.data.sort((post1, post2) => {
     return new Date(post2.createdAt).valueOf() - new Date(post1.createdAt).valueOf();
   });
