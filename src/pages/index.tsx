@@ -24,6 +24,7 @@ export const getPosts = async () => {
 };
 
 export const getServerSideProps: GetServerSideProps = async () => {
+  // 無限ループになってリダイレクトしてる。status308が起きてる
   const posts = await getPosts();
 
   return { props: { posts } };
