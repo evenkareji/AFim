@@ -26,7 +26,7 @@ const Login = () => {
   const { user, loading } = useSelector((state) => state.user);
 
   const googleLogin = () => {
-    window.open('/auth/google', '_self');
+    window.open('auth/google', '_self');
   };
   const [passwordShown, setPasswordShown] = useState(false);
 
