@@ -5,29 +5,6 @@ exports.id = 405;
 exports.ids = [405];
 exports.modules = {
 
-/***/ 5938:
-/***/ ((module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.a(module, async (__webpack_handle_async_dependencies__, __webpack_async_result__) => { try {
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "J": () => (/* binding */ getPosts)
-/* harmony export */ });
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(9648);
-var __webpack_async_dependencies__ = __webpack_handle_async_dependencies__([axios__WEBPACK_IMPORTED_MODULE_0__]);
-axios__WEBPACK_IMPORTED_MODULE_0__ = (__webpack_async_dependencies__.then ? (await __webpack_async_dependencies__)() : __webpack_async_dependencies__)[0];
- // getServerSideProps;
-
-const getPosts = async () => {
-  const response = await axios__WEBPACK_IMPORTED_MODULE_0__["default"].get(`${process.env.API_URL}/api/posts`);
-  return response.data.sort((post1, post2) => {
-    return new Date(post2.createdAt).valueOf() - new Date(post1.createdAt).valueOf();
-  });
-};
-__webpack_async_result__();
-} catch(e) { __webpack_async_result__(e); } });
-
-/***/ }),
-
 /***/ 2269:
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
@@ -522,29 +499,30 @@ __webpack_require__.a(module, async (__webpack_handle_async_dependencies__, __we
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__),
+/* harmony export */   "getPosts": () => (/* binding */ getPosts),
 /* harmony export */   "getServerSideProps": () => (/* binding */ getServerSideProps)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(6689);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var styled_components__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(7518);
 /* harmony import */ var styled_components__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(styled_components__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _components_organisms_PostView__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(4901);
-/* harmony import */ var _mui_icons_material_Logout__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(9801);
-/* harmony import */ var _mui_icons_material_Logout__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_mui_icons_material_Logout__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(6022);
-/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(react_redux__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var _redux_store__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(3385);
-/* harmony import */ var _features_userSlice__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(1697);
-/* harmony import */ var next_router__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(1853);
-/* harmony import */ var next_router__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(next_router__WEBPACK_IMPORTED_MODULE_7__);
-/* harmony import */ var _api_getPosts__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(5938);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(9648);
+/* harmony import */ var _components_organisms_PostView__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(4901);
+/* harmony import */ var _mui_icons_material_Logout__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(9801);
+/* harmony import */ var _mui_icons_material_Logout__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_mui_icons_material_Logout__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(6022);
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(react_redux__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _redux_store__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(3385);
+/* harmony import */ var _features_userSlice__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(1697);
+/* harmony import */ var next_router__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(1853);
+/* harmony import */ var next_router__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(next_router__WEBPACK_IMPORTED_MODULE_8__);
 /* harmony import */ var _components_templates_Layout__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(422);
 /* harmony import */ var react_spinners_RingLoader__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(7123);
 /* harmony import */ var react_spinners_RingLoader__WEBPACK_IMPORTED_MODULE_10___default = /*#__PURE__*/__webpack_require__.n(react_spinners_RingLoader__WEBPACK_IMPORTED_MODULE_10__);
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(997);
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__);
-var __webpack_async_dependencies__ = __webpack_handle_async_dependencies__([_components_organisms_PostView__WEBPACK_IMPORTED_MODULE_2__, _redux_store__WEBPACK_IMPORTED_MODULE_5__, _features_userSlice__WEBPACK_IMPORTED_MODULE_6__, _api_getPosts__WEBPACK_IMPORTED_MODULE_8__]);
-([_components_organisms_PostView__WEBPACK_IMPORTED_MODULE_2__, _redux_store__WEBPACK_IMPORTED_MODULE_5__, _features_userSlice__WEBPACK_IMPORTED_MODULE_6__, _api_getPosts__WEBPACK_IMPORTED_MODULE_8__] = __webpack_async_dependencies__.then ? (await __webpack_async_dependencies__)() : __webpack_async_dependencies__);
+var __webpack_async_dependencies__ = __webpack_handle_async_dependencies__([axios__WEBPACK_IMPORTED_MODULE_2__, _components_organisms_PostView__WEBPACK_IMPORTED_MODULE_3__, _redux_store__WEBPACK_IMPORTED_MODULE_6__, _features_userSlice__WEBPACK_IMPORTED_MODULE_7__]);
+([axios__WEBPACK_IMPORTED_MODULE_2__, _components_organisms_PostView__WEBPACK_IMPORTED_MODULE_3__, _redux_store__WEBPACK_IMPORTED_MODULE_6__, _features_userSlice__WEBPACK_IMPORTED_MODULE_7__] = __webpack_async_dependencies__.then ? (await __webpack_async_dependencies__)() : __webpack_async_dependencies__);
 
 
 
@@ -559,8 +537,14 @@ var __webpack_async_dependencies__ = __webpack_handle_async_dependencies__([_com
 
 
 
+const getPosts = async () => {
+  const response = await axios__WEBPACK_IMPORTED_MODULE_2__["default"].get(`${process.env.API_URL}/api/posts`);
+  return response.data.sort((post1, post2) => {
+    return new Date(post2.createdAt).valueOf() - new Date(post1.createdAt).valueOf();
+  });
+};
 const getServerSideProps = async () => {
-  const posts = await (0,_api_getPosts__WEBPACK_IMPORTED_MODULE_8__/* .getPosts */ .J)();
+  const posts = await getPosts();
   return {
     props: {
       posts
@@ -571,14 +555,14 @@ const getServerSideProps = async () => {
 const Home = ({
   posts
 }) => {
-  const router = (0,next_router__WEBPACK_IMPORTED_MODULE_7__.useRouter)();
+  const router = (0,next_router__WEBPACK_IMPORTED_MODULE_8__.useRouter)();
   const {
     user,
     loading
-  } = (0,_redux_store__WEBPACK_IMPORTED_MODULE_5__/* .useSelector */ .v)(state => state.user);
-  const dispatch = (0,react_redux__WEBPACK_IMPORTED_MODULE_4__.useDispatch)();
+  } = (0,_redux_store__WEBPACK_IMPORTED_MODULE_6__/* .useSelector */ .v)(state => state.user);
+  const dispatch = (0,react_redux__WEBPACK_IMPORTED_MODULE_5__.useDispatch)();
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
-    dispatch((0,_features_userSlice__WEBPACK_IMPORTED_MODULE_6__/* .fetchInitialUser */ .Ez)());
+    dispatch((0,_features_userSlice__WEBPACK_IMPORTED_MODULE_7__/* .fetchInitialUser */ .Ez)());
   }, []);
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
     if (!user && !loading) {
@@ -587,7 +571,7 @@ const Home = ({
   }, [user]);
   const logoutEvent = (0,react__WEBPACK_IMPORTED_MODULE_0__.useCallback)(async () => {
     try {
-      dispatch((0,_features_userSlice__WEBPACK_IMPORTED_MODULE_6__/* .logout */ .kS)());
+      dispatch((0,_features_userSlice__WEBPACK_IMPORTED_MODULE_7__/* .logout */ .kS)());
     } catch (err) {
       console.log(err);
     }
@@ -607,14 +591,14 @@ const Home = ({
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)(SPostMain, {
     children: [/*#__PURE__*/react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx(SLogoutButton, {
       onClick: logoutEvent,
-      children: /*#__PURE__*/react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx((_mui_icons_material_Logout__WEBPACK_IMPORTED_MODULE_3___default()), {
+      children: /*#__PURE__*/react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx((_mui_icons_material_Logout__WEBPACK_IMPORTED_MODULE_4___default()), {
         style: {
           fontSize: '14px'
         }
       })
     }), /*#__PURE__*/react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx(PostBg, {
       children: /*#__PURE__*/react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx(PostSlide, {
-        children: posts.map(post => /*#__PURE__*/react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx(_components_organisms_PostView__WEBPACK_IMPORTED_MODULE_2__/* .PostView */ .I, {
+        children: posts.map(post => /*#__PURE__*/react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx(_components_organisms_PostView__WEBPACK_IMPORTED_MODULE_3__/* .PostView */ .I, {
           post: post
         }, post['_id']))
       })

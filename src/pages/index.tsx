@@ -1,5 +1,6 @@
 import React, { ReactElement, useCallback } from 'react';
 import styled from 'styled-components';
+import axios from 'axios';
 import { PostView } from '../components/organisms/PostView';
 import { useEffect } from 'react';
 import LogoutIcon from '@mui/icons-material/Logout';
@@ -7,15 +8,22 @@ import { useDispatch } from 'react-redux';
 import { useSelector, AppDispatch } from '../redux/store';
 import { fetchInitialUser, logout } from '../features/userSlice';
 import { useRouter } from 'next/router';
-import { getPosts } from '../api/getPosts';
+
 import Layout from '../components/templates/Layout';
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
-import { Post } from '../types';
+
 import RingLoader from 'react-spinners/RingLoader';
 
-export const getServerSideProps: GetServerSideProps<{
-  posts: Post[];
-}> = async () => {
+export const getPosts = async () => {
+  const response = await axios.get(`${process.env.API_URL}/api/posts`);
+  return response.data.sort((post1, post2) => {
+    return (
+      new Date(post2.createdAt).valueOf() - new Date(post1.createdAt).valueOf()
+    );
+  });
+};
+
+export const getServerSideProps: GetServerSideProps = async () => {
   const posts = await getPosts();
 
   return { props: { posts } };
