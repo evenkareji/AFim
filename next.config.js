@@ -1,13 +1,9 @@
 export default {
   async rewrites() {
     return [
-      // {
-      //   source: '/auth/google',
-      //   destination: `${process.env.API_URL}/auth/google`,
-      // },
       {
         source: '/api/:path*',
-        destination: `http://localhost:8000/:path*`,
+        destination: `${process.env.API_URL}/:path*`,
       },
     ];
   },
@@ -17,3 +13,8 @@ export default {
 // サイトそのものに問題があるためurlはあっているがstatus308になる
 // local環境でgoogleauth解決できたら何とかなりそうだが、それを解決するにはrootパスをinternetserver errorから解決する必要がある
 // リダイレクトが起きてるのはnext.configのせい。そのあとにoauthでもstatus308は起こる
+
+// {
+//   source: '/auth/google',
+//   destination: `${process.env.API_URL}/auth/google`,
+// },
