@@ -3,16 +3,12 @@ import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
 import { Strategy as LocalStrategy } from 'passport-local';
 import User from './models/User';
 
-const GOOGLE_CLIENT_ID =
-  '117391584691-pjm5ancee5cc2s014v2r7gdra9iopasp.apps.googleusercontent.com';
-const GOOGLE_CLIENT_SECRET = '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';
-
 async function passportConfig(passport) {
   passport.use(
     new GoogleStrategy(
       {
-        clientID: GOOGLE_CLIENT_ID,
-        clientSecret: GOOGLE_CLIENT_SECRET,
+        clientID: process.env.GOOGLE_CLIENT_ID,
+        clientSecret: process.env.GOOGLE_CLIENT_SECRET,
         callbackURL: '/auth/google/callback',
         scope: ['email', 'profile'],
       },

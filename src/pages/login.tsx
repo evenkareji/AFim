@@ -26,7 +26,7 @@ const Login = () => {
   const { user, loading } = useSelector((state) => state.user);
 
   const googleLogin = () => {
-    window.open('http://localhost:8000/auth/google', '_self');
+    window.open('https://snapnow.vercel.app/auth/google/', '_self');
   };
   const [passwordShown, setPasswordShown] = useState(false);
 
@@ -43,8 +43,8 @@ const Login = () => {
         <SLoginBorder>
           <SForm onSubmit={handleSubmit(loginSubmit)}>
             <SFormHead>SNS</SFormHead>
-            <p>メールアドレス :test@gmail.com</p>
-            <p>パスワード　　 :test</p>
+            <p>メールアドレス :fsf@gmail.com</p>
+            <p>パスワード　　 :123456</p>
             <SEmail
               id="email"
               autoFocus={true}

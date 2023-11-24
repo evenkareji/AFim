@@ -38,8 +38,6 @@ router.post(
   },
 );
 
-const CLIENT_URL = 'http://localhost:3000';
-
 router.get('/login/success', (req: any, res) => {
   if (req.user) {
     res.status(200).json({
@@ -85,7 +83,7 @@ router.get(
 router.get(
   '/google/callback',
   passport.authenticate('google', {
-    successRedirect: CLIENT_URL,
+    successRedirect: process.env.CLIENT_URL,
     failureRedirect: '/login/failed',
   }),
 );
@@ -107,7 +105,7 @@ router.post('/register', async (req: any, res: any) => {
       { id: newUser._id.toString() },
       '30m',
     );
-    const url = `${process.env.BASE_URL}/activate/${emailVerificationToken}`;
+    const url = `${process.env.CLIENT_URL}/activate/${emailVerificationToken}`;
     sendVerificationEmail(newUser.email, newUser.username, url);
 
     // Passport.js の req.logIn を使ってログイン処理を行う

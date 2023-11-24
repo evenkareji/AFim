@@ -29,19 +29,19 @@ export const PostView: FC<{ post: Post }> = (props) => {
     if (!loginUser && !loading) {
       router.push('/login');
     }
-  }, [loginUser, loading, router]);
+  }, [loading, loginUser, router]);
 
   useEffect(() => {
     getAuthorByPostId(post);
-  }, [post, loginUser, getAuthorByPostId]);
+  }, [post]);
 
   const onClickFollow = useCallback(
     () => followUser(post, loginUser),
-    [post, loginUser, followUser],
+    [post._id, loginUser?._id, followUser],
   );
   const onClickUnFollow = useCallback(
     () => unFollowUser(post, loginUser),
-    [post, loginUser, unFollowUser],
+    [post._id, loginUser?._id, unFollowUser],
   );
 
   if (!loginUser) {

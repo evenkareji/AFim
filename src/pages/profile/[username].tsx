@@ -17,7 +17,7 @@ import RingLoader from 'react-spinners/RingLoader';
 export async function getServerSideProps(context) {
   const { username } = context.query;
   const response = await axios.get(
-    `http://localhost:8000/users?username=${username}`,
+    `${process.env.API_URL}/users?username=${username}`,
   );
 
   return {

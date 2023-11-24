@@ -16,7 +16,10 @@ import RingLoader from 'react-spinners/RingLoader';
 export const getServerSideProps: GetServerSideProps<{
   posts: Post[];
 }> = async () => {
+  console.log('getServer');
+
   const posts = await getPosts();
+  console.log(posts);
 
   return { props: { posts } };
 };

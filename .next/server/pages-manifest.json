@@ -2,6 +2,12 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
+  "/add-post": "pages/add-post.html",
+  "/login": "pages/login.html",
+  "/register": "pages/register.html",
+  "/reset": "pages/reset.html",
   "/": "pages/index.js",
-  "/login": "pages/login.js"
+  "/profile/[username]": "pages/profile/[username].js",
+  "/activate/[token]": "pages/activate/[token].js",
+  "/404": "pages/404.html"
 }
