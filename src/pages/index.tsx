@@ -11,15 +11,12 @@ import { getPosts } from '../api/getPosts';
 import Layout from '../components/templates/Layout';
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
 import { Post } from '../types';
-import RingLoader from 'react-spinners/RingLoader';
+import ClipLoader from 'react-spinners/ClipLoader';
 
 export const getServerSideProps: GetServerSideProps<{
   posts: Post[];
 }> = async () => {
-  console.log('getServer');
-
   const posts = await getPosts();
-  console.log(posts);
 
   return { props: { posts } };
 };
@@ -52,7 +49,7 @@ const Home = ({
   if (loading) {
     return (
       <div className="loader-container">
-        <RingLoader color="#ed6103" loading={true} size={50} />
+        <ClipLoader color="#ed6103" loading={true} size={50} />
       </div>
     );
   }

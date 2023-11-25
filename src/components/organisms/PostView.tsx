@@ -161,7 +161,7 @@ const SBg = styled.div`
   width: 100%;
   height: 100vh;
   object-fit: cover;
-  background-color: #fafafa;
+  background-color: #ffffff;
 `;
 const SImg = styled.img`
   height: 100vh;

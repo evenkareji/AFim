@@ -331,7 +331,7 @@ const PostBorder = styled_components__WEBPACK_IMPORTED_MODULE_2___default().div.
 const SBg = styled_components__WEBPACK_IMPORTED_MODULE_2___default().div.withConfig({
   displayName: "PostView__SBg",
   componentId: "sc-mp07b1-11"
-})(["position:relative;width:100%;height:100vh;object-fit:cover;background-color:#fafafa;"]);
+})(["position:relative;width:100%;height:100vh;object-fit:cover;background-color:#ffffff;"]);
 const SImg = styled_components__WEBPACK_IMPORTED_MODULE_2___default().img.withConfig({
   displayName: "PostView__SImg",
   componentId: "sc-mp07b1-12"
@@ -538,8 +538,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var next_router__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(next_router__WEBPACK_IMPORTED_MODULE_7__);
 /* harmony import */ var _api_getPosts__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(5938);
 /* harmony import */ var _components_templates_Layout__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(422);
-/* harmony import */ var react_spinners_RingLoader__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(7123);
-/* harmony import */ var react_spinners_RingLoader__WEBPACK_IMPORTED_MODULE_10___default = /*#__PURE__*/__webpack_require__.n(react_spinners_RingLoader__WEBPACK_IMPORTED_MODULE_10__);
+/* harmony import */ var react_spinners_ClipLoader__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(3278);
+/* harmony import */ var react_spinners_ClipLoader__WEBPACK_IMPORTED_MODULE_10___default = /*#__PURE__*/__webpack_require__.n(react_spinners_ClipLoader__WEBPACK_IMPORTED_MODULE_10__);
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(997);
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__);
 var __webpack_async_dependencies__ = __webpack_handle_async_dependencies__([_components_organisms_PostView__WEBPACK_IMPORTED_MODULE_2__, _redux_store__WEBPACK_IMPORTED_MODULE_5__, _features_userSlice__WEBPACK_IMPORTED_MODULE_6__, _api_getPosts__WEBPACK_IMPORTED_MODULE_8__]);
@@ -559,9 +559,7 @@ var __webpack_async_dependencies__ = __webpack_handle_async_dependencies__([_com
 
 
 const getServerSideProps = async () => {
-  console.log('getServer');
   const posts = await (0,_api_getPosts__WEBPACK_IMPORTED_MODULE_8__/* .getPosts */ .J)();
-  console.log(posts);
   return {
     props: {
       posts
@@ -597,7 +595,7 @@ const Home = ({
   if (loading) {
     return /*#__PURE__*/react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx("div", {
       className: "loader-container",
-      children: /*#__PURE__*/react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx((react_spinners_RingLoader__WEBPACK_IMPORTED_MODULE_10___default()), {
+      children: /*#__PURE__*/react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx((react_spinners_ClipLoader__WEBPACK_IMPORTED_MODULE_10___default()), {
         color: "#ed6103",
         loading: true,
         size: 50
@@ -876,10 +874,10 @@ module.exports = require("react-redux");
 
 /***/ }),
 
-/***/ 7123:
+/***/ 3278:
 /***/ ((module) => {
 
-module.exports = require("react-spinners/RingLoader");
+module.exports = require("react-spinners/ClipLoader");
 
 /***/ }),
 
